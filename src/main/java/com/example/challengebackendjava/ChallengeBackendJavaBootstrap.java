@@ -1,5 +1,7 @@
-package com.example.challengebackendjava.model;
+package com.example.challengebackendjava;
 
+import com.example.challengebackendjava.model.PeliculaSerie;
+import com.example.challengebackendjava.model.Personaje;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
