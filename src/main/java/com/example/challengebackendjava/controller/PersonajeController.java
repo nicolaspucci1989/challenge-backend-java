@@ -32,4 +32,11 @@ public class PersonajeController {
         personajeService.actualizar(personaje, id);
         return ResponseEntity.ok().body("El personaje fue actualizado correctamente");
     }
+
+    @DeleteMapping("/characters/{id}")
+    public ResponseEntity<String> eliminarPersonaje(@PathVariable Integer id) {
+        personajeService.eliminar(id);
+        return ResponseEntity.ok().body("El personaje fue eliminado correctamente");
+    }
+
 }

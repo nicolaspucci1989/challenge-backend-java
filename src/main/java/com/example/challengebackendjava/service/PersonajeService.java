@@ -35,4 +35,8 @@ public class PersonajeService {
     }
     personajeRepository.update(personaje);
   }
+
+  public void eliminar(Integer id) {
+    personajeRepository.eliminar(id);
+  }
 }
