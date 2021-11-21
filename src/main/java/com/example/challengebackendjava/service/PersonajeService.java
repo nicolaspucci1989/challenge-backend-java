@@ -29,14 +29,27 @@ public class PersonajeService {
   }
 
 
-  public void actualizar(Personaje personaje, Integer id) {
-    if (!Objects.equals(personaje.getId(), id)) {
-      throw new RuntimeException("El id no se correcto");
+  public void actualizar(Personaje personajeActualizado, Integer id) {
+    if (!Objects.equals(personajeActualizado.getId(), id)) {
+      throw new NotFoundException("El id no se correcto");
     }
-    personajeRepository.update(personaje);
+
+    var personajeEncontrado = personajeRepository.findById(id);
+
+    if (personajeEncontrado == null) {
+      throw new NotFoundException("No se encotro el personaje");
+    }
+
+    personajeRepository.update(personajeEncontrado, personajeActualizado);
   }
 
   public void eliminar(Integer id) {
-    personajeRepository.eliminar(id);
+    var personaje = personajeRepository.findById(id);
+
+    if (personaje == null) {
+      throw new NotFoundException("El personaje no existe");
+    }
+
+    personajeRepository.eliminar(personaje);
   }
 }

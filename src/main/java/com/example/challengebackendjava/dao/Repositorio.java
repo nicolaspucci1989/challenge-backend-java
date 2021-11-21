@@ -1,6 +1,8 @@
 package com.example.challengebackendjava.dao;
 
+import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.Entidad;
+import com.example.challengebackendjava.model.Personaje;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,20 +28,11 @@ public class Repositorio <T extends Entidad> {
         agregarElemento(elemento);
     }
 
-    public void update(T entidad) {
-        findById(entidad.getId()).update(entidad);
+    public void update(T elementoEnRepo, T elementoActualizado) {
+        elementoEnRepo.update(elementoActualizado);
     }
 
-    public void eliminar(Integer id) {
-        var elemento = elementos.stream()
-                .filter(t -> Objects.equals(t.getId(), id))
-                .findFirst()
-                .orElse(null);
-
-        if (elemento == null) {
-            throw new RuntimeException("El elemento no existe");
-        }
-
+    public void eliminar(T elemento) {
         elementos.remove(elemento);
     }
 
