@@ -39,4 +39,10 @@ public class PersonajeController {
         return ResponseEntity.ok().body("El personaje fue eliminado correctamente");
     }
 
+    @PostMapping("/characters")
+    public ResponseEntity<String> crearPersonaje(@RequestBody Personaje personaje) {
+        personajeService.crear(personaje);
+        return ResponseEntity.ok().body("El personaje fue creado correctamente");
+    }
+
 }

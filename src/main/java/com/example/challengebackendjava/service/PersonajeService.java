@@ -52,4 +52,8 @@ public class PersonajeService {
 
     personajeRepository.eliminar(personaje);
   }
+
+  public void crear(Personaje personaje) {
+    personajeRepository.crear(personaje);
+  }
 }
