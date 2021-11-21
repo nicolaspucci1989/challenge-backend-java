@@ -1,8 +1,12 @@
 package com.example.challengebackendjava.model;
 
+import com.example.challengebackendjava.serializer.View;
+import com.fasterxml.jackson.annotation.JsonView;
+
 abstract public class Entidad {
     Integer id;
 
+    @JsonView(View.Personaje.Lista.class)
     public Integer getId() {
         return id;
     }
