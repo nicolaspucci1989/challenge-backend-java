@@ -60,4 +60,8 @@ public class Personaje extends Entidad{
     public void setHistoria(String historia) {
         this.historia = historia;
     }
+
+    public Set<PeliculaSerie> getPeliculaSerie() {
+        return peliculaSerie;
+    }
 }

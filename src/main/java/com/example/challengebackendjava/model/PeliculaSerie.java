@@ -24,4 +24,36 @@ public class PeliculaSerie extends Entidad{
     public void agregarPersonaje(Personaje personaje) {
         this.personajes.add(personaje);
     }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public LocalDate getFehcaDeCreacion() {
+        return fehcaDeCreacion;
+    }
+
+    public void setFehcaDeCreacion(LocalDate fehcaDeCreacion) {
+        this.fehcaDeCreacion = fehcaDeCreacion;
+    }
+
+    public Integer getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(Integer calificacion) {
+        this.calificacion = calificacion;
+    }
 }
