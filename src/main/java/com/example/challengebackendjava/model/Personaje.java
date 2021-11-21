@@ -1,5 +1,8 @@
 package com.example.challengebackendjava.model;
 
+import com.example.challengebackendjava.serializer.View;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +27,7 @@ public class Personaje extends Entidad{
         this.peliculaSerie.add(peliculaSerie);
     }
 
+    @JsonView(View.Personaje.Lista.class)
     public String getImagen() {
         return imagen;
     }
@@ -32,6 +36,7 @@ public class Personaje extends Entidad{
         this.imagen = imagen;
     }
 
+    @JsonView(View.Personaje.Lista.class)
     public String getNombre() {
         return nombre;
     }
