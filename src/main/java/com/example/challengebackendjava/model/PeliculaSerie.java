@@ -1,5 +1,8 @@
 package com.example.challengebackendjava.model;
 
+import com.example.challengebackendjava.serializer.View;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +28,7 @@ public class PeliculaSerie extends Entidad{
         this.personajes.add(personaje);
     }
 
+    @JsonView(View.PeliculaSerie.Lista.class)
     public String getImagen() {
         return imagen;
     }
@@ -33,6 +37,7 @@ public class PeliculaSerie extends Entidad{
         this.imagen = imagen;
     }
 
+    @JsonView(View.PeliculaSerie.Lista.class)
     public String getTitulo() {
         return titulo;
     }
@@ -41,6 +46,7 @@ public class PeliculaSerie extends Entidad{
         this.titulo = titulo;
     }
 
+    @JsonView(View.PeliculaSerie.Lista.class)
     public LocalDate getFehcaDeCreacion() {
         return fehcaDeCreacion;
     }

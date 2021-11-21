@@ -1,5 +1,6 @@
 package com.example.challengebackendjava;
 
+import com.example.challengebackendjava.dao.PeliculaSerieRepository;
 import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
@@ -12,51 +13,56 @@ import java.time.LocalDate;
 @Service
 public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
-    @Autowired
-    PersonajeRepository personajeRepo;
+  @Autowired
+  PersonajeRepository personajeRepo;
 
-    Personaje mickeyMouse;
-    Personaje rapunzel;
-    Personaje boo;
-    Personaje tiaCass;
-    Personaje rayoMcQueen;
+  @Autowired
+  PeliculaSerieRepository peliculaSerieRepository;
 
-    PeliculaSerie steamboatWillie;
+  Personaje mickeyMouse;
+  Personaje rapunzel;
+  Personaje boo;
+  Personaje tiaCass;
+  Personaje rayoMcQueen;
+
+  PeliculaSerie steamboatWillie;
 
 
-    public void initPersonajes() {
-        mickeyMouse = new Personaje("/img/mickey.jpg",
-                "Mickey Mouse",
-                40,
-                "El raton de Disney...");
+  public void initPersonajes() {
+    mickeyMouse = new Personaje("/img/mickey.jpg",
+            "Mickey Mouse",
+            40,
+            "El raton de Disney...");
 
-        rapunzel = new Personaje("/img/rapunzel.jpg",
-                "Rapunzel",
-                30,
-                "La princesa de pelo largo...");
+    rapunzel = new Personaje("/img/rapunzel.jpg",
+            "Rapunzel",
+            30,
+            "La princesa de pelo largo...");
 
-        personajeRepo.crear(mickeyMouse);
-        personajeRepo.crear(rapunzel);
-    }
+    personajeRepo.crear(mickeyMouse);
+    personajeRepo.crear(rapunzel);
+  }
 
-    public void initPeliculasSeries() {
-        steamboatWillie = new PeliculaSerie("/img/steamboatwillie.jpg",
-                "Steamboat Willie",
-                LocalDate.parse("1928-11-01"),
-                5);
-    }
+  public void initPeliculasSeries() {
+    steamboatWillie = new PeliculaSerie("/img/steamboatwillie.jpg",
+            "Steamboat Willie",
+            LocalDate.parse("1928-11-01"),
+            5);
 
-    @Override
-    public void afterPropertiesSet() {
-        System.out.println("************************************************************************");
-        System.out.println("Inicializando...");
-        System.out.println("************************************************************************");
+    peliculaSerieRepository.crear(steamboatWillie);
+  }
 
-        initPeliculasSeries();
-        initPersonajes();
+  @Override
+  public void afterPropertiesSet() {
+    System.out.println("************************************************************************");
+    System.out.println("Inicializando...");
+    System.out.println("************************************************************************");
 
-        steamboatWillie.agregarPersonaje(mickeyMouse);
-        mickeyMouse.agregarPelicualaSerie(steamboatWillie);
-    }
+    initPeliculasSeries();
+    initPersonajes();
+
+    steamboatWillie.agregarPersonaje(mickeyMouse);
+    mickeyMouse.agregarPelicualaSerie(steamboatWillie);
+  }
 
 }
