@@ -18,8 +18,7 @@ public class Repositorio <T extends Entidad> {
         return elementos;
     }
 
-    // TODO: renombar a findById
-    public T getById(Integer id) {
+    public T findById(Integer id) {
         return elementos
                 .stream()
                 .filter(t -> Objects.equals(t.getId(), id))
@@ -28,7 +27,7 @@ public class Repositorio <T extends Entidad> {
     }
 
     public void update(T entidad) {
-        getById(entidad.getId()).update(entidad);
+        findById(entidad.getId()).update(entidad);
     }
 
     private void agregarElemento(T elemento) {

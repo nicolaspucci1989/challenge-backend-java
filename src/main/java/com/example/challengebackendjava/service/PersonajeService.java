@@ -20,7 +20,7 @@ public class PersonajeService {
   }
 
   public Personaje getById(Integer id) {
-    var personaje = personajeRepository.getById(id);
+    var personaje = personajeRepository.findById(id);
 
     if (personaje == null) {
       throw new NotFoundException("No se encontro el personaje con el id " + id);
