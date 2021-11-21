@@ -6,4 +6,9 @@ public class Genero extends Entidad{
     String nombre;
     String imagen;
     Set<PeliculaSerie> peliculaSeries;
+
+    @Override
+    public void update(Entidad entidad) {
+
+    }
 }

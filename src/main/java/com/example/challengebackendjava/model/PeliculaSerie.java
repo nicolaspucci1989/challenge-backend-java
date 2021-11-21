@@ -56,4 +56,9 @@ public class PeliculaSerie extends Entidad{
     public void setCalificacion(Integer calificacion) {
         this.calificacion = calificacion;
     }
+
+    @Override
+    public void update(Entidad entidad) {
+
+    }
 }

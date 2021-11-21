@@ -18,12 +18,17 @@ public class Repositorio <T extends Entidad> {
         return elementos;
     }
 
+    // TODO: renombar a findById
     public T getById(Integer id) {
         return elementos
                 .stream()
                 .filter(t -> Objects.equals(t.getId(), id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void update(T entidad) {
+        getById(entidad.getId()).update(entidad);
     }
 
     private void agregarElemento(T elemento) {
