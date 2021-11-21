@@ -1,8 +1,8 @@
 package com.example.challengebackendjava.controller;
 
-import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.serializer.View;
+import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +17,16 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PersonajeController {
     @Autowired
-    PersonajeRepository personajeRepo;
+    PersonajeService personajeService;
 
     @GetMapping("/characters")
     @JsonView(View.Personaje.Lista.class)
     public ResponseEntity<List<Personaje>> getPersonajes() {
-        return ResponseEntity.ok(personajeRepo.all());
+        return ResponseEntity.ok(personajeService.all());
     }
 
     @GetMapping("/characters/{id}")
-    public Personaje getPersonaje(@PathVariable Integer id) {
-        return personajeRepo.getById(id);
+    public ResponseEntity<Personaje> getPersonaje(@PathVariable Integer id) {
+        return ResponseEntity.ok(personajeService.getById(id));
     }
 }
