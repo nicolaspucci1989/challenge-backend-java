@@ -28,7 +28,11 @@ public class PeliculaSerie extends Entidad{
         this.personajes.add(personaje);
     }
 
-    @JsonView(View.PeliculaSerie.Lista.class)
+    @JsonView({
+            View.PeliculaSerie.Lista.class,
+            View.PeliculaSerie.Detalle.class,
+            View.Personaje.Detalle.class
+    })
     public String getImagen() {
         return imagen;
     }
@@ -37,7 +41,10 @@ public class PeliculaSerie extends Entidad{
         this.imagen = imagen;
     }
 
-    @JsonView(View.PeliculaSerie.Lista.class)
+    @JsonView({
+            View.PeliculaSerie.Lista.class,
+            View.PeliculaSerie.Detalle.class,
+            View.Personaje.Detalle.class})
     public String getTitulo() {
         return titulo;
     }
@@ -46,7 +53,7 @@ public class PeliculaSerie extends Entidad{
         this.titulo = titulo;
     }
 
-    @JsonView(View.PeliculaSerie.Lista.class)
+    @JsonView({View.PeliculaSerie.Lista.class, View.PeliculaSerie.Detalle.class})
     public LocalDate getFehcaDeCreacion() {
         return fehcaDeCreacion;
     }
@@ -55,12 +62,18 @@ public class PeliculaSerie extends Entidad{
         this.fehcaDeCreacion = fehcaDeCreacion;
     }
 
+    @JsonView(View.PeliculaSerie.Detalle.class)
     public Integer getCalificacion() {
         return calificacion;
     }
 
     public void setCalificacion(Integer calificacion) {
         this.calificacion = calificacion;
+    }
+
+    @JsonView(View.PeliculaSerie.Detalle.class)
+    public Set<Personaje> getPersonajes() {
+        return personajes;
     }
 
     @Override
