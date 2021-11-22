@@ -40,4 +40,10 @@ public class PeliculaSerieController {
     peliculaSerieService.eliminar(id);
     return ResponseEntity.ok().body("La pelicula o serie se elimino correctamente");
   }
+
+  @PostMapping("/movies")
+  public ResponseEntity<String> crearPeliculaSerie(@RequestBody PeliculaSerie peliculaSerie){
+    peliculaSerieService.crear(peliculaSerie);
+    return ResponseEntity.ok().body("La pelicula o serie fue creada correctamente");
+  }
 }

@@ -51,4 +51,8 @@ public class PeliculaSerieService {
 
     peliculaSerieRepository.eliminar(peliculaSerie);
   }
+
+  public void crear(PeliculaSerie peliculaSerie) {
+    peliculaSerieRepository.crear(peliculaSerie);
+  }
 }
