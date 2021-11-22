@@ -1,16 +1,14 @@
 package com.example.challengebackendjava.controller;
 
 
+import com.example.challengebackendjava.dao.Repositorio;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.serializer.View;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,11 @@ public class PeliculaSerieController {
   @JsonView(View.PeliculaSerie.Detalle.class)
   public ResponseEntity<PeliculaSerie> getPeliculaSerie(@PathVariable Integer id) {
     return ResponseEntity.ok(peliculaSerieService.findById(id));
+  }
+
+  @PutMapping("/movies/{id}")
+  public ResponseEntity<String> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Integer id) {
+    peliculaSerieService.actualizar(peliculaSerie, id);
+    return ResponseEntity.ok().body("Se actualizo la pelicula correctamente");
   }
 }

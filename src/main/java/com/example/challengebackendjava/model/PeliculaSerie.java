@@ -75,8 +75,19 @@ public class PeliculaSerie extends Entidad{
         return personajes;
     }
 
+    public void setPersonajes(Set<Personaje> personajes) {
+        this.personajes = personajes;
+    }
+
     @Override
     public void update(Entidad entidad) {
+        var peliculaSerie = (PeliculaSerie) entidad;
 
+        this.setTitulo(peliculaSerie.getTitulo());
+        this.setCalificacion(peliculaSerie.getCalificacion());
+        this.setImagen(peliculaSerie.getImagen());
+        this.setFehcaDeCreacion(peliculaSerie.getFehcaDeCreacion());
+        // TODO: validar que sean personajes existentes
+        // this.setPersonajes(peliculaSerie.getPersonajes());
     }
 }

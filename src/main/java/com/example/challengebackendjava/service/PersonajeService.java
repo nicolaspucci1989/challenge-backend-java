@@ -31,7 +31,7 @@ public class PersonajeService {
 
   public void actualizar(Personaje personajeActualizado, Integer id) {
     if (!Objects.equals(personajeActualizado.getId(), id)) {
-      throw new NotFoundException("El id no se correcto");
+      throw new NotFoundException("El id del personaje no es correcto");
     }
 
     var personajeEncontrado = personajeRepository.findById(id);
