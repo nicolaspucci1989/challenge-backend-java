@@ -52,7 +52,7 @@ public class Personaje extends Entidad{
         this.nombre = nombre;
     }
 
-    @JsonView({View.Personaje.Detalle.class, View.PeliculaSerie.Detalle.class})
+    @JsonView({View.Personaje.Detalle.class})
     public Integer getEdad() {
         return edad;
     }
@@ -70,7 +70,7 @@ public class Personaje extends Entidad{
         this.peso = peso;
     }
 
-    @JsonView({View.Personaje.Detalle.class, View.PeliculaSerie.Detalle.class})
+    @JsonView({View.Personaje.Detalle.class})
     public String getHistoria() {
         return historia;
     }

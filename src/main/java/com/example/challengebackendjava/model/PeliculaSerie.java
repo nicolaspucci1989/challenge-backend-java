@@ -31,7 +31,6 @@ public class PeliculaSerie extends Entidad{
     @JsonView({
             View.PeliculaSerie.Lista.class,
             View.PeliculaSerie.Detalle.class,
-            View.Personaje.Detalle.class
     })
     public String getImagen() {
         return imagen;
