@@ -32,12 +32,14 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     mickeyMouse = new Personaje("/img/mickey.jpg",
             "Mickey Mouse",
             40,
-            "El raton de Disney...");
+            "El raton de Disney...",
+            90f);
 
     rapunzel = new Personaje("/img/rapunzel.jpg",
             "Rapunzel",
             30,
-            "La princesa de pelo largo...");
+            "La princesa de pelo largo...",
+            100f);
 
     personajeRepo.crear(mickeyMouse);
     personajeRepo.crear(rapunzel);

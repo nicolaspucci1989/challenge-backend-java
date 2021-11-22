@@ -17,11 +17,13 @@ public class Personaje extends Entidad{
     public Personaje(String imagen,
                      String nombre,
                      Integer edad,
-                     String historia) {
+                     String historia,
+                     Float peso) {
         this.imagen = imagen;
         this.nombre = nombre;
         this.edad = edad;
         this.historia = historia;
+        this.peso = peso;
     }
 
     public void agregarPelicualaSerie(PeliculaSerie peliculaSerie) {
@@ -57,6 +59,15 @@ public class Personaje extends Entidad{
 
     public void setEdad(Integer edad) {
         this.edad = edad;
+    }
+
+    @JsonView(View.Personaje.Detalle.class)
+    public Float getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Float peso) {
+        this.peso = peso;
     }
 
     @JsonView({View.Personaje.Detalle.class, View.PeliculaSerie.Detalle.class})
