@@ -1,7 +1,6 @@
 package com.example.challengebackendjava.controller;
 
 
-import com.example.challengebackendjava.dao.Repositorio;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.serializer.View;
 import com.example.challengebackendjava.service.PeliculaSerieService;
