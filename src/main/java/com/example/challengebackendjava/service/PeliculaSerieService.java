@@ -41,4 +41,14 @@ public class PeliculaSerieService {
 
     peliculaSerieRepository.update(peliculaSerieEncontrada, peliculaSerieActualizada);
   }
+
+  public void eliminar(Integer id) {
+    var peliculaSerie = peliculaSerieRepository.findById(id);
+
+    if(peliculaSerie == null) {
+      throw new NotFoundException("La pelicua o serie no existe");
+    }
+
+    peliculaSerieRepository.eliminar(peliculaSerie);
+  }
 }

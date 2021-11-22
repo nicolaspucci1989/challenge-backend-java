@@ -35,4 +35,10 @@ public class PeliculaSerieController {
     peliculaSerieService.actualizar(peliculaSerie, id);
     return ResponseEntity.ok().body("Se actualizo la pelicula correctamente");
   }
+
+  @DeleteMapping("/movies/{id}")
+  public ResponseEntity<String> eliminarPeliculaSerie(@PathVariable Integer id) {
+    peliculaSerieService.eliminar(id);
+    return ResponseEntity.ok().body("La pelicula o serie se elimino correctamente");
+  }
 }
