@@ -12,23 +12,25 @@ public class Personaje extends Entidad{
     Integer edad;
     String historia;
     Set<PeliculaSerie> peliculaSerie = new HashSet<>();
-    Float peso;
+    Float peso; // TODO: agregar peso a constructor
 
     public Personaje(String imagen,
                      String nombre,
                      Integer edad,
-                     String historia) {
+                     String historia,
+                     Float peso) {
         this.imagen = imagen;
         this.nombre = nombre;
         this.edad = edad;
         this.historia = historia;
+        this.peso = peso;
     }
 
     public void agregarPelicualaSerie(PeliculaSerie peliculaSerie) {
         this.peliculaSerie.add(peliculaSerie);
     }
 
-    @JsonView(View.Personaje.Lista.class)
+    @JsonView({View.Personaje.Lista.class, View.Personaje.Detalle.class})
     public String getImagen() {
         return imagen;
     }
@@ -37,7 +39,11 @@ public class Personaje extends Entidad{
         this.imagen = imagen;
     }
 
-    @JsonView(View.Personaje.Lista.class)
+    @JsonView({
+            View.Personaje.Lista.class,
+            View.Personaje.Detalle.class,
+            View.PeliculaSerie.Detalle.class
+    })
     public String getNombre() {
         return nombre;
     }
@@ -46,6 +52,7 @@ public class Personaje extends Entidad{
         this.nombre = nombre;
     }
 
+    @JsonView({View.Personaje.Detalle.class})
     public Integer getEdad() {
         return edad;
     }
@@ -54,6 +61,16 @@ public class Personaje extends Entidad{
         this.edad = edad;
     }
 
+    @JsonView(View.Personaje.Detalle.class)
+    public Float getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Float peso) {
+        this.peso = peso;
+    }
+
+    @JsonView({View.Personaje.Detalle.class})
     public String getHistoria() {
         return historia;
     }
@@ -62,9 +79,11 @@ public class Personaje extends Entidad{
         this.historia = historia;
     }
 
+    @JsonView({View.Personaje.Detalle.class})
     public Set<PeliculaSerie> getPeliculaSerie() {
         return peliculaSerie;
     }
+
 
     public void setPeliculaSerie(Set<PeliculaSerie> peliculaSerie) {
         this.peliculaSerie = peliculaSerie;
