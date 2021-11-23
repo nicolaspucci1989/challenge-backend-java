@@ -63,4 +63,7 @@ public class PeliculaSerieService {
             .forEach(personaje -> personaje.eliminarPeliculaSerie(peliculaSerie));
   }
 
+  public boolean existe(PeliculaSerie peliculaSerie) {
+    return peliculaSerieRepository.elementoExiste(peliculaSerie);
+  }
 }

@@ -11,6 +11,7 @@ public class Personaje extends Entidad {
   String nombre;
   Integer edad;
   String historia;
+  // TODO: renombrar
   Set<PeliculaSerie> peliculaSerie = new HashSet<>();
   Float peso;
 
@@ -99,6 +100,9 @@ public class Personaje extends Entidad {
     this.setImagen(personaje.getImagen());
     // TODO: agregar peliculas
 //    this.setPeliculaSerie(personaje.getPeliculaSerie());
+    personaje
+            .getPeliculaSerie()
+            .forEach(this::agregarPelicualaSerie);
   }
 
   public void eliminarPeliculaSerie(PeliculaSerie peliculaSerie) {
