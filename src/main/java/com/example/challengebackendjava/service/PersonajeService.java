@@ -50,6 +50,13 @@ public class PersonajeService {
     }
 
     personajeRepository.eliminar(personaje);
+    eliminarPersonajeDePeliculas(personaje);
+  }
+
+  private void eliminarPersonajeDePeliculas(Personaje personaje) {
+    personaje
+            .getPeliculaSerie()
+            .forEach(peliculaSerie -> peliculaSerie.eliminarPeronaje(personaje));
   }
 
   public void crear(Personaje personaje) {

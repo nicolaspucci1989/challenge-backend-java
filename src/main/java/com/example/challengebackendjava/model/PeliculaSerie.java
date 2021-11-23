@@ -90,4 +90,8 @@ public class PeliculaSerie extends Entidad{
         // TODO: validar que sean personajes existentes
         // this.setPersonajes(peliculaSerie.getPersonajes());
     }
+
+    public void eliminarPeronaje(Personaje personaje) {
+        personajes.remove(personaje);
+    }
 }
