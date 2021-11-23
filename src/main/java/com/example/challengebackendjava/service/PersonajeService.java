@@ -53,6 +53,7 @@ public class PersonajeService {
     eliminarPersonajeDePeliculas(personaje);
   }
 
+  // TODO: usar personaje.eliminarseDePeliculas()
   private void eliminarPersonajeDePeliculas(Personaje personaje) {
     personaje
             .getPeliculaSerie()
