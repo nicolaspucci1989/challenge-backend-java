@@ -12,7 +12,7 @@ public class Personaje extends Entidad {
   Integer edad;
   String historia;
   Set<PeliculaSerie> peliculaSerie = new HashSet<>();
-  Float peso; // TODO: agregar peso a constructor
+  Float peso;
 
   public Personaje(String imagen,
                    String nombre,
