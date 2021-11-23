@@ -21,7 +21,7 @@ public class PeliculaSerieService {
   public PeliculaSerie findById(Integer id) {
     var peliculaSerie = peliculaSerieRepository.findById(id);
 
-    if(peliculaSerie == null) {
+    if (peliculaSerie == null) {
       throw new NotFoundException("La pelicula o serie no existe");
     }
 
@@ -45,14 +45,22 @@ public class PeliculaSerieService {
   public void eliminar(Integer id) {
     var peliculaSerie = peliculaSerieRepository.findById(id);
 
-    if(peliculaSerie == null) {
+    if (peliculaSerie == null) {
       throw new NotFoundException("La pelicua o serie no existe");
     }
 
     peliculaSerieRepository.eliminar(peliculaSerie);
+    eliminarPeliculaDePersonajes(peliculaSerie);
   }
 
   public void crear(PeliculaSerie peliculaSerie) {
     peliculaSerieRepository.crear(peliculaSerie);
   }
+
+  private void eliminarPeliculaDePersonajes(PeliculaSerie peliculaSerie) {
+    peliculaSerie
+            .getPersonajes()
+            .forEach(personaje -> personaje.eliminarPeliculaSerie(peliculaSerie));
+  }
+
 }
