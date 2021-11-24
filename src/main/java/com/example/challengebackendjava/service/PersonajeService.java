@@ -44,13 +44,14 @@ public class PersonajeService {
       throw new NotFoundException("No se encotro el personaje");
     }
 
+    // TODO: usar custom serializer
     Set<PeliculaSerie> peliculaSeriesEnRepo = personajeActualizado
             .getPeliculaSerie()
             .stream()
             .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
             .collect(Collectors.toSet());
-
     personajeActualizado.setPeliculaSerie(peliculaSeriesEnRepo);
+
     personajeRepository.update(personajeEncontrado, personajeActualizado);
   }
 
