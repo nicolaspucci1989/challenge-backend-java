@@ -2,18 +2,23 @@ package com.example.challengebackendjava.service;
 
 import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.error.NotFoundException;
+import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonajeService {
 
   @Autowired
   PersonajeRepository personajeRepository;
+  @Autowired
+  PeliculaSerieService peliculaSerieService;
 
   public List<Personaje> all() {
     return personajeRepository.all();
@@ -28,10 +33,9 @@ public class PersonajeService {
     return personaje;
   }
 
-
   public void actualizar(Personaje personajeActualizado, Integer id) {
     if (!Objects.equals(personajeActualizado.getId(), id)) {
-      throw new NotFoundException("El id no se correcto");
+      throw new NotFoundException("El id del personaje no es correcto");
     }
 
     var personajeEncontrado = personajeRepository.findById(id);
@@ -39,6 +43,14 @@ public class PersonajeService {
     if (personajeEncontrado == null) {
       throw new NotFoundException("No se encotro el personaje");
     }
+
+    // TODO: usar custom serializer
+    Set<PeliculaSerie> peliculaSeriesEnRepo = personajeActualizado
+            .getPeliculaSerie()
+            .stream()
+            .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
+            .collect(Collectors.toSet());
+    personajeActualizado.setPeliculaSerie(peliculaSeriesEnRepo);
 
     personajeRepository.update(personajeEncontrado, personajeActualizado);
   }
@@ -51,9 +63,17 @@ public class PersonajeService {
     }
 
     personajeRepository.eliminar(personaje);
+    eliminarPersonajeDePeliculas(personaje);
   }
 
   public void crear(Personaje personaje) {
     personajeRepository.crear(personaje);
+  }
+
+  // TODO: usar personaje.eliminarseDePeliculas()
+  private void eliminarPersonajeDePeliculas(Personaje personaje) {
+    personaje
+            .getPeliculaSerie()
+            .forEach(peliculaSerie -> peliculaSerie.eliminarPeronaje(personaje));
   }
 }

@@ -1,8 +1,6 @@
 package com.example.challengebackendjava.dao;
 
-import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.Entidad;
-import com.example.challengebackendjava.model.Personaje;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,4 +44,7 @@ public class Repositorio <T extends Entidad> {
     }
 
 
+  public boolean elementoExiste(T elemento) {
+        return elementos.contains(elemento);
+  }
 }
