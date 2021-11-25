@@ -28,7 +28,7 @@ public class PersonajeController {
 
     if (name != null) {
       personajes = personajes.stream()
-              .filter(personaje -> Objects.equals(personaje.getNombre(), name))
+              .filter(personaje -> personaje.nombreCoincide(name))
               .collect(Collectors.toList());
     }
 

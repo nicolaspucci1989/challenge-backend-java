@@ -4,6 +4,7 @@ import com.example.challengebackendjava.serializer.View;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -120,5 +121,9 @@ public class Personaje extends Entidad {
 
   private Set<Integer> idPeliculas() {
     return peliculaSerie.stream().map(Entidad::getId).collect(Collectors.toSet());
+  }
+
+  public boolean nombreCoincide(String name) {
+    return Objects.equals(getNombre(), name);
   }
 }
