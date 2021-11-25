@@ -34,7 +34,7 @@ public class PersonajeController {
 
     if (age != null) {
       personajes = personajes.stream()
-              .filter(personaje -> Objects.equals(personaje.getEdad(), Integer.valueOf(age)))
+              .filter(personaje -> personaje.edadCoincide(Integer.valueOf(age)))
               .collect(Collectors.toList());
     }
 

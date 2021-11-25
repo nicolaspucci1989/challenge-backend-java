@@ -126,4 +126,8 @@ public class Personaje extends Entidad {
   public boolean nombreCoincide(String name) {
     return Objects.equals(getNombre(), name);
   }
+
+  public boolean edadCoincide(Integer edad) {
+    return Objects.equals(getEdad(), edad);
+  }
 }
