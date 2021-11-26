@@ -1,7 +1,9 @@
 package com.example.challengebackendjava;
 
+import com.example.challengebackendjava.dao.GeneroRepository;
 import com.example.challengebackendjava.dao.PeliculaSerieRepository;
 import com.example.challengebackendjava.dao.PersonajeRepository;
+import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import org.springframework.beans.factory.InitializingBean;
@@ -18,6 +20,9 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
   @Autowired
   PeliculaSerieRepository peliculaSerieRepository;
+
+  @Autowired
+  GeneroRepository generoRepository;
 
   Personaje mickeyMouse;
   Personaje minnieMouse;
@@ -38,6 +43,11 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   PeliculaSerie enredados; // Peli de Rapunzel
   PeliculaSerie cars; // Peli de Rayo McQueen
 
+  Genero carreras;
+  Genero infantil;
+  Genero fantasia;
+  Genero terror;
+  Genero cinenciaFiccion;
 
   public void initPersonajes() {
     mickeyMouse = new Personaje("/img/mickey-mouse.jpg",
@@ -159,6 +169,19 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     peliculaSerieRepository.crear(cars);
   }
 
+  public void initGeneros() {
+    carreras = new Genero("Carreras", "/img/carreras.jpg");
+    infantil = new Genero("Infantil", "/img/infantil.jpg");
+    fantasia = new Genero("Fantasia", "/img/fantasia.jpg");
+    terror = new Genero("Terror", "/img/terror.jpg");
+    cinenciaFiccion = new Genero("Ciencia Ficcion", "/img/cinenciaFiccion.jpg");
+
+    generoRepository.crear(carreras);
+    generoRepository.crear(infantil);
+    generoRepository.crear(fantasia);
+    generoRepository.crear(terror);
+    generoRepository.crear(cinenciaFiccion);
+  }
   @Override
   public void afterPropertiesSet() {
     System.out.println("************************************************************************");
@@ -167,21 +190,27 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
     initPeliculasSeries();
     initPersonajes();
+    initGeneros();
 
     steamboatWillie.agregarPersonaje(mickeyMouse);
     steamboatWillie.agregarPersonaje(minnieMouse);
     mickeyMouse.agregarPelicualaSerie(steamboatWillie);
     minnieMouse.agregarPelicualaSerie(steamboatWillie);
+    infantil.agregarPelicula(steamboatWillie);
 
     enredados.agregarPersonaje(rapunzel);
     enredados.agregarPersonaje(pascal);
     rapunzel.agregarPelicualaSerie(enredados);
     pascal.agregarPelicualaSerie(enredados);
+    infantil.agregarPelicula(enredados);
+    fantasia.agregarPelicula(enredados);
 
     bigHeroSix.agregarPersonaje(tiaCass);
     bigHeroSix.agregarPersonaje(fred);
     tiaCass.agregarPelicualaSerie(bigHeroSix);
     fred.agregarPelicualaSerie(bigHeroSix);
+    infantil.agregarPelicula(bigHeroSix);
+    cinenciaFiccion.agregarPelicula(bigHeroSix);
 
     monstersInc.agregarPersonaje(boo);
     monstersInc.agregarPersonaje(jamesSullivan);
@@ -189,6 +218,8 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     boo.agregarPelicualaSerie(monstersInc);
     jamesSullivan.agregarPelicualaSerie(monstersInc);
     mikeWazowski.agregarPelicualaSerie(monstersInc);
+    infantil.agregarPelicula(monstersInc);
+    terror.agregarPelicula(monstersInc);
 
     monstersUniversity.agregarPersonaje(mikeWazowski);
     monstersUniversity.agregarPersonaje(jamesSullivan);
@@ -196,11 +227,15 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     mikeWazowski.agregarPelicualaSerie(monstersUniversity);
     jamesSullivan.agregarPelicualaSerie(monstersUniversity);
     boo.agregarPelicualaSerie(monstersUniversity);
+    infantil.agregarPelicula(monstersUniversity);
+    terror.agregarPelicula(monstersUniversity);
 
     cars.agregarPersonaje(rayoMcQueen);
     cars.agregarPersonaje(chickHicks);
     rayoMcQueen.agregarPelicualaSerie(cars);
     chickHicks.agregarPelicualaSerie(cars);
+    infantil.agregarPelicula(cars);
+    carreras.agregarPelicula(cars);
   }
 
 }

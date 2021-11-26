@@ -1,8 +1,10 @@
 package com.example.challengebackendjava.controller;
 
 
+import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.serializer.View;
+import com.example.challengebackendjava.service.GeneroService;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class PeliculaSerieController {
   @Autowired
   PeliculaSerieService peliculaSerieService;
 
+  @Autowired
+  GeneroService generoService;
+
   @GetMapping("/movies")
   @JsonView(View.PeliculaSerie.Lista.class)
   public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(@RequestParam Map<String, String> queryParams) {
@@ -31,6 +36,14 @@ public class PeliculaSerieController {
     if (nombre != null) {
       peliculasSeries = peliculasSeries.stream()
           .filter(peliculaSerie -> peliculaSerie.nombreCoincide(nombre))
+          .collect(Collectors.toList());
+    }
+
+    if (genre != null) {
+      Genero genero = generoService.findById(Integer.valueOf(genre));
+
+      peliculasSeries = peliculasSeries.stream()
+          .filter(genero::tienePelicula)
           .collect(Collectors.toList());
     }
 
