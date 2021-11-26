@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -19,8 +21,20 @@ public class PeliculaSerieController {
 
   @GetMapping("/movies")
   @JsonView(View.PeliculaSerie.Lista.class)
-  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries() {
-    return ResponseEntity.ok(peliculaSerieService.all());
+  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(@RequestParam Map<String, String> queryParams) {
+    String nombre = queryParams.get("name");
+    String genre = queryParams.get("genre");
+    String order = queryParams.get("order"); // ordenar por fecha de creacion
+
+    List<PeliculaSerie> peliculasSeries = peliculaSerieService.all();
+
+    if (nombre != null) {
+      peliculasSeries = peliculasSeries.stream()
+          .filter(peliculaSerie -> peliculaSerie.nombreCoincide(nombre))
+          .collect(Collectors.toList());
+    }
+
+    return ResponseEntity.ok(peliculasSeries);
   }
 
   @GetMapping("/movies/{id}")

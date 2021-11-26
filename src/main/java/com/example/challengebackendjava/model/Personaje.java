@@ -4,10 +4,11 @@ import com.example.challengebackendjava.serializer.View;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
 
 public class Personaje extends Entidad {
   String imagen;
@@ -125,8 +126,7 @@ public class Personaje extends Entidad {
   }
 
   public boolean nombreCoincide(String nombre) {
-    return getNombre().toLowerCase(Locale.ROOT)
-            .contains(nombre.toLowerCase(Locale.ROOT));
+    return stringsCoinciden(getNombre(), nombre);
   }
 
   public boolean edadCoincide(Integer edad) {

@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
+
 public class PeliculaSerie extends Entidad{
   String imagen;
   String titulo;
@@ -93,5 +95,9 @@ public class PeliculaSerie extends Entidad{
 
   public void eliminarPeronaje(Personaje personaje) {
     personajes.remove(personaje);
+  }
+
+  public boolean nombreCoincide(String nombre) {
+    return stringsCoinciden(getTitulo(), nombre);
   }
 }
