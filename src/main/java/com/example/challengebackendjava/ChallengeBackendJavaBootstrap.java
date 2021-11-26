@@ -21,6 +21,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
   Personaje mickeyMouse;
   Personaje rapunzel;
+  Personaje pascal;
   Personaje boo;
   Personaje jamesSullivan;
   Personaje mikeWazowski;
@@ -48,6 +49,12 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             "Rapunzel",
             30,
             "La princesa de pelo largo...",
+            100f);
+
+    pascal = new Personaje("/img/pascal.jpg",
+            "Pascal",
+            30,
+            "un Camaleón, es el mejor amigo de Rapunzel pues ha sido su compañía desde que Rapunzel era una niña. Tiene la habilidad de cambiar de colores y con estampados camuflándose con el entorno. También cambia de color con sus diferentes estados de ánimo. Al principio no congenia muy bien con Flynn.",
             100f);
 
     boo = new Personaje("/img/boo.jpg",
@@ -93,6 +100,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             80f);
 
     personajeRepo.crear(rapunzel);
+    personajeRepo.crear(pascal);
     personajeRepo.crear(mickeyMouse);
     personajeRepo.crear(boo);
     personajeRepo.crear(jamesSullivan);
@@ -156,7 +164,9 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     mickeyMouse.agregarPelicualaSerie(steamboatWillie);
 
     enredados.agregarPersonaje(rapunzel);
+    enredados.agregarPersonaje(pascal);
     rapunzel.agregarPelicualaSerie(enredados);
+    pascal.agregarPelicualaSerie(enredados);
 
     bigHeroSix.agregarPersonaje(tiaCass);
     bigHeroSix.agregarPersonaje(fred);
