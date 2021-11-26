@@ -8,42 +8,71 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class PersonajeController {
-    @Autowired
-    PersonajeService personajeService;
+  @Autowired
+  PersonajeService personajeService;
 
-    @GetMapping("/characters")
-    @JsonView(View.Personaje.Lista.class)
-    public ResponseEntity<List<Personaje>> getPersonajes() {
-        return ResponseEntity.ok(personajeService.all());
+  @GetMapping("/characters")
+  @JsonView(View.Personaje.Lista.class)
+  public ResponseEntity<List<Personaje>> getPersonajes(@RequestParam Map<String, String> queryParams) {
+    String name = queryParams.get("name");
+    String age = queryParams.get("age");
+    String idMovies = queryParams.get("movies");
+
+    List<Personaje> personajes = personajeService.all();
+
+    if (name != null) {
+      personajes = personajes.stream()
+              .filter(personaje -> personaje.nombreCoincide(name))
+              .collect(Collectors.toList());
     }
 
-    @GetMapping("/characters/{id}")
-    @JsonView(View.Personaje.Detalle.class)
-    public ResponseEntity<Personaje> getPersonaje(@PathVariable Integer id) {
-        return ResponseEntity.ok(personajeService.getById(id));
+    if (age != null) {
+      personajes = personajes.stream()
+              .filter(personaje -> personaje.edadCoincide(Integer.valueOf(age)))
+              .collect(Collectors.toList());
     }
 
-    @PutMapping("/characters/{id}")
-    public ResponseEntity<String> actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Integer id) {
-        personajeService.actualizar(personaje, id);
-        return ResponseEntity.ok().body("El personaje fue actualizado correctamente");
+    if (idMovies != null) {
+      Set<Integer> peliculas = Arrays.stream(idMovies.split(","))
+              .map(Integer::valueOf)
+              .collect(Collectors.toSet());
+
+      personajes = personajes.stream()
+              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(peliculas))
+              .collect(Collectors.toList());
     }
 
-    @DeleteMapping("/characters/{id}")
-    public ResponseEntity<String> eliminarPersonaje(@PathVariable Integer id) {
-        personajeService.eliminar(id);
-        return ResponseEntity.ok().body("El personaje fue eliminado correctamente");
-    }
+    return ResponseEntity.ok(personajes);
+  }
 
-    @PostMapping("/characters")
-    public ResponseEntity<String> crearPersonaje(@RequestBody Personaje personaje) {
-        personajeService.crear(personaje);
-        return ResponseEntity.ok().body("El personaje fue creado correctamente");
-    }
+  @GetMapping("/characters/{id}")
+  @JsonView(View.Personaje.Detalle.class)
+  public ResponseEntity<Personaje> getPersonaje(@PathVariable Integer id) {
+    return ResponseEntity.ok(personajeService.getById(id));
+  }
+
+  @PutMapping("/characters/{id}")
+  public ResponseEntity<String> actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Integer id) {
+    personajeService.actualizar(personaje, id);
+    return ResponseEntity.ok().body("El personaje fue actualizado correctamente");
+  }
+
+  @DeleteMapping("/characters/{id}")
+  public ResponseEntity<String> eliminarPersonaje(@PathVariable Integer id) {
+    personajeService.eliminar(id);
+    return ResponseEntity.ok().body("El personaje fue eliminado correctamente");
+  }
+
+  @PostMapping("/characters")
+  public ResponseEntity<String> crearPersonaje(@RequestBody Personaje personaje) {
+    personajeService.crear(personaje);
+    return ResponseEntity.ok().body("El personaje fue creado correctamente");
+  }
 
 }

@@ -4,7 +4,10 @@ import com.example.challengebackendjava.serializer.View;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Personaje extends Entidad {
   String imagen;
@@ -107,5 +110,26 @@ public class Personaje extends Entidad {
 
   public void eliminarPeliculaSerie(PeliculaSerie peliculaSerie) {
     this.peliculaSerie.remove(peliculaSerie);
+  }
+
+  public boolean estuvoEnAlgunaPelicula(Set<Integer> peliculas) {
+    return peliculas.stream().anyMatch(this::estuvoEnPelicula);
+  }
+
+  private boolean estuvoEnPelicula(Integer idPelicula) {
+    return this.idPeliculas().contains(idPelicula);
+  }
+
+  private Set<Integer> idPeliculas() {
+    return peliculaSerie.stream().map(Entidad::getId).collect(Collectors.toSet());
+  }
+
+  public boolean nombreCoincide(String nombre) {
+    return getNombre().toLowerCase(Locale.ROOT)
+            .contains(nombre.toLowerCase(Locale.ROOT));
+  }
+
+  public boolean edadCoincide(Integer edad) {
+    return Objects.equals(getEdad(), edad);
   }
 }
