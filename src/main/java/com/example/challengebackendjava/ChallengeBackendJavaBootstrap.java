@@ -23,6 +23,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   Personaje rapunzel;
   Personaje boo;
   Personaje jamesSullivan;
+  Personaje mikeWazowski;
   Personaje tiaCass;
   Personaje rayoMcQueen;
   Personaje fred;
@@ -30,6 +31,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   PeliculaSerie steamboatWillie; // Peli de Mickey Mouse
   PeliculaSerie bigHeroSix; // Peli de Tia Cass
   PeliculaSerie monstersInc; // Peli de Boo
+  PeliculaSerie monstersUniversity; // Peli de Boo
   PeliculaSerie enredados; // Peli de Rapunzel
   PeliculaSerie cars; // Peli de Rayo McQueen
 
@@ -57,6 +59,12 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             "James Sullivan",
             30,
             "James Sullivan...",
+            85f);
+
+    mikeWazowski = new Personaje("/img/mikewazowski.jpg",
+            "Mike Wazowski",
+            30,
+            "Mike Wazowski...",
             85f);
 
     tiaCass = new Personaje("/img/tiacass.jpg",
@@ -87,7 +95,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   }
 
   public void initPeliculasSeries() {
-    steamboatWillie = new PeliculaSerie("/img/steamboatwillie.jpg",
+    steamboatWillie = new PeliculaSerie("/img/steamboat-willie.jpg",
             "Steamboat Willie",
             LocalDate.parse("1928-11-01"),
             5);
@@ -97,13 +105,24 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             LocalDate.parse("2010-11-24"),
             10);
 
-    bigHeroSix = new PeliculaSerie("/img/bigherosix.jpg",
+    bigHeroSix = new PeliculaSerie("/img/big-hero-six.jpg",
             "Big Hero Six",
             LocalDate.parse("2014-11-07"),
             7);
 
-    monstersInc = new PeliculaSerie("/img/monstersinc.jpg",
+    monstersInc = new PeliculaSerie("/img/monsters-inc.jpg",
             "Monsters Inc",
+            LocalDate.parse("2001-11-02"),
+            13);
+
+    monstersUniversity = new PeliculaSerie("/img/monsters-university.jpg",
+            "Monsters University",
+            LocalDate.parse("2013-06-21"),
+            11);
+
+
+    cars = new PeliculaSerie("/img/cars.jpg",
+            "Cars",
             LocalDate.parse("2001-11-02"),
             13);
 
@@ -113,6 +132,8 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     peliculaSerieRepository.crear(enredados);
     peliculaSerieRepository.crear(bigHeroSix);
     peliculaSerieRepository.crear(monstersInc);
+    peliculaSerieRepository.crear(monstersUniversity);
+    peliculaSerieRepository.crear(cars);
   }
 
   @Override
@@ -137,8 +158,20 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
     monstersInc.agregarPersonaje(boo);
     monstersInc.agregarPersonaje(jamesSullivan);
+    monstersInc.agregarPersonaje(mikeWazowski);
     boo.agregarPelicualaSerie(monstersInc);
     jamesSullivan.agregarPelicualaSerie(monstersInc);
+    mikeWazowski.agregarPelicualaSerie(monstersInc);
+
+    monstersUniversity.agregarPersonaje(mikeWazowski);
+    monstersUniversity.agregarPersonaje(jamesSullivan);
+    monstersUniversity.agregarPersonaje(boo);
+    mikeWazowski.agregarPelicualaSerie(monstersUniversity);
+    jamesSullivan.agregarPelicualaSerie(monstersUniversity);
+    boo.agregarPelicualaSerie(monstersUniversity);
+
+    cars.agregarPersonaje(rayoMcQueen);
+    rayoMcQueen.agregarPelicualaSerie(cars);
   }
 
 }
