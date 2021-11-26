@@ -20,6 +20,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   PeliculaSerieRepository peliculaSerieRepository;
 
   Personaje mickeyMouse;
+  Personaje minnieMouse;
   Personaje rapunzel;
   Personaje pascal;
   Personaje boo;
@@ -39,11 +40,17 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
 
   public void initPersonajes() {
-    mickeyMouse = new Personaje("/img/mickey.jpg",
+    mickeyMouse = new Personaje("/img/mickey-mouse.jpg",
             "Mickey Mouse",
             40,
             "El raton de Disney...",
             90f);
+
+    minnieMouse = new Personaje("/img/minnie-mouse.jpg",
+            "Minnie Mouse",
+            43,
+            "La ratona de Disney...",
+            83f);
 
     rapunzel = new Personaje("/img/rapunzel.jpg",
             "Rapunzel",
@@ -102,6 +109,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     personajeRepo.crear(rapunzel);
     personajeRepo.crear(pascal);
     personajeRepo.crear(mickeyMouse);
+    personajeRepo.crear(minnieMouse);
     personajeRepo.crear(boo);
     personajeRepo.crear(jamesSullivan);
     personajeRepo.crear(mikeWazowski);
@@ -161,7 +169,9 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     initPersonajes();
 
     steamboatWillie.agregarPersonaje(mickeyMouse);
+    steamboatWillie.agregarPersonaje(minnieMouse);
     mickeyMouse.agregarPelicualaSerie(steamboatWillie);
+    minnieMouse.agregarPelicualaSerie(steamboatWillie);
 
     enredados.agregarPersonaje(rapunzel);
     enredados.agregarPersonaje(pascal);
