@@ -26,6 +26,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   Personaje mikeWazowski;
   Personaje tiaCass;
   Personaje rayoMcQueen;
+  Personaje chickHicks;
   Personaje fred;
 
   PeliculaSerie steamboatWillie; // Peli de Mickey Mouse
@@ -79,18 +80,26 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             "Rayo McQueen...",
             120f);
 
+    chickHicks = new Personaje("/img/chick-hicks.jpg",
+            "Chick Hicks",
+            50,
+            "Chick Hicks...",
+            120f);
+
     fred = new Personaje("/img/fred.jpg",
             "Fred",
             14,
             "Fred ...",
             80f);
 
-    personajeRepo.crear(mickeyMouse);
     personajeRepo.crear(rapunzel);
+    personajeRepo.crear(mickeyMouse);
     personajeRepo.crear(boo);
     personajeRepo.crear(jamesSullivan);
+    personajeRepo.crear(mikeWazowski);
     personajeRepo.crear(tiaCass);
     personajeRepo.crear(rayoMcQueen);
+    personajeRepo.crear(chickHicks);
     personajeRepo.crear(fred);
   }
 
@@ -125,8 +134,6 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             "Cars",
             LocalDate.parse("2001-11-02"),
             13);
-
-
 
     peliculaSerieRepository.crear(steamboatWillie);
     peliculaSerieRepository.crear(enredados);
@@ -171,7 +178,9 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     boo.agregarPelicualaSerie(monstersUniversity);
 
     cars.agregarPersonaje(rayoMcQueen);
+    cars.agregarPersonaje(chickHicks);
     rayoMcQueen.agregarPelicualaSerie(cars);
+    chickHicks.agregarPelicualaSerie(cars);
   }
 
 }
