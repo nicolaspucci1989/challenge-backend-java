@@ -102,11 +102,7 @@ public class Personaje extends Entidad {
     this.setEdad(personaje.getEdad());
     this.setHistoria(personaje.getHistoria());
     this.setImagen(personaje.getImagen());
-    // TODO: agregar peliculas
-//    this.setPeliculaSerie(personaje.getPeliculaSerie());
-    personaje
-            .getPeliculaSerie()
-            .forEach(this::agregarPelicualaSerie);
+    this.setPeliculaSerie(personaje.getPeliculaSerie());
   }
 
   @Override

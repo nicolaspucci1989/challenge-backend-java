@@ -1,7 +1,9 @@
 package com.example.challengebackendjava.controller;
 
+import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.serializer.View;
+import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 public class PersonajeController {
   @Autowired
   PersonajeService personajeService;
+  @Autowired
+  PeliculaSerieService peliculaSerieService;
 
   @GetMapping("/characters")
   @JsonView(View.Personaje.Lista.class)
@@ -59,6 +63,7 @@ public class PersonajeController {
 
   @PutMapping("/characters/{id}")
   public ResponseEntity<String> actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Integer id) {
+    personaje.setPeliculaSerie(getPeliculasDelRepositorio(personaje));
     personajeService.actualizar(personaje, id);
     return ResponseEntity.ok().body("El personaje fue actualizado correctamente");
   }
@@ -71,8 +76,16 @@ public class PersonajeController {
 
   @PostMapping("/characters")
   public ResponseEntity<String> crearPersonaje(@RequestBody Personaje personaje) {
+    personaje.setPeliculaSerie(getPeliculasDelRepositorio(personaje));
     personajeService.crear(personaje);
     return ResponseEntity.ok().body("El personaje fue creado correctamente");
   }
 
+  private Set<PeliculaSerie> getPeliculasDelRepositorio(Personaje personaje) {
+    return personaje
+        .getPeliculaSerie()
+        .stream()
+        .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
+        .collect(Collectors.toSet());
+  }
 }
