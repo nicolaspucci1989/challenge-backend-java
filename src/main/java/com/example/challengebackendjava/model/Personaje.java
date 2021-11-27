@@ -15,7 +15,6 @@ public class Personaje extends Entidad {
   String nombre;
   Integer edad;
   String historia;
-  // TODO: renombrar
   Set<PeliculaSerie> peliculasSeries = new HashSet<>();
   Float peso;
 
