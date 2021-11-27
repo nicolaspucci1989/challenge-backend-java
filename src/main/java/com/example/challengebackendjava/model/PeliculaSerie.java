@@ -9,7 +9,7 @@ import java.util.Set;
 
 import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
 
-public class PeliculaSerie extends Entidad{
+public class PeliculaSerie extends Entidad implements Comparable<PeliculaSerie> {
   String imagen;
   String titulo;
   LocalDate fehcaDeCreacion;
@@ -99,5 +99,10 @@ public class PeliculaSerie extends Entidad{
 
   public boolean nombreCoincide(String nombre) {
     return stringsCoinciden(getTitulo(), nombre);
+  }
+
+  @Override
+  public int compareTo(PeliculaSerie otraPeliculaSerie) {
+    return getFehcaDeCreacion().compareTo(otraPeliculaSerie.getFehcaDeCreacion());
   }
 }

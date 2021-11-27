@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,6 +46,14 @@ public class PeliculaSerieController {
       peliculasSeries = peliculasSeries.stream()
           .filter(genero::tienePelicula)
           .collect(Collectors.toList());
+    }
+
+    if (order != null) {
+      Collections.sort(peliculasSeries);
+
+      if (order.equals("DESC")) {
+        Collections.reverse(peliculasSeries);
+      }
     }
 
     return ResponseEntity.ok(peliculasSeries);
