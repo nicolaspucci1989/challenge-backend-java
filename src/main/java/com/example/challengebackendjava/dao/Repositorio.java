@@ -52,7 +52,6 @@ public class Repositorio <T extends Entidad> {
     return id ++;
   }
 
-
   public boolean elementoExiste(T elemento) {
     return elementos.contains(elemento);
   }
