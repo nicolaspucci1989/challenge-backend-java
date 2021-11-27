@@ -15,8 +15,7 @@ public class Personaje extends Entidad {
   String nombre;
   Integer edad;
   String historia;
-  // TODO: renombrar
-  Set<PeliculaSerie> peliculaSerie = new HashSet<>();
+  Set<PeliculaSerie> peliculasSeries = new HashSet<>();
   Float peso;
 
   public Personaje(String imagen,
@@ -32,7 +31,7 @@ public class Personaje extends Entidad {
   }
 
   public void agregarPelicualaSerie(PeliculaSerie peliculaSerie) {
-    this.peliculaSerie.add(peliculaSerie);
+    this.peliculasSeries.add(peliculaSerie);
   }
 
   @JsonView({View.Personaje.Lista.class, View.Personaje.Detalle.class})
@@ -85,13 +84,13 @@ public class Personaje extends Entidad {
   }
 
   @JsonView({View.Personaje.Detalle.class})
-  public Set<PeliculaSerie> getPeliculaSerie() {
-    return peliculaSerie;
+  public Set<PeliculaSerie> getPeliculasSeries() {
+    return peliculasSeries;
   }
 
 
-  public void setPeliculaSerie(Set<PeliculaSerie> peliculaSerie) {
-    this.peliculaSerie = peliculaSerie;
+  public void setPeliculasSeries(Set<PeliculaSerie> peliculasSeries) {
+    this.peliculasSeries = peliculasSeries;
   }
 
   @Override
@@ -102,11 +101,7 @@ public class Personaje extends Entidad {
     this.setEdad(personaje.getEdad());
     this.setHistoria(personaje.getHistoria());
     this.setImagen(personaje.getImagen());
-    // TODO: agregar peliculas
-//    this.setPeliculaSerie(personaje.getPeliculaSerie());
-    personaje
-            .getPeliculaSerie()
-            .forEach(this::agregarPelicualaSerie);
+    this.setPeliculasSeries(personaje.getPeliculasSeries());
   }
 
   @Override
@@ -127,7 +122,7 @@ public class Personaje extends Entidad {
   }
 
   public void eliminarPeliculaSerie(PeliculaSerie peliculaSerie) {
-    this.peliculaSerie.remove(peliculaSerie);
+    this.peliculasSeries.remove(peliculaSerie);
   }
 
   public boolean estuvoEnAlgunaPelicula(Set<Integer> peliculas) {
@@ -139,7 +134,7 @@ public class Personaje extends Entidad {
   }
 
   private Set<Integer> idPeliculas() {
-    return peliculaSerie.stream().map(Entidad::getId).collect(Collectors.toSet());
+    return peliculasSeries.stream().map(Entidad::getId).collect(Collectors.toSet());
   }
 
   public boolean nombreCoincide(String nombre) {

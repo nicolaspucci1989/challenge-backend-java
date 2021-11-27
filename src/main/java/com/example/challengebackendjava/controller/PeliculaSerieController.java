@@ -3,9 +3,11 @@ package com.example.challengebackendjava.controller;
 
 import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.PeliculaSerie;
+import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.serializer.View;
 import com.example.challengebackendjava.service.GeneroService;
 import com.example.challengebackendjava.service.PeliculaSerieService;
+import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,8 @@ import java.util.stream.Collectors;
 public class PeliculaSerieController {
   @Autowired
   PeliculaSerieService peliculaSerieService;
-
+  @Autowired
+  PersonajeService personajeService;
   @Autowired
   GeneroService generoService;
 
@@ -65,6 +68,7 @@ public class PeliculaSerieController {
 
   @PutMapping("/movies/{id}")
   public ResponseEntity<String> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Integer id) {
+    peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.actualizar(peliculaSerie, id);
     return ResponseEntity.ok().body("Se actualizo la pelicula correctamente");
   }
@@ -77,7 +81,16 @@ public class PeliculaSerieController {
 
   @PostMapping("/movies")
   public ResponseEntity<String> crearPeliculaSerie(@RequestBody PeliculaSerie peliculaSerie){
+    peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.crear(peliculaSerie);
     return ResponseEntity.ok().body("La pelicula o serie fue creada correctamente");
+  }
+
+  private Set<Personaje> getPersonajesDelRepositorio(PeliculaSerie peliculaSerie) {
+    return peliculaSerie
+        .getPersonajes()
+        .stream()
+        .map(personaje -> personajeService.findById(personaje.getId()))
+        .collect(Collectors.toSet());
   }
 }

@@ -39,14 +39,6 @@ public class PeliculaSerieService {
       throw new NotFoundException("No se encontro la pelicula o serie");
     }
 
-    // TODO: usar custom serializer
-//    Set<Personaje> personajesEnRepo = peliculaSerieActualizada
-//            .getPersonajes()
-//            .stream()
-//            .map(personaje -> personajeService.getById(personaje.getId()))
-//            .collect(Collectors.toSet());
-//    peliculaSerieActualizada.setPersonajes(personajesEnRepo);
-
     peliculaSerieRepository.update(peliculaSerieEncontrada, peliculaSerieActualizada);
   }
 
@@ -69,9 +61,5 @@ public class PeliculaSerieService {
     peliculaSerie
             .getPersonajes()
             .forEach(personaje -> personaje.eliminarPeliculaSerie(peliculaSerie));
-  }
-
-  public boolean existe(PeliculaSerie peliculaSerie) {
-    return peliculaSerieRepository.elementoExiste(peliculaSerie);
   }
 }

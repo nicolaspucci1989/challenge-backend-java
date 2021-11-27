@@ -89,8 +89,7 @@ public class PeliculaSerie extends Entidad implements Comparable<PeliculaSerie> 
     this.setCalificacion(peliculaSerie.getCalificacion());
     this.setImagen(peliculaSerie.getImagen());
     this.setFehcaDeCreacion(peliculaSerie.getFehcaDeCreacion());
-    // TODO: validar que sean personajes existentes
-    // this.setPersonajes(peliculaSerie.getPersonajes());
+    this.setPersonajes(peliculaSerie.getPersonajes());
   }
 
   @Override
