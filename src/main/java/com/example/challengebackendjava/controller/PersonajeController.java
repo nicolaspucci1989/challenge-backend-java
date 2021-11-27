@@ -63,7 +63,7 @@ public class PersonajeController {
 
   @PutMapping("/characters/{id}")
   public ResponseEntity<String> actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Integer id) {
-    personaje.setPeliculaSerie(getPeliculasDelRepositorio(personaje));
+    personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
     personajeService.actualizar(personaje, id);
     return ResponseEntity.ok().body("El personaje fue actualizado correctamente");
   }
@@ -76,14 +76,14 @@ public class PersonajeController {
 
   @PostMapping("/characters")
   public ResponseEntity<String> crearPersonaje(@RequestBody Personaje personaje) {
-    personaje.setPeliculaSerie(getPeliculasDelRepositorio(personaje));
+    personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
     personajeService.crear(personaje);
     return ResponseEntity.ok().body("El personaje fue creado correctamente");
   }
 
   private Set<PeliculaSerie> getPeliculasDelRepositorio(Personaje personaje) {
     return personaje
-        .getPeliculaSerie()
+        .getPeliculasSeries()
         .stream()
         .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
         .collect(Collectors.toSet());

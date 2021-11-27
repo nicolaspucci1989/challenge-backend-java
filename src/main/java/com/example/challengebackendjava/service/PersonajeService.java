@@ -60,7 +60,7 @@ public class PersonajeService {
   // TODO: usar personaje.eliminarseDePeliculas()
   private void eliminarPersonajeDePeliculas(Personaje personaje) {
     personaje
-            .getPeliculaSerie()
+            .getPeliculasSeries()
             .forEach(peliculaSerie -> peliculaSerie.eliminarPeronaje(personaje));
   }
 }
