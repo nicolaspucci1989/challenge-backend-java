@@ -57,10 +57,9 @@ public class PersonajeService {
     personajeRepository.crear(personaje);
   }
 
-  // TODO: usar personaje.eliminarseDePeliculas()
   private void eliminarPersonajeDePeliculas(Personaje personaje) {
-    personaje
-            .getPeliculasSeries()
-            .forEach(peliculaSerie -> peliculaSerie.eliminarPeronaje(personaje));
+    personaje.getPeliculasSeries()
+            .forEach(peliculaSerie ->
+                peliculaSerie.eliminarPeronaje(personaje));
   }
 }
