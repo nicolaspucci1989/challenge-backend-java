@@ -28,7 +28,7 @@ public class PeliculaSerieController {
   public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(@RequestParam Map<String, String> queryParams) {
     String nombre = queryParams.get("name");
     String genre = queryParams.get("genre");
-    String order = queryParams.get("order"); // ordenar por fecha de creacion
+    String order = queryParams.get("order");
 
     List<PeliculaSerie> peliculasSeries = new ArrayList<>(peliculaSerieService.all());
 
