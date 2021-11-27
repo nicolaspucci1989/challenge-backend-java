@@ -1,5 +1,6 @@
 package com.example.challengebackendjava.dao;
 
+import com.example.challengebackendjava.error.BusinessException;
 import com.example.challengebackendjava.model.Entidad;
 
 import java.util.ArrayList;
@@ -23,10 +24,18 @@ public class Repositorio <T extends Entidad> {
   }
 
   public void crear(T elemento) {
+    validarElemento(elemento);
     agregarElemento(elemento);
   }
 
+  private void validarElemento(T elemento) {
+    if (!elemento.esValido()){
+      throw new BusinessException("El elemento no es valido");
+    }
+  }
+
   public void update(T elementoEnRepo, T elementoActualizado) {
+    validarElemento(elementoActualizado);
     elementoEnRepo.update(elementoActualizado);
   }
 
@@ -42,7 +51,6 @@ public class Repositorio <T extends Entidad> {
   private Integer incrementar() {
     return id ++;
   }
-
 
   public boolean elementoExiste(T elemento) {
     return elementos.contains(elemento);

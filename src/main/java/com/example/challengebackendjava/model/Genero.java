@@ -23,6 +23,15 @@ public class Genero extends Entidad{
 
     }
 
+  @Override
+  public boolean esValido() {
+    return tieneNombreVaido();
+  }
+
+  private boolean tieneNombreVaido() {
+    return nombre.length() > 1;
+  }
+
   public boolean tienePelicula(PeliculaSerie peliculaSerie) {
       return this.peliculaSeries
           .stream().anyMatch(peli -> Objects.equals(peli.getId(), peliculaSerie.getId()));

@@ -93,6 +93,27 @@ public class PeliculaSerie extends Entidad implements Comparable<PeliculaSerie> 
     // this.setPersonajes(peliculaSerie.getPersonajes());
   }
 
+  @Override
+  public boolean esValido() {
+    return tieneCalificacionValida() && tieneTituloValido() && tieneImagenValida() && tieneFechaValida();
+  }
+
+  private boolean tieneFechaValida() {
+    return getFehcaDeCreacion() != null;
+  }
+
+  private boolean tieneImagenValida() {
+    return getImagen() != null;
+  }
+
+  private boolean tieneTituloValido() {
+    return getTitulo().length() > 1;
+  }
+
+  private boolean tieneCalificacionValida() {
+    return getCalificacion() >= 1 && getCalificacion() <= 5;
+  }
+
   public void eliminarPeronaje(Personaje personaje) {
     personajes.remove(personaje);
   }

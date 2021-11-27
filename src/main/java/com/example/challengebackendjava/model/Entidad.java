@@ -21,4 +21,6 @@ abstract public class Entidad {
     }
 
     abstract public void update(Entidad entidad);
+
+    abstract public boolean esValido();
 }

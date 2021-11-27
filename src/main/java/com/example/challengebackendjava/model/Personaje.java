@@ -109,6 +109,23 @@ public class Personaje extends Entidad {
             .forEach(this::agregarPelicualaSerie);
   }
 
+  @Override
+  public boolean esValido() {
+    return tieneNombreValido() && tieneImagenValida() && tieneEdadValida();
+  }
+
+  private boolean tieneEdadValida() {
+    return edad > 0;
+  }
+
+  private boolean tieneImagenValida() {
+    return getImagen().length() > 1;
+  }
+
+  private boolean tieneNombreValido() {
+    return getNombre().length() > 1;
+  }
+
   public void eliminarPeliculaSerie(PeliculaSerie peliculaSerie) {
     this.peliculaSerie.remove(peliculaSerie);
   }
