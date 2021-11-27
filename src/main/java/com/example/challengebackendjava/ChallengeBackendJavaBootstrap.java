@@ -133,33 +133,33 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     steamboatWillie = new PeliculaSerie("/img/steamboat-willie.jpg",
             "Steamboat Willie",
             LocalDate.parse("1928-11-01"),
-            5);
+            3);
 
     enredados = new PeliculaSerie("/img/enredados.jpg",
             "Enredados",
             LocalDate.parse("2010-11-24"),
-            10);
+            2);
 
     bigHeroSix = new PeliculaSerie("/img/big-hero-six.jpg",
             "Big Hero Six",
             LocalDate.parse("2014-11-07"),
-            7);
+            5);
 
     monstersInc = new PeliculaSerie("/img/monsters-inc.jpg",
             "Monsters Inc",
             LocalDate.parse("2001-11-02"),
-            13);
+            1);
 
     monstersUniversity = new PeliculaSerie("/img/monsters-university.jpg",
             "Monsters University",
             LocalDate.parse("2013-06-21"),
-            11);
+            2);
 
 
     cars = new PeliculaSerie("/img/cars.jpg",
             "Cars",
             LocalDate.parse("2001-11-02"),
-            13);
+            4);
 
     peliculaSerieRepository.crear(steamboatWillie);
     peliculaSerieRepository.crear(enredados);
@@ -182,6 +182,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     generoRepository.crear(terror);
     generoRepository.crear(cinenciaFiccion);
   }
+
   @Override
   public void afterPropertiesSet() {
     System.out.println("************************************************************************");
