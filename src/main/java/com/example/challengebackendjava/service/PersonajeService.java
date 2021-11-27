@@ -22,6 +22,7 @@ public class PersonajeService {
     return personajeRepository.all();
   }
 
+  // TODO: renombrar a findById
   public Personaje getById(Integer id) {
     var personaje = personajeRepository.findById(id);
 
