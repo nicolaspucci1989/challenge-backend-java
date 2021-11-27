@@ -58,7 +58,7 @@ public class PersonajeController {
   @GetMapping("/characters/{id}")
   @JsonView(View.Personaje.Detalle.class)
   public ResponseEntity<Personaje> getPersonaje(@PathVariable Integer id) {
-    return ResponseEntity.ok(personajeService.getById(id));
+    return ResponseEntity.ok(personajeService.findById(id));
   }
 
   @PutMapping("/characters/{id}")

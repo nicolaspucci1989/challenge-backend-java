@@ -90,7 +90,7 @@ public class PeliculaSerieController {
     return peliculaSerie
         .getPersonajes()
         .stream()
-        .map(personaje -> personajeService.getById(personaje.getId()))
+        .map(personaje -> personajeService.findById(personaje.getId()))
         .collect(Collectors.toSet());
   }
 }

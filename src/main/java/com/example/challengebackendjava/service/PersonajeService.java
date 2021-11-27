@@ -2,15 +2,12 @@ package com.example.challengebackendjava.service;
 
 import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.error.NotFoundException;
-import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class PersonajeService {
@@ -22,8 +19,7 @@ public class PersonajeService {
     return personajeRepository.all();
   }
 
-  // TODO: renombrar a findById
-  public Personaje getById(Integer id) {
+  public Personaje findById(Integer id) {
     var personaje = personajeRepository.findById(id);
 
     if (personaje == null) {
