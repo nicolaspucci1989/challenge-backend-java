@@ -12,7 +12,7 @@ public class GeneroService {
   @Autowired
   GeneroRepository generoRepository;
 
-  public Genero findById(Integer id) {
+  public Genero findById(Long id) {
     Genero genero = generoRepository.findById(id);
 
     if (genero == null) {

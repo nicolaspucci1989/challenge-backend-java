@@ -35,7 +35,7 @@ public class PeliculaSerieController {
   @ApiOperation("Devuelve un listado de todas las peliculas-series con su id, nombre e imagen")
   public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(
       @RequestParam(required = false) String nombre,
-      @RequestParam(required = false) Integer genre,
+      @RequestParam(required = false) Long genre,
       @RequestParam(required = false) OrderEnum order
   ) {
     List<PeliculaSerie> peliculasSeries = new ArrayList<>(peliculaSerieService.all());
@@ -68,13 +68,13 @@ public class PeliculaSerieController {
   @GetMapping("/movies/{id}")
   @JsonView(View.PeliculaSerie.Detalle.class)
   @ApiOperation("Permite buscar una pelicula-serie por id, con toda su informacion")
-  public ResponseEntity<PeliculaSerie> getPeliculaSerie(@PathVariable Integer id) {
+  public ResponseEntity<PeliculaSerie> getPeliculaSerie(@PathVariable Long id) {
     return ResponseEntity.ok(peliculaSerieService.findById(id));
   }
 
   @PutMapping("/movies/{id}")
   @ApiOperation("Permite actualizar una pelicula-serie")
-  public ResponseEntity<String> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Integer id) {
+  public ResponseEntity<String> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Long id) {
     peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.actualizar(peliculaSerie, id);
     return ResponseEntity.ok().body("Se actualizo la pelicula correctamente");
@@ -82,7 +82,7 @@ public class PeliculaSerieController {
 
   @DeleteMapping("/movies/{id}")
   @ApiOperation("Permite eliminar una pelicula-serie")
-  public ResponseEntity<String> eliminarPeliculaSerie(@PathVariable Integer id) {
+  public ResponseEntity<String> eliminarPeliculaSerie(@PathVariable Long id) {
     peliculaSerieService.eliminar(id);
     return ResponseEntity.ok().body("La pelicula o serie se elimino correctamente");
   }

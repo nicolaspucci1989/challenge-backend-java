@@ -125,15 +125,15 @@ public class Personaje extends Entidad {
     this.peliculasSeries.remove(peliculaSerie);
   }
 
-  public boolean estuvoEnAlgunaPelicula(Set<Integer> peliculas) {
+  public boolean estuvoEnAlgunaPelicula(Set<Long> peliculas) {
     return peliculas.stream().anyMatch(this::estuvoEnPelicula);
   }
 
-  private boolean estuvoEnPelicula(Integer idPelicula) {
+  private boolean estuvoEnPelicula(Long idPelicula) {
     return this.idPeliculas().contains(idPelicula);
   }
 
-  private Set<Integer> idPeliculas() {
+  private Set<Long> idPeliculas() {
     return peliculasSeries.stream().map(Entidad::getId).collect(Collectors.toSet());
   }
 

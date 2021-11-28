@@ -18,7 +18,7 @@ public class PeliculaSerieService {
     return peliculaSerieRepository.all();
   }
 
-  public PeliculaSerie findById(Integer id) {
+  public PeliculaSerie findById(Long id) {
     var peliculaSerie = peliculaSerieRepository.findById(id);
 
     if (peliculaSerie == null) {
@@ -28,7 +28,7 @@ public class PeliculaSerieService {
     return peliculaSerie;
   }
 
-  public void actualizar(PeliculaSerie peliculaSerieActualizada, Integer id) {
+  public void actualizar(PeliculaSerie peliculaSerieActualizada, Long id) {
     if (!Objects.equals(peliculaSerieActualizada.getId(), id)) {
       throw new NotFoundException("El id de la pelicula o serie no es correcto");
     }
@@ -42,7 +42,7 @@ public class PeliculaSerieService {
     peliculaSerieRepository.update(peliculaSerieEncontrada, peliculaSerieActualizada);
   }
 
-  public void eliminar(Integer id) {
+  public void eliminar(Long id) {
     var peliculaSerie = peliculaSerieRepository.findById(id);
 
     if (peliculaSerie == null) {
