@@ -7,6 +7,7 @@ import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +26,11 @@ public class PersonajeController {
   @GetMapping("/characters")
   @JsonView(View.Personaje.Lista.class)
   @ApiOperation("Devuelve una lista de todos los personajes, con su id, nombre e imagen")
-  public ResponseEntity<List<Personaje>> getPersonajes(@RequestParam Map<String, String> queryParams) {
-    String name = queryParams.get("name");
-    String age = queryParams.get("age");
-    String idMovies = queryParams.get("movies");
+  public ResponseEntity<List<Personaje>> getPersonajes(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Integer age,
+      @RequestParam(required = false) Set<Integer> idMovies
+      ) {
 
     List<Personaje> personajes = personajeService.all();
 
@@ -40,17 +42,13 @@ public class PersonajeController {
 
     if (age != null) {
       personajes = personajes.stream()
-              .filter(personaje -> personaje.edadCoincide(Integer.valueOf(age)))
+              .filter(personaje -> personaje.edadCoincide(age))
               .collect(Collectors.toList());
     }
 
     if (idMovies != null) {
-      Set<Integer> peliculas = Arrays.stream(idMovies.split(","))
-              .map(Integer::valueOf)
-              .collect(Collectors.toSet());
-
       personajes = personajes.stream()
-              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(peliculas))
+              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(idMovies))
               .collect(Collectors.toList());
     }
 
