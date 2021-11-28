@@ -10,12 +10,14 @@ import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,11 +33,11 @@ public class PeliculaSerieController {
   @GetMapping("/movies")
   @JsonView(View.PeliculaSerie.Lista.class)
   @ApiOperation("Devuelve un listado de todas las peliculas-series con su id, nombre e imagen")
-  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(@RequestParam(required = false) Map<String, String> queryParams) {
-    String nombre = queryParams.get("name");
-    String genre = queryParams.get("genre");
-    String order = queryParams.get("order");
-
+  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(
+      @RequestParam(required = false) String nombre,
+      @RequestParam(required = false) Integer genre,
+      @RequestParam(required = false) OrderEnum order
+  ) {
     List<PeliculaSerie> peliculasSeries = new ArrayList<>(peliculaSerieService.all());
 
     if (nombre != null) {
@@ -45,7 +47,7 @@ public class PeliculaSerieController {
     }
 
     if (genre != null) {
-      Genero genero = generoService.findById(Integer.valueOf(genre));
+      Genero genero = generoService.findById(genre);
 
       peliculasSeries = peliculasSeries.stream()
           .filter(genero::tienePelicula)
@@ -55,7 +57,7 @@ public class PeliculaSerieController {
     if (order != null) {
       Collections.sort(peliculasSeries);
 
-      if (order.equals("DESC")) {
+      if (order.equals(OrderEnum.DESC)) {
         Collections.reverse(peliculasSeries);
       }
     }
