@@ -19,7 +19,7 @@ public class PersonajeService {
     return personajeRepository.all();
   }
 
-  public Personaje findById(Integer id) {
+  public Personaje findById(Long id) {
     var personaje = personajeRepository.findById(id);
 
     if (personaje == null) {
@@ -28,7 +28,7 @@ public class PersonajeService {
     return personaje;
   }
 
-  public void actualizar(Personaje personajeActualizado, Integer id) {
+  public void actualizar(Personaje personajeActualizado, Long id) {
     if (!Objects.equals(personajeActualizado.getId(), id)) {
       throw new NotFoundException("El id del personaje no es correcto");
     }
@@ -42,7 +42,7 @@ public class PersonajeService {
     personajeRepository.update(personajeEncontrado, personajeActualizado);
   }
 
-  public void eliminar(Integer id) {
+  public void eliminar(Long id) {
     var personaje = personajeRepository.findById(id);
 
     if (personaje == null) {

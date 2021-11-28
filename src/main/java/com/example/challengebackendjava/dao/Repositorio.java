@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class Repositorio <T extends Entidad> {
-  Integer id = 1;
+  Long id = 1L;
   List<T> elementos = new ArrayList<>();
 
   public List<T> all() {
     return elementos;
   }
 
-  public T findById(Integer id) {
+  public T findById(Long id) {
     return elementos
         .stream()
         .filter(t -> Objects.equals(t.getId(), id))
@@ -48,7 +48,7 @@ public class Repositorio <T extends Entidad> {
     elementos.add(elemento);
   }
 
-  private Integer incrementar() {
+  private Long incrementar() {
     return id ++;
   }
 

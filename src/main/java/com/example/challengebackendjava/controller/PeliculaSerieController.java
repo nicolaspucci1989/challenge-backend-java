@@ -9,11 +9,15 @@ import com.example.challengebackendjava.service.GeneroService;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,11 +32,12 @@ public class PeliculaSerieController {
 
   @GetMapping("/movies")
   @JsonView(View.PeliculaSerie.Lista.class)
-  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(@RequestParam Map<String, String> queryParams) {
-    String nombre = queryParams.get("name");
-    String genre = queryParams.get("genre");
-    String order = queryParams.get("order");
-
+  @ApiOperation("Devuelve un listado de todas las peliculas-series con su id, nombre e imagen")
+  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(
+      @RequestParam(required = false) String nombre,
+      @RequestParam(required = false) Long genre,
+      @RequestParam(required = false) OrderEnum order
+  ) {
     List<PeliculaSerie> peliculasSeries = new ArrayList<>(peliculaSerieService.all());
 
     if (nombre != null) {
@@ -42,7 +47,7 @@ public class PeliculaSerieController {
     }
 
     if (genre != null) {
-      Genero genero = generoService.findById(Integer.valueOf(genre));
+      Genero genero = generoService.findById(genre);
 
       peliculasSeries = peliculasSeries.stream()
           .filter(genero::tienePelicula)
@@ -52,7 +57,7 @@ public class PeliculaSerieController {
     if (order != null) {
       Collections.sort(peliculasSeries);
 
-      if (order.equals("DESC")) {
+      if (order.equals(OrderEnum.DESC)) {
         Collections.reverse(peliculasSeries);
       }
     }
@@ -62,24 +67,28 @@ public class PeliculaSerieController {
 
   @GetMapping("/movies/{id}")
   @JsonView(View.PeliculaSerie.Detalle.class)
-  public ResponseEntity<PeliculaSerie> getPeliculaSerie(@PathVariable Integer id) {
+  @ApiOperation("Permite buscar una pelicula-serie por id, con toda su informacion")
+  public ResponseEntity<PeliculaSerie> getPeliculaSerie(@PathVariable Long id) {
     return ResponseEntity.ok(peliculaSerieService.findById(id));
   }
 
   @PutMapping("/movies/{id}")
-  public ResponseEntity<String> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Integer id) {
+  @ApiOperation("Permite actualizar una pelicula-serie")
+  public ResponseEntity<String> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Long id) {
     peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.actualizar(peliculaSerie, id);
     return ResponseEntity.ok().body("Se actualizo la pelicula correctamente");
   }
 
   @DeleteMapping("/movies/{id}")
-  public ResponseEntity<String> eliminarPeliculaSerie(@PathVariable Integer id) {
+  @ApiOperation("Permite eliminar una pelicula-serie")
+  public ResponseEntity<String> eliminarPeliculaSerie(@PathVariable Long id) {
     peliculaSerieService.eliminar(id);
     return ResponseEntity.ok().body("La pelicula o serie se elimino correctamente");
   }
 
   @PostMapping("/movies")
+  @ApiOperation("Permite crear una nueva pelicula-serie")
   public ResponseEntity<String> crearPeliculaSerie(@RequestBody PeliculaSerie peliculaSerie){
     peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.crear(peliculaSerie);
