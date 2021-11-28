@@ -6,6 +6,7 @@ import com.example.challengebackendjava.serializer.View;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class PersonajeController {
 
   @GetMapping("/characters")
   @JsonView(View.Personaje.Lista.class)
+  @ApiOperation("Devuelve una lista de todos los personajes, con su id, nombre e imagen")
   public ResponseEntity<List<Personaje>> getPersonajes(@RequestParam Map<String, String> queryParams) {
     String name = queryParams.get("name");
     String age = queryParams.get("age");
@@ -57,11 +59,13 @@ public class PersonajeController {
 
   @GetMapping("/characters/{id}")
   @JsonView(View.Personaje.Detalle.class)
+  @ApiOperation("Permite buscar un personaje por su id, con toda su informacion")
   public ResponseEntity<Personaje> getPersonaje(@PathVariable Integer id) {
     return ResponseEntity.ok(personajeService.findById(id));
   }
 
   @PutMapping("/characters/{id}")
+  @ApiOperation("Permite actualizar un personaje por su id")
   public ResponseEntity<String> actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Integer id) {
     personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
     personajeService.actualizar(personaje, id);
@@ -69,12 +73,14 @@ public class PersonajeController {
   }
 
   @DeleteMapping("/characters/{id}")
+  @ApiOperation("Permite eliminar un personaje")
   public ResponseEntity<String> eliminarPersonaje(@PathVariable Integer id) {
     personajeService.eliminar(id);
     return ResponseEntity.ok().body("El personaje fue eliminado correctamente");
   }
 
   @PostMapping("/characters")
+  @ApiOperation("Permite crear un nuevo personaje")
   public ResponseEntity<String> crearPersonaje(@RequestBody Personaje personaje) {
     personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
     personajeService.crear(personaje);
