@@ -9,6 +9,8 @@ import com.example.challengebackendjava.service.GeneroService;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,8 @@ public class PeliculaSerieController {
 
   @GetMapping("/movies")
   @JsonView(View.PeliculaSerie.Lista.class)
-  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(@RequestParam Map<String, String> queryParams) {
+  @ApiOperation("Devuelve un listado de todas las peliculas-series con su id, nombre e imagen")
+  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(@RequestParam(required = false) Map<String, String> queryParams) {
     String nombre = queryParams.get("name");
     String genre = queryParams.get("genre");
     String order = queryParams.get("order");
@@ -62,11 +65,13 @@ public class PeliculaSerieController {
 
   @GetMapping("/movies/{id}")
   @JsonView(View.PeliculaSerie.Detalle.class)
+  @ApiOperation("Permite buscar una pelicula-serie por id, con toda su informacion")
   public ResponseEntity<PeliculaSerie> getPeliculaSerie(@PathVariable Integer id) {
     return ResponseEntity.ok(peliculaSerieService.findById(id));
   }
 
   @PutMapping("/movies/{id}")
+  @ApiOperation("Permite actualizar una pelicula-serie")
   public ResponseEntity<String> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Integer id) {
     peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.actualizar(peliculaSerie, id);
@@ -74,12 +79,14 @@ public class PeliculaSerieController {
   }
 
   @DeleteMapping("/movies/{id}")
+  @ApiOperation("Permite eliminar una pelicula-serie")
   public ResponseEntity<String> eliminarPeliculaSerie(@PathVariable Integer id) {
     peliculaSerieService.eliminar(id);
     return ResponseEntity.ok().body("La pelicula o serie se elimino correctamente");
   }
 
   @PostMapping("/movies")
+  @ApiOperation("Permite crear una nueva pelicula-serie")
   public ResponseEntity<String> crearPeliculaSerie(@RequestBody PeliculaSerie peliculaSerie){
     peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.crear(peliculaSerie);
