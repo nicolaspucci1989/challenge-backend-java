@@ -1,11 +1,13 @@
 package com.example.challengebackendjava.dao;
 
 import com.example.challengebackendjava.model.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
 
+@Repository
 public class UserRepository extends Repositorio<User> {
-  User findByUsername(String username) {
+  public User findByUsername(String username) {
     return elementos.stream()
         .filter(user -> Objects.equals(user.getUsername(), username))
         .findFirst()
