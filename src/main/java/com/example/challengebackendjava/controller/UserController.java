@@ -28,15 +28,10 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class UserController {
   private final UserService userService;
-
-  @GetMapping("/")
-  public ResponseEntity<List<User>> getUser() {
-    return ResponseEntity.ok().body(userService.all());
-  }
 
   @GetMapping("/refreshtoken")
   public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {

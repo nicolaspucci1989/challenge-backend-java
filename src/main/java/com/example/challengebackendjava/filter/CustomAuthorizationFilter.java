@@ -33,7 +33,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                                   HttpServletResponse response,
                                   FilterChain filterChain) throws ServletException, IOException {
     if(request.getServletPath().equals("/login") ||
-    request.getServletPath().equals("/user/refreshtoken")) {
+    request.getServletPath().equals("/auth/refreshtoken")) {
       filterChain.doFilter(request, response);
     } else {
       String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -47,8 +47,10 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
           String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
           Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
           stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+
           UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
           SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
           filterChain.doFilter(request, response);
         } catch (Exception exception) {
           log.error("Error login in: {}", exception.getMessage());
