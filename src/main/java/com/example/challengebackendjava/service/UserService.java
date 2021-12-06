@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Service @RequiredArgsConstructor @Slf4j
+@Service
+@RequiredArgsConstructor
+@Slf4j
 public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
@@ -33,18 +35,32 @@ public class UserService implements UserDetailsService {
 
     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
     user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
-    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+    return new org.springframework.security.core.userdetails.User(
+        user.getUsername(),
+        user.getPassword(),
+        authorities);
   }
 
   public void crear(User user) {
     log.info("Creando un nuevo usuario {}", user.getUsername());
+
+    if (emailExiste(user.getEmail())) {
+      String error = "Ya existe un usuario con el email: " + user.getEmail();
+      log.error(error);
+      throw new BusinessException(error);
+    }
+
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     userRepository.crear(user);
   }
 
+  private boolean emailExiste(String email) {
+    return userRepository.findByEmail(email) != null;
+  }
+
   public void actualizar(User user) {
     log.info("Actualizando usuario {}", user.getName());
-    if(!user.esValido()) {
+    if (!user.esValido()) {
       log.info("El usuario no es valido");
       throw new BusinessException("El usuario no es valido");
     }

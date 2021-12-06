@@ -14,6 +14,7 @@ public class User extends Entidad{
   private String name;
   private String username;
   private String password;
+  private String email;
   private Collection<Role> roles = new ArrayList<>();
 
   @Override
