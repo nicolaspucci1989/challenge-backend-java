@@ -8,7 +8,15 @@ import com.example.challengebackendjava.model.Role;
 import com.example.challengebackendjava.model.User;
 import com.example.challengebackendjava.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +34,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
   private final UserService userService;
 
@@ -74,7 +83,29 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public void registerUser(@RequestBody User user) {
+  public void registerUser(@RequestBody User user) throws IOException {
     userService.crear(user);
+
+    Email from = new Email("nicolaspucci1989@gmail.com");
+    String subject = "Bienvendio";
+    Email to = new Email(user.getEmail());
+    Content content = new Content("text/plain", "La cuenta fue creada con exito");
+    Mail mail = new Mail(from, subject, to, content);
+    final String sendgrid_api_key = System.getenv("SENDGRID_API_KEY");
+    log.info("Sendgrid API Key: {}", sendgrid_api_key);
+    SendGrid sg = new SendGrid(sendgrid_api_key);
+    Request request = new Request();
+
+    try {
+      request.setMethod(Method.POST);
+      request.setEndpoint("mail/send");
+      request.setBody(mail.build());
+      Response response = sg.api(request);
+      log.info("Respuesta: {}", response.getStatusCode());
+      log.info("Body: {}", response.getBody());
+      log.info("Headers: {}", response.getHeaders());
+    } catch (IOException ex) { // TODO: fix
+      throw ex;
+    }
   }
 }
