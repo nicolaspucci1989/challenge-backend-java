@@ -50,16 +50,16 @@ public class PeliculaSerieService {
     }
 
     peliculaSerieRepository.eliminar(peliculaSerie);
-    eliminarPeliculaDePersonajes(peliculaSerie);
+//    eliminarPeliculaDePersonajes(peliculaSerie);
   }
 
   public void crear(PeliculaSerie peliculaSerie) {
     peliculaSerieRepository.crear(peliculaSerie);
   }
 
-  private void eliminarPeliculaDePersonajes(PeliculaSerie peliculaSerie) {
-    peliculaSerie
-            .getPersonajes()
-            .forEach(personaje -> personaje.eliminarPeliculaSerie(peliculaSerie));
-  }
+//  private void eliminarPeliculaDePersonajes(PeliculaSerie peliculaSerie) {
+//    peliculaSerie
+//            .getPersonajes()
+//            .forEach(personaje -> personaje.eliminarPeliculaSerie(peliculaSerie));
+//  }
 }

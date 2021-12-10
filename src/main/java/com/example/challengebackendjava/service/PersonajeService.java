@@ -3,29 +3,30 @@ package com.example.challengebackendjava.service;
 import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.Personaje;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
-@Service
+@Service @RequiredArgsConstructor @Transactional @Slf4j
 public class PersonajeService {
+  private final PersonajeRepository personajeRepository;
 
-  @Autowired
-  PersonajeRepository personajeRepository;
+  public Personaje save(Personaje personaje) {
+    return personajeRepository.save(personaje);
+  }
 
   public List<Personaje> all() {
-    return personajeRepository.all();
+    return personajeRepository.findAll();
   }
 
   public Personaje findById(Long id) {
-    var personaje = personajeRepository.findById(id);
-
-    if (personaje == null) {
-      throw new NotFoundException("No se encontro el personaje con el id " + id);
-    }
-    return personaje;
+    return personajeRepository
+        .findById(id)
+        .orElseThrow();
   }
 
   public void actualizar(Personaje personajeActualizado, Long id) {
@@ -33,33 +34,19 @@ public class PersonajeService {
       throw new NotFoundException("El id del personaje no es correcto");
     }
 
-    var personajeEncontrado = personajeRepository.findById(id);
-
-    if (personajeEncontrado == null) {
-      throw new NotFoundException("No se encotro el personaje");
-    }
-
-    personajeRepository.update(personajeEncontrado, personajeActualizado);
+    personajeRepository.save(personajeActualizado);
   }
 
   public void eliminar(Long id) {
-    var personaje = personajeRepository.findById(id);
+    var personaje = personajeRepository.findById(id).orElseThrow();
 
-    if (personaje == null) {
-      throw new NotFoundException("El personaje no existe");
-    }
-
-    personajeRepository.eliminar(personaje);
-    eliminarPersonajeDePeliculas(personaje);
+    personajeRepository.delete(personaje);
+//    eliminarPersonajeDePeliculas(personaje);
   }
 
-  public void crear(Personaje personaje) {
-    personajeRepository.crear(personaje);
-  }
-
-  private void eliminarPersonajeDePeliculas(Personaje personaje) {
-    personaje.getPeliculasSeries()
-            .forEach(peliculaSerie ->
-                peliculaSerie.eliminarPeronaje(personaje));
-  }
+//  private void eliminarPersonajeDePeliculas(Personaje personaje) {
+//    personaje.getPeliculasSeries()
+//            .forEach(peliculaSerie ->
+//                peliculaSerie.eliminarPeronaje(personaje));
+//  }
 }

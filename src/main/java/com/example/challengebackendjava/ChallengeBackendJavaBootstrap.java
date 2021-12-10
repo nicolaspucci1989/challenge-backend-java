@@ -1,11 +1,9 @@
 package com.example.challengebackendjava;
 
-import com.example.challengebackendjava.dao.GeneroRepository;
-import com.example.challengebackendjava.dao.PeliculaSerieRepository;
-import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
+import com.example.challengebackendjava.service.PersonajeService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +12,7 @@ import java.time.LocalDate;
 
 @Service
 public class ChallengeBackendJavaBootstrap implements InitializingBean {
-
-  @Autowired
-  PersonajeRepository personajeRepo;
-
-  @Autowired
-  PeliculaSerieRepository peliculaSerieRepository;
-
-  @Autowired
-  GeneroRepository generoRepository;
+  final PersonajeService personajeService;
 
   Personaje mickeyMouse;
   Personaje minnieMouse;
@@ -49,84 +39,99 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   Genero terror;
   Genero cinenciaFiccion;
 
+  public ChallengeBackendJavaBootstrap(PersonajeService personajeService) {
+    this.personajeService = personajeService;
+  }
+
   public void initPersonajes() {
-    mickeyMouse = new Personaje("/img/mickey-mouse.jpg",
+    mickeyMouse = new Personaje(null,
+        "/img/mickey-mouse.jpg",
             "Mickey Mouse",
             40,
             "El raton de Disney...",
             90f);
 
-    minnieMouse = new Personaje("/img/minnie-mouse.jpg",
+    minnieMouse = new Personaje(null,
+        "/img/minnie-mouse.jpg",
             "Minnie Mouse",
             43,
             "La ratona de Disney...",
             83f);
 
-    rapunzel = new Personaje("/img/rapunzel.jpg",
+    rapunzel = new Personaje(null,
+        "/img/rapunzel.jpg",
             "Rapunzel",
             30,
             "La princesa de pelo largo...",
             100f);
 
-    pascal = new Personaje("/img/pascal.jpg",
+    pascal = new Personaje(null,
+        "/img/pascal.jpg",
             "Pascal",
             30,
-            "un Camaleón, es el mejor amigo de Rapunzel pues ha sido su compañía desde que Rapunzel era una niña. Tiene la habilidad de cambiar de colores y con estampados camuflándose con el entorno. También cambia de color con sus diferentes estados de ánimo. Al principio no congenia muy bien con Flynn.",
+            "un Camaleón, es el mejor amigo de Rapunzel.",
             100f);
 
-    boo = new Personaje("/img/boo.jpg",
+    boo = new Personaje(null,
+        "/img/boo.jpg",
             "Boo",
             50,
             "Boo...",
             120f);
 
-    jamesSullivan = new Personaje("/img/jamessullivan.jpg",
+    jamesSullivan = new Personaje(null,
+        "/img/jamessullivan.jpg",
             "James Sullivan",
             30,
             "James Sullivan...",
             85f);
 
-    mikeWazowski = new Personaje("/img/mikewazowski.jpg",
+    mikeWazowski = new Personaje(null,
+        "/img/mikewazowski.jpg",
             "Mike Wazowski",
             30,
             "Mike Wazowski...",
             85f);
 
-    tiaCass = new Personaje("/img/tiacass.jpg",
+    tiaCass = new Personaje(null,
+        "/img/tiacass.jpg",
             "Tia Cass",
             50,
             "Tia Cass...",
             120f);
 
-    rayoMcQueen = new Personaje("/img/rayomcqueen.jpg",
+    rayoMcQueen = new Personaje(null,
+        "/img/rayomcqueen.jpg",
             "Rayo McQueen",
             50,
             "Rayo McQueen...",
             120f);
 
-    chickHicks = new Personaje("/img/chick-hicks.jpg",
+    chickHicks = new Personaje(null,
+        "/img/chick-hicks.jpg",
             "Chick Hicks",
             50,
             "Chick Hicks...",
             120f);
 
-    fred = new Personaje("/img/fred.jpg",
+    fred = new Personaje(null,
+        "/img/fred.jpg",
             "Fred",
             14,
             "Fred ...",
             80f);
 
-    personajeRepo.crear(rapunzel);
-    personajeRepo.crear(pascal);
-    personajeRepo.crear(mickeyMouse);
-    personajeRepo.crear(minnieMouse);
-    personajeRepo.crear(boo);
-    personajeRepo.crear(jamesSullivan);
-    personajeRepo.crear(mikeWazowski);
-    personajeRepo.crear(tiaCass);
-    personajeRepo.crear(rayoMcQueen);
-    personajeRepo.crear(chickHicks);
-    personajeRepo.crear(fred);
+    personajeService.save(rapunzel);
+    personajeService.save(pascal);
+    personajeService.save(mickeyMouse);
+    personajeService.save(minnieMouse);
+    personajeService.save(boo);
+    personajeService.save(jamesSullivan);
+    personajeService.save(mikeWazowski);
+    personajeService.save(tiaCass);
+    personajeService.save(rayoMcQueen);
+    personajeService.save(chickHicks);
+    personajeService.save(fred);
   }
 
   public void initPeliculasSeries() {
@@ -161,12 +166,12 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             LocalDate.parse("2001-11-02"),
             4);
 
-    peliculaSerieRepository.crear(steamboatWillie);
-    peliculaSerieRepository.crear(enredados);
-    peliculaSerieRepository.crear(bigHeroSix);
-    peliculaSerieRepository.crear(monstersInc);
-    peliculaSerieRepository.crear(monstersUniversity);
-    peliculaSerieRepository.crear(cars);
+//    peliculaSerieRepository.crear(steamboatWillie);
+//    peliculaSerieRepository.crear(enredados);
+//    peliculaSerieRepository.crear(bigHeroSix);
+//    peliculaSerieRepository.crear(monstersInc);
+//    peliculaSerieRepository.crear(monstersUniversity);
+//    peliculaSerieRepository.crear(cars);
   }
 
   public void initGeneros() {
@@ -176,11 +181,11 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     terror = new Genero("Terror", "/img/terror.jpg");
     cinenciaFiccion = new Genero("Ciencia Ficcion", "/img/cinenciaFiccion.jpg");
 
-    generoRepository.crear(carreras);
-    generoRepository.crear(infantil);
-    generoRepository.crear(fantasia);
-    generoRepository.crear(terror);
-    generoRepository.crear(cinenciaFiccion);
+//    generoRepository.crear(carreras);
+//    generoRepository.crear(infantil);
+//    generoRepository.crear(fantasia);
+//    generoRepository.crear(terror);
+//    generoRepository.crear(cinenciaFiccion);
   }
 
   @Override
@@ -189,54 +194,54 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     System.out.println("Inicializando...");
     System.out.println("************************************************************************");
 
-    initPeliculasSeries();
+//    initPeliculasSeries();
     initPersonajes();
-    initGeneros();
+//    initGeneros();
 
-    steamboatWillie.agregarPersonaje(mickeyMouse);
-    steamboatWillie.agregarPersonaje(minnieMouse);
-    mickeyMouse.agregarPelicualaSerie(steamboatWillie);
-    minnieMouse.agregarPelicualaSerie(steamboatWillie);
-    infantil.agregarPelicula(steamboatWillie);
-
-    enredados.agregarPersonaje(rapunzel);
-    enredados.agregarPersonaje(pascal);
-    rapunzel.agregarPelicualaSerie(enredados);
-    pascal.agregarPelicualaSerie(enredados);
-    infantil.agregarPelicula(enredados);
-    fantasia.agregarPelicula(enredados);
-
-    bigHeroSix.agregarPersonaje(tiaCass);
-    bigHeroSix.agregarPersonaje(fred);
-    tiaCass.agregarPelicualaSerie(bigHeroSix);
-    fred.agregarPelicualaSerie(bigHeroSix);
-    infantil.agregarPelicula(bigHeroSix);
-    cinenciaFiccion.agregarPelicula(bigHeroSix);
-
-    monstersInc.agregarPersonaje(boo);
-    monstersInc.agregarPersonaje(jamesSullivan);
-    monstersInc.agregarPersonaje(mikeWazowski);
-    boo.agregarPelicualaSerie(monstersInc);
-    jamesSullivan.agregarPelicualaSerie(monstersInc);
-    mikeWazowski.agregarPelicualaSerie(monstersInc);
-    infantil.agregarPelicula(monstersInc);
-    terror.agregarPelicula(monstersInc);
-
-    monstersUniversity.agregarPersonaje(mikeWazowski);
-    monstersUniversity.agregarPersonaje(jamesSullivan);
-    monstersUniversity.agregarPersonaje(boo);
-    mikeWazowski.agregarPelicualaSerie(monstersUniversity);
-    jamesSullivan.agregarPelicualaSerie(monstersUniversity);
-    boo.agregarPelicualaSerie(monstersUniversity);
-    infantil.agregarPelicula(monstersUniversity);
-    terror.agregarPelicula(monstersUniversity);
-
-    cars.agregarPersonaje(rayoMcQueen);
-    cars.agregarPersonaje(chickHicks);
-    rayoMcQueen.agregarPelicualaSerie(cars);
-    chickHicks.agregarPelicualaSerie(cars);
-    infantil.agregarPelicula(cars);
-    carreras.agregarPelicula(cars);
+//    steamboatWillie.agregarPersonaje(mickeyMouse);
+//    steamboatWillie.agregarPersonaje(minnieMouse);
+//    mickeyMouse.agregarPelicualaSerie(steamboatWillie);
+//    minnieMouse.agregarPelicualaSerie(steamboatWillie);
+//    infantil.agregarPelicula(steamboatWillie);
+//
+//    enredados.agregarPersonaje(rapunzel);
+//    enredados.agregarPersonaje(pascal);
+//    rapunzel.agregarPelicualaSerie(enredados);
+//    pascal.agregarPelicualaSerie(enredados);
+//    infantil.agregarPelicula(enredados);
+//    fantasia.agregarPelicula(enredados);
+//
+//    bigHeroSix.agregarPersonaje(tiaCass);
+//    bigHeroSix.agregarPersonaje(fred);
+//    tiaCass.agregarPelicualaSerie(bigHeroSix);
+//    fred.agregarPelicualaSerie(bigHeroSix);
+//    infantil.agregarPelicula(bigHeroSix);
+//    cinenciaFiccion.agregarPelicula(bigHeroSix);
+//
+//    monstersInc.agregarPersonaje(boo);
+//    monstersInc.agregarPersonaje(jamesSullivan);
+//    monstersInc.agregarPersonaje(mikeWazowski);
+//    boo.agregarPelicualaSerie(monstersInc);
+//    jamesSullivan.agregarPelicualaSerie(monstersInc);
+//    mikeWazowski.agregarPelicualaSerie(monstersInc);
+//    infantil.agregarPelicula(monstersInc);
+//    terror.agregarPelicula(monstersInc);
+//
+//    monstersUniversity.agregarPersonaje(mikeWazowski);
+//    monstersUniversity.agregarPersonaje(jamesSullivan);
+//    monstersUniversity.agregarPersonaje(boo);
+//    mikeWazowski.agregarPelicualaSerie(monstersUniversity);
+//    jamesSullivan.agregarPelicualaSerie(monstersUniversity);
+//    boo.agregarPelicualaSerie(monstersUniversity);
+//    infantil.agregarPelicula(monstersUniversity);
+//    terror.agregarPelicula(monstersUniversity);
+//
+//    cars.agregarPersonaje(rayoMcQueen);
+//    cars.agregarPersonaje(chickHicks);
+//    rayoMcQueen.agregarPelicualaSerie(cars);
+//    chickHicks.agregarPelicualaSerie(cars);
+//    infantil.agregarPelicula(cars);
+//    carreras.agregarPelicula(cars);
   }
 
 }

@@ -1,6 +1,5 @@
 package com.example.challengebackendjava.controller;
 
-import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.serializer.View;
 import com.example.challengebackendjava.service.PeliculaSerieService;
@@ -46,11 +45,11 @@ public class PersonajeController {
               .collect(Collectors.toList());
     }
 
-    if (idMovies != null) {
-      personajes = personajes.stream()
-              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(idMovies))
-              .collect(Collectors.toList());
-    }
+//    if (idMovies != null) {
+//      personajes = personajes.stream()
+//              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(idMovies))
+//              .collect(Collectors.toList());
+//    }
 
     return ResponseEntity.ok(personajes);
   }
@@ -65,7 +64,7 @@ public class PersonajeController {
   @PutMapping("/characters/{id}")
   @ApiOperation("Permite actualizar un personaje por su id")
   public ResponseEntity<String> actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Long id) {
-    personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
+//    personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
     personajeService.actualizar(personaje, id);
     return ResponseEntity.ok().body("El personaje fue actualizado correctamente");
   }
@@ -79,17 +78,16 @@ public class PersonajeController {
 
   @PostMapping("/characters")
   @ApiOperation("Permite crear un nuevo personaje")
-  public ResponseEntity<String> crearPersonaje(@RequestBody Personaje personaje) {
-    personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
-    personajeService.crear(personaje);
-    return ResponseEntity.ok().body("El personaje fue creado correctamente");
+  public ResponseEntity<Personaje> crearPersonaje(@RequestBody Personaje personaje) {
+//    personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
+    return ResponseEntity.ok(personajeService.save(personaje));
   }
 
-  private Set<PeliculaSerie> getPeliculasDelRepositorio(Personaje personaje) {
-    return personaje
-        .getPeliculasSeries()
-        .stream()
-        .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
-        .collect(Collectors.toSet());
-  }
+//  private Set<PeliculaSerie> getPeliculasDelRepositorio(Personaje personaje) {
+//    return personaje
+//        .getPeliculasSeries()
+//        .stream()
+//        .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
+//        .collect(Collectors.toSet());
+//  }
 }

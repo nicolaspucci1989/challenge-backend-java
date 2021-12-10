@@ -1,9 +1,8 @@
 package com.example.challengebackendjava.dao;
 
 import com.example.challengebackendjava.model.Personaje;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class PersonajeRepository extends Repositorio<Personaje>{
-
+public interface PersonajeRepository extends JpaRepository<Personaje, Long> {
+  Personaje findByNombre(String nombre);
 }
