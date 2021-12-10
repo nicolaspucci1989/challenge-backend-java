@@ -44,5 +44,9 @@ public class Personaje {
     return Objects.equals(getEdad(), edad);
   }
 
+  public void agregarPelicualaSerie(PeliculaSerie peliculaSerie) {
+    peliculaSerieSet.add(peliculaSerie);
+  }
+
   //  Set<PeliculaSerie> peliculasSeries = new HashSet<>();
 }

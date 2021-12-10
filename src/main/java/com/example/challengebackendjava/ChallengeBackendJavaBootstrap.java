@@ -10,6 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 
 @Service @RequiredArgsConstructor
 public class ChallengeBackendJavaBootstrap implements InitializingBean {
@@ -48,7 +49,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             40,
             "El raton de Disney...",
             90f,
-        null);
+        new HashSet<>());
 
     minnieMouse = new Personaje(null,
         "/img/minnie-mouse.jpg",
@@ -56,7 +57,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             43,
             "La ratona de Disney...",
             83f,
-        null);
+        new HashSet<>());
 
     rapunzel = new Personaje(null,
         "/img/rapunzel.jpg",
@@ -64,7 +65,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             30,
             "La princesa de pelo largo...",
             100f,
-        null);
+        new HashSet<>());
 
     pascal = new Personaje(null,
         "/img/pascal.jpg",
@@ -72,7 +73,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             30,
             "un Camaleón, es el mejor amigo de Rapunzel.",
             100f,
-        null);
+        new HashSet<>());
 
     boo = new Personaje(null,
         "/img/boo.jpg",
@@ -80,7 +81,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             50,
             "Boo...",
             120f,
-        null);
+        new HashSet<>());
 
     jamesSullivan = new Personaje(null,
         "/img/jamessullivan.jpg",
@@ -88,7 +89,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             30,
             "James Sullivan...",
             85f,
-        null);
+        new HashSet<>());
 
     mikeWazowski = new Personaje(null,
         "/img/mikewazowski.jpg",
@@ -96,7 +97,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             30,
             "Mike Wazowski...",
             85f,
-        null);
+        new HashSet<>());
 
     tiaCass = new Personaje(null,
         "/img/tiacass.jpg",
@@ -104,7 +105,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             50,
             "Tia Cass...",
             120f,
-        null);
+        new HashSet<>());
 
     rayoMcQueen = new Personaje(null,
         "/img/rayomcqueen.jpg",
@@ -112,7 +113,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             50,
             "Rayo McQueen...",
             120f,
-        null);
+        new HashSet<>());
 
     chickHicks = new Personaje(null,
         "/img/chick-hicks.jpg",
@@ -120,7 +121,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             50,
             "Chick Hicks...",
             120f,
-        null);
+        new HashSet<>());
 
     fred = new Personaje(null,
         "/img/fred.jpg",
@@ -128,7 +129,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             14,
             "Fred ...",
             80f,
-        null);
+        new HashSet<>());
 
     personajeService.save(rapunzel);
     personajeService.save(pascal);
@@ -207,10 +208,13 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     initPersonajes();
 //    initGeneros();
 
-//    steamboatWillie.agregarPersonaje(mickeyMouse);
-//    steamboatWillie.agregarPersonaje(minnieMouse);
-//    mickeyMouse.agregarPelicualaSerie(steamboatWillie);
-//    minnieMouse.agregarPelicualaSerie(steamboatWillie);
+    steamboatWillie.agregarPersonaje(mickeyMouse);
+    steamboatWillie.agregarPersonaje(minnieMouse);
+    mickeyMouse.agregarPelicualaSerie(steamboatWillie);
+    minnieMouse.agregarPelicualaSerie(steamboatWillie);
+
+    peliculaSerieService.save(steamboatWillie);
+    personajeService.save(mickeyMouse);
 //    infantil.agregarPelicula(steamboatWillie);
 //
 //    enredados.agregarPersonaje(rapunzel);
