@@ -3,16 +3,18 @@ package com.example.challengebackendjava;
 import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
+import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
-@Service
+@Service @RequiredArgsConstructor
 public class ChallengeBackendJavaBootstrap implements InitializingBean {
   final PersonajeService personajeService;
+  final PeliculaSerieService peliculaSerieService;
 
   Personaje mickeyMouse;
   Personaje minnieMouse;
@@ -39,87 +41,94 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   Genero terror;
   Genero cinenciaFiccion;
 
-  public ChallengeBackendJavaBootstrap(PersonajeService personajeService) {
-    this.personajeService = personajeService;
-  }
-
   public void initPersonajes() {
     mickeyMouse = new Personaje(null,
         "/img/mickey-mouse.jpg",
             "Mickey Mouse",
             40,
             "El raton de Disney...",
-            90f);
+            90f,
+        null);
 
     minnieMouse = new Personaje(null,
         "/img/minnie-mouse.jpg",
             "Minnie Mouse",
             43,
             "La ratona de Disney...",
-            83f);
+            83f,
+        null);
 
     rapunzel = new Personaje(null,
         "/img/rapunzel.jpg",
             "Rapunzel",
             30,
             "La princesa de pelo largo...",
-            100f);
+            100f,
+        null);
 
     pascal = new Personaje(null,
         "/img/pascal.jpg",
             "Pascal",
             30,
             "un Camaleón, es el mejor amigo de Rapunzel.",
-            100f);
+            100f,
+        null);
 
     boo = new Personaje(null,
         "/img/boo.jpg",
             "Boo",
             50,
             "Boo...",
-            120f);
+            120f,
+        null);
 
     jamesSullivan = new Personaje(null,
         "/img/jamessullivan.jpg",
             "James Sullivan",
             30,
             "James Sullivan...",
-            85f);
+            85f,
+        null);
 
     mikeWazowski = new Personaje(null,
         "/img/mikewazowski.jpg",
             "Mike Wazowski",
             30,
             "Mike Wazowski...",
-            85f);
+            85f,
+        null);
 
     tiaCass = new Personaje(null,
         "/img/tiacass.jpg",
             "Tia Cass",
             50,
             "Tia Cass...",
-            120f);
+            120f,
+        null);
 
     rayoMcQueen = new Personaje(null,
         "/img/rayomcqueen.jpg",
             "Rayo McQueen",
             50,
             "Rayo McQueen...",
-            120f);
+            120f,
+        null);
 
     chickHicks = new Personaje(null,
         "/img/chick-hicks.jpg",
             "Chick Hicks",
             50,
             "Chick Hicks...",
-            120f);
+            120f,
+        null);
 
     fred = new Personaje(null,
         "/img/fred.jpg",
             "Fred",
             14,
             "Fred ...",
-            80f);
+            80f,
+        null);
 
     personajeService.save(rapunzel);
     personajeService.save(pascal);
@@ -166,12 +175,12 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
             LocalDate.parse("2001-11-02"),
             4);
 
-//    peliculaSerieRepository.crear(steamboatWillie);
-//    peliculaSerieRepository.crear(enredados);
-//    peliculaSerieRepository.crear(bigHeroSix);
-//    peliculaSerieRepository.crear(monstersInc);
-//    peliculaSerieRepository.crear(monstersUniversity);
-//    peliculaSerieRepository.crear(cars);
+    peliculaSerieService.save(steamboatWillie);
+    peliculaSerieService.save(enredados);
+    peliculaSerieService.save(bigHeroSix);
+    peliculaSerieService.save(monstersInc);
+    peliculaSerieService.save(monstersUniversity);
+    peliculaSerieService.save(cars);
   }
 
   public void initGeneros() {
@@ -194,7 +203,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     System.out.println("Inicializando...");
     System.out.println("************************************************************************");
 
-//    initPeliculasSeries();
+    initPeliculasSeries();
     initPersonajes();
 //    initGeneros();
 

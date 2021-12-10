@@ -2,18 +2,38 @@ package com.example.challengebackendjava.model;
 
 import com.example.challengebackendjava.serializer.View;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
+import static javax.persistence.GenerationType.AUTO;
 
-public class PeliculaSerie extends Entidad implements Comparable<PeliculaSerie> {
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PeliculaSerie implements Comparable<PeliculaSerie> {
+  @Id @GeneratedValue(strategy = AUTO)
+  @JsonView(View.PeliculaSerie.Lista.class)
+  private Long id;
+  @JsonView(View.PeliculaSerie.Lista.class)
   String imagen;
+  @JsonView(View.PeliculaSerie.Lista.class)
   String titulo;
   LocalDate fehcaDeCreacion;
   Integer calificacion;
+  @ManyToMany
   Set<Personaje> personajes = new HashSet<>();
 
   public PeliculaSerie(String imagen,
@@ -42,86 +62,10 @@ public class PeliculaSerie extends Entidad implements Comparable<PeliculaSerie> 
     this.imagen = imagen;
   }
 
-  @JsonView({
-          View.PeliculaSerie.Lista.class,
-          View.PeliculaSerie.Detalle.class,
-          View.Personaje.Detalle.class})
-  public String getTitulo() {
-    return titulo;
-  }
-
-  public void setTitulo(String titulo) {
-    this.titulo = titulo;
-  }
-
-  @JsonView({View.PeliculaSerie.Lista.class, View.PeliculaSerie.Detalle.class})
-  public LocalDate getFehcaDeCreacion() {
-    return fehcaDeCreacion;
-  }
-
-  public void setFehcaDeCreacion(LocalDate fehcaDeCreacion) {
-    this.fehcaDeCreacion = fehcaDeCreacion;
-  }
-
-  @JsonView(View.PeliculaSerie.Detalle.class)
-  public Integer getCalificacion() {
-    return calificacion;
-  }
-
-  public void setCalificacion(Integer calificacion) {
-    this.calificacion = calificacion;
-  }
-
-  @JsonView(View.PeliculaSerie.Detalle.class)
-  public Set<Personaje> getPersonajes() {
-    return personajes;
-  }
-
-  public void setPersonajes(Set<Personaje> personajes) {
-    this.personajes = personajes;
-  }
-
-  @Override
-  public void update(Entidad entidad) {
-    var peliculaSerie = (PeliculaSerie) entidad;
-
-    this.setTitulo(peliculaSerie.getTitulo());
-    this.setCalificacion(peliculaSerie.getCalificacion());
-    this.setImagen(peliculaSerie.getImagen());
-    this.setFehcaDeCreacion(peliculaSerie.getFehcaDeCreacion());
-    this.setPersonajes(peliculaSerie.getPersonajes());
-  }
-
-  @Override
-  public boolean esValido() {
-    return tieneCalificacionValida() && tieneTituloValido() && tieneImagenValida() && tieneFechaValida();
-  }
-
-  private boolean tieneFechaValida() {
-    return getFehcaDeCreacion() != null;
-  }
-
-  private boolean tieneImagenValida() {
-    return getImagen() != null;
-  }
-
-  private boolean tieneTituloValido() {
-    return getTitulo().length() > 1;
-  }
-
-  private boolean tieneCalificacionValida() {
-    return getCalificacion() >= 1 && getCalificacion() <= 5;
-  }
-
-  public void eliminarPeronaje(Personaje personaje) {
-    personajes.remove(personaje);
-  }
-
   public boolean nombreCoincide(String nombre) {
-    return stringsCoinciden(getTitulo(), nombre);
+    return stringsCoinciden(titulo, nombre);
   }
 
-  @Override
   public int compareTo(PeliculaSerie otraPeliculaSerie) {
     return getFehcaDeCreacion().compareTo(otraPeliculaSerie.getFehcaDeCreacion());
   }

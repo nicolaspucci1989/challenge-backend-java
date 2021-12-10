@@ -1,9 +1,8 @@
 package com.example.challengebackendjava.dao;
 
 import com.example.challengebackendjava.model.PeliculaSerie;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class PeliculaSerieRepository extends Repositorio<PeliculaSerie> {
+public interface PeliculaSerieRepository extends JpaRepository<PeliculaSerie, Long> {
 
 }

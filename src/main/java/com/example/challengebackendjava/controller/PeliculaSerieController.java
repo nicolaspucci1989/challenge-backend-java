@@ -91,7 +91,7 @@ public class PeliculaSerieController {
   @ApiOperation("Permite crear una nueva pelicula-serie")
   public ResponseEntity<String> crearPeliculaSerie(@RequestBody PeliculaSerie peliculaSerie){
     peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
-    peliculaSerieService.crear(peliculaSerie);
+    peliculaSerieService.save(peliculaSerie);
     return ResponseEntity.ok().body("La pelicula o serie fue creada correctamente");
   }
 

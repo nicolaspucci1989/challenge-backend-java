@@ -2,13 +2,18 @@ package com.example.challengebackendjava.model;
 
 import com.example.challengebackendjava.serializer.View;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
 import static javax.persistence.GenerationType.AUTO;
@@ -16,7 +21,6 @@ import static javax.persistence.GenerationType.AUTO;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor @AllArgsConstructor
 public class Personaje {
   @Id @GeneratedValue(strategy = AUTO)
@@ -29,6 +33,8 @@ public class Personaje {
   Integer edad;
   String historia;
   Float peso;
+  @ManyToMany
+  Set<PeliculaSerie> peliculaSerieSet = new HashSet<>();
 
   public boolean nombreCoincide(String nombre) {
     return stringsCoinciden(getNombre(), nombre);

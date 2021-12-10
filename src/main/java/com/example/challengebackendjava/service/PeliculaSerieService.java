@@ -15,17 +15,11 @@ public class PeliculaSerieService {
   PeliculaSerieRepository peliculaSerieRepository;
 
   public List<PeliculaSerie> all() {
-    return peliculaSerieRepository.all();
+    return peliculaSerieRepository.findAll();
   }
 
   public PeliculaSerie findById(Long id) {
-    var peliculaSerie = peliculaSerieRepository.findById(id);
-
-    if (peliculaSerie == null) {
-      throw new NotFoundException("La pelicula o serie no existe");
-    }
-
-    return peliculaSerie;
+    return peliculaSerieRepository.findById(id).orElseThrow();
   }
 
   public void actualizar(PeliculaSerie peliculaSerieActualizada, Long id) {
@@ -33,28 +27,16 @@ public class PeliculaSerieService {
       throw new NotFoundException("El id de la pelicula o serie no es correcto");
     }
 
-    var peliculaSerieEncontrada = peliculaSerieRepository.findById(id);
-
-    if (peliculaSerieEncontrada == null) {
-      throw new NotFoundException("No se encontro la pelicula o serie");
-    }
-
-    peliculaSerieRepository.update(peliculaSerieEncontrada, peliculaSerieActualizada);
+    peliculaSerieRepository.save(peliculaSerieActualizada);
   }
 
   public void eliminar(Long id) {
-    var peliculaSerie = peliculaSerieRepository.findById(id);
-
-    if (peliculaSerie == null) {
-      throw new NotFoundException("La pelicua o serie no existe");
-    }
-
-    peliculaSerieRepository.eliminar(peliculaSerie);
+    peliculaSerieRepository.deleteById(id);
 //    eliminarPeliculaDePersonajes(peliculaSerie);
   }
 
-  public void crear(PeliculaSerie peliculaSerie) {
-    peliculaSerieRepository.crear(peliculaSerie);
+  public void save(PeliculaSerie peliculaSerie) {
+    peliculaSerieRepository.save(peliculaSerie);
   }
 
 //  private void eliminarPeliculaDePersonajes(PeliculaSerie peliculaSerie) {
