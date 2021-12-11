@@ -1,8 +1,9 @@
 package com.example.challengebackendjava.dao;
 
 import com.example.challengebackendjava.model.Genero;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class GeneroRepository extends Repositorio<Genero>{
+public interface GeneroRepository extends JpaRepository<Genero, Long> {
 }

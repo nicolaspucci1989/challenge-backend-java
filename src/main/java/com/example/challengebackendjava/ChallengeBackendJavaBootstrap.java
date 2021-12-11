@@ -3,6 +3,7 @@ package com.example.challengebackendjava;
 import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
+import com.example.challengebackendjava.service.GeneroService;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 public class ChallengeBackendJavaBootstrap implements InitializingBean {
   final PersonajeService personajeService;
   final PeliculaSerieService peliculaSerieService;
+  final private GeneroService generoService;
 
   Personaje mickeyMouse;
   Personaje minnieMouse;
@@ -191,11 +193,11 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     terror = new Genero("Terror", "/img/terror.jpg");
     cinenciaFiccion = new Genero("Ciencia Ficcion", "/img/cinenciaFiccion.jpg");
 
-//    generoRepository.crear(carreras);
-//    generoRepository.crear(infantil);
-//    generoRepository.crear(fantasia);
-//    generoRepository.crear(terror);
-//    generoRepository.crear(cinenciaFiccion);
+    generoService.save(carreras);
+    generoService.save(infantil);
+    generoService.save(fantasia);
+    generoService.save(terror);
+    generoService.save(cinenciaFiccion);
   }
 
   @Override

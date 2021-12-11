@@ -1,13 +1,30 @@
 package com.example.challengebackendjava.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Genero extends Entidad{
-    String nombre;
-    String imagen;
-    Set<PeliculaSerie> peliculaSeries = new HashSet<>();
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.AUTO;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class Genero{
+    @Id @GeneratedValue(strategy = AUTO)
+    private Long id;
+    private String nombre;
+    private String imagen;
+    @ManyToMany(fetch = LAZY)
+    private Set<PeliculaSerie> peliculaSeries = new HashSet<>();
 
   public Genero(String nombre, String imagen) {
     this.nombre = nombre;
@@ -18,12 +35,10 @@ public class Genero extends Entidad{
     peliculaSeries.add(peliculaSerie);
   }
 
-  @Override
-    public void update(Entidad entidad) {
+  public void eliminarPeliculaSerie(PeliculaSerie peliculaSerie) {
+    peliculaSeries.remove(peliculaSerie);
+  }
 
-    }
-
-  @Override
   public boolean esValido() {
     return tieneNombreVaido();
   }
