@@ -137,7 +137,6 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     savePersonajes();
   }
 
-
   public void initPeliculasSeries() {
     steamboatWillie = new PeliculaSerie("/img/steamboat-willie.jpg",
         "Steamboat Willie",
@@ -172,7 +171,6 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
     savePelicuasSeries();
   }
-
 
   public void initGeneros() {
     carreras = new Genero("Carreras", "/img/carreras.jpg");
