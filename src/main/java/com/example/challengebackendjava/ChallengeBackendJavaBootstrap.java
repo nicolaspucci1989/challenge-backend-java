@@ -137,19 +137,6 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     savePersonajes();
   }
 
-  private void savePersonajes() {
-    personajeService.save(rapunzel);
-    personajeService.save(pascal);
-    personajeService.save(mickeyMouse);
-    personajeService.save(minnieMouse);
-    personajeService.save(boo);
-    personajeService.save(jamesSullivan);
-    personajeService.save(mikeWazowski);
-    personajeService.save(tiaCass);
-    personajeService.save(rayoMcQueen);
-    personajeService.save(chickHicks);
-    personajeService.save(fred);
-  }
 
   public void initPeliculasSeries() {
     steamboatWillie = new PeliculaSerie("/img/steamboat-willie.jpg",
@@ -186,14 +173,6 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     savePelicuasSeries();
   }
 
-  private void savePelicuasSeries() {
-    peliculaSerieService.save(steamboatWillie);
-    peliculaSerieService.save(enredados);
-    peliculaSerieService.save(bigHeroSix);
-    peliculaSerieService.save(monstersInc);
-    peliculaSerieService.save(monstersUniversity);
-    peliculaSerieService.save(cars);
-  }
 
   public void initGeneros() {
     carreras = new Genero("Carreras", "/img/carreras.jpg");
@@ -203,14 +182,6 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     cinenciaFiccion = new Genero("Ciencia Ficcion", "/img/cinenciaFiccion.jpg");
 
     saveGeneros();
-  }
-
-  private void saveGeneros() {
-    generoService.save(carreras);
-    generoService.save(infantil);
-    generoService.save(fantasia);
-    generoService.save(terror);
-    generoService.save(cinenciaFiccion);
   }
 
   @Override
@@ -271,6 +242,37 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     savePersonajes();
     savePelicuasSeries();
     saveGeneros();
+  }
+
+  private void savePersonajes() {
+    personajeService.save(rapunzel);
+    personajeService.save(pascal);
+    personajeService.save(mickeyMouse);
+    personajeService.save(minnieMouse);
+    personajeService.save(boo);
+    personajeService.save(jamesSullivan);
+    personajeService.save(mikeWazowski);
+    personajeService.save(tiaCass);
+    personajeService.save(rayoMcQueen);
+    personajeService.save(chickHicks);
+    personajeService.save(fred);
+  }
+
+  private void savePelicuasSeries() {
+    peliculaSerieService.save(steamboatWillie);
+    peliculaSerieService.save(enredados);
+    peliculaSerieService.save(bigHeroSix);
+    peliculaSerieService.save(monstersInc);
+    peliculaSerieService.save(monstersUniversity);
+    peliculaSerieService.save(cars);
+  }
+
+  private void saveGeneros() {
+    generoService.save(carreras);
+    generoService.save(infantil);
+    generoService.save(fantasia);
+    generoService.save(terror);
+    generoService.save(cinenciaFiccion);
   }
 
 }
