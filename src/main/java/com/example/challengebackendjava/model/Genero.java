@@ -18,20 +18,21 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Genero{
-    @Id @GeneratedValue(strategy = AUTO)
-    private Long id;
-    private String nombre;
-    private String imagen;
-    @ManyToMany(fetch = LAZY)
-    private Set<PeliculaSerie> peliculaSeries = new HashSet<>();
+public class Genero {
+  @Id
+  @GeneratedValue(strategy = AUTO)
+  private Long id;
+  private String nombre;
+  private String imagen;
+  @ManyToMany(fetch = LAZY)
+  private Set<PeliculaSerie> peliculaSeries = new HashSet<>();
 
   public Genero(String nombre, String imagen) {
     this.nombre = nombre;
     this.imagen = imagen;
   }
 
-  public void agregarPelicula(PeliculaSerie peliculaSerie){
+  public void agregarPelicula(PeliculaSerie peliculaSerie) {
     peliculaSeries.add(peliculaSerie);
   }
 
@@ -48,7 +49,7 @@ public class Genero{
   }
 
   public boolean tienePelicula(PeliculaSerie peliculaSerie) {
-      return this.peliculaSeries
-          .stream().anyMatch(peli -> Objects.equals(peli.getId(), peliculaSerie.getId()));
-    }
+    return this.peliculaSeries
+        .stream().anyMatch(peli -> Objects.equals(peli.getId(), peliculaSerie.getId()));
+  }
 }

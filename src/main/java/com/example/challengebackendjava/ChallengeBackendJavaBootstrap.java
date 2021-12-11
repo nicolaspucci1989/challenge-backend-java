@@ -208,7 +208,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
     initPeliculasSeries();
     initPersonajes();
-//    initGeneros();
+    initGeneros();
 
     steamboatWillie.agregarPersonaje(mickeyMouse);
     steamboatWillie.agregarPersonaje(minnieMouse);
@@ -217,8 +217,8 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
     peliculaSerieService.save(steamboatWillie);
     personajeService.save(mickeyMouse);
-//    infantil.agregarPelicula(steamboatWillie);
-//
+    infantil.agregarPelicula(steamboatWillie);
+
 //    enredados.agregarPersonaje(rapunzel);
 //    enredados.agregarPersonaje(pascal);
 //    rapunzel.agregarPelicualaSerie(enredados);
