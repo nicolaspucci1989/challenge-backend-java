@@ -214,49 +214,75 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     steamboatWillie.agregarPersonaje(minnieMouse);
     mickeyMouse.agregarPelicualaSerie(steamboatWillie);
     minnieMouse.agregarPelicualaSerie(steamboatWillie);
-
-    peliculaSerieService.save(steamboatWillie);
-    personajeService.save(mickeyMouse);
     infantil.agregarPelicula(steamboatWillie);
 
-//    enredados.agregarPersonaje(rapunzel);
-//    enredados.agregarPersonaje(pascal);
-//    rapunzel.agregarPelicualaSerie(enredados);
-//    pascal.agregarPelicualaSerie(enredados);
-//    infantil.agregarPelicula(enredados);
-//    fantasia.agregarPelicula(enredados);
-//
-//    bigHeroSix.agregarPersonaje(tiaCass);
-//    bigHeroSix.agregarPersonaje(fred);
-//    tiaCass.agregarPelicualaSerie(bigHeroSix);
-//    fred.agregarPelicualaSerie(bigHeroSix);
-//    infantil.agregarPelicula(bigHeroSix);
-//    cinenciaFiccion.agregarPelicula(bigHeroSix);
-//
-//    monstersInc.agregarPersonaje(boo);
-//    monstersInc.agregarPersonaje(jamesSullivan);
-//    monstersInc.agregarPersonaje(mikeWazowski);
-//    boo.agregarPelicualaSerie(monstersInc);
-//    jamesSullivan.agregarPelicualaSerie(monstersInc);
-//    mikeWazowski.agregarPelicualaSerie(monstersInc);
-//    infantil.agregarPelicula(monstersInc);
-//    terror.agregarPelicula(monstersInc);
-//
-//    monstersUniversity.agregarPersonaje(mikeWazowski);
-//    monstersUniversity.agregarPersonaje(jamesSullivan);
-//    monstersUniversity.agregarPersonaje(boo);
-//    mikeWazowski.agregarPelicualaSerie(monstersUniversity);
-//    jamesSullivan.agregarPelicualaSerie(monstersUniversity);
-//    boo.agregarPelicualaSerie(monstersUniversity);
-//    infantil.agregarPelicula(monstersUniversity);
-//    terror.agregarPelicula(monstersUniversity);
-//
-//    cars.agregarPersonaje(rayoMcQueen);
-//    cars.agregarPersonaje(chickHicks);
-//    rayoMcQueen.agregarPelicualaSerie(cars);
-//    chickHicks.agregarPelicualaSerie(cars);
-//    infantil.agregarPelicula(cars);
-//    carreras.agregarPelicula(cars);
+    enredados.agregarPersonaje(rapunzel);
+    enredados.agregarPersonaje(pascal);
+    rapunzel.agregarPelicualaSerie(enredados);
+    pascal.agregarPelicualaSerie(enredados);
+    infantil.agregarPelicula(enredados);
+    fantasia.agregarPelicula(enredados);
+
+    bigHeroSix.agregarPersonaje(tiaCass);
+    bigHeroSix.agregarPersonaje(fred);
+    tiaCass.agregarPelicualaSerie(bigHeroSix);
+    fred.agregarPelicualaSerie(bigHeroSix);
+    infantil.agregarPelicula(bigHeroSix);
+    cinenciaFiccion.agregarPelicula(bigHeroSix);
+
+    monstersInc.agregarPersonaje(boo);
+    monstersInc.agregarPersonaje(jamesSullivan);
+    monstersInc.agregarPersonaje(mikeWazowski);
+    boo.agregarPelicualaSerie(monstersInc);
+    jamesSullivan.agregarPelicualaSerie(monstersInc);
+    mikeWazowski.agregarPelicualaSerie(monstersInc);
+    infantil.agregarPelicula(monstersInc);
+    terror.agregarPelicula(monstersInc);
+
+    monstersUniversity.agregarPersonaje(mikeWazowski);
+    monstersUniversity.agregarPersonaje(jamesSullivan);
+    monstersUniversity.agregarPersonaje(boo);
+    mikeWazowski.agregarPelicualaSerie(monstersUniversity);
+    jamesSullivan.agregarPelicualaSerie(monstersUniversity);
+    boo.agregarPelicualaSerie(monstersUniversity);
+    infantil.agregarPelicula(monstersUniversity);
+    terror.agregarPelicula(monstersUniversity);
+
+    cars.agregarPersonaje(rayoMcQueen);
+    cars.agregarPersonaje(chickHicks);
+    rayoMcQueen.agregarPelicualaSerie(cars);
+    chickHicks.agregarPelicualaSerie(cars);
+    infantil.agregarPelicula(cars);
+    carreras.agregarPelicula(cars);
+
+    /* GUARDAR RELACIONES */
+    peliculaSerieService.save(steamboatWillie);
+    personajeService.save(mickeyMouse);
+    personajeService.save(minnieMouse);
+
+    peliculaSerieService.save(enredados);
+    personajeService.save(rapunzel);
+    personajeService.save(pascal);
+
+    peliculaSerieService.save(bigHeroSix);
+    personajeService.save(tiaCass);
+    personajeService.save(fred);
+
+    peliculaSerieService.save(monstersUniversity);
+    peliculaSerieService.save(monstersInc);
+    personajeService.save(mikeWazowski);
+    personajeService.save(jamesSullivan);
+    personajeService.save(boo);
+
+    peliculaSerieService.save(cars);
+    personajeService.save(rayoMcQueen);
+    personajeService.save(chickHicks);
+
+    generoService.save(infantil);
+    generoService.save(terror);
+    generoService.save(cinenciaFiccion);
+    generoService.save(carreras);
+    generoService.save(fantasia);
   }
 
 }
