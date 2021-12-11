@@ -16,8 +16,8 @@ import java.util.HashSet;
 @Service
 @RequiredArgsConstructor
 public class ChallengeBackendJavaBootstrap implements InitializingBean {
-  final PersonajeService personajeService;
-  final PeliculaSerieService peliculaSerieService;
+  final private PersonajeService personajeService;
+  final private PeliculaSerieService peliculaSerieService;
   final private GeneroService generoService;
 
   Personaje mickeyMouse;
