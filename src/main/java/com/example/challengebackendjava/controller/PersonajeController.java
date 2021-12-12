@@ -45,11 +45,12 @@ public class PersonajeController {
               .collect(Collectors.toList());
     }
 
-//    if (idMovies != null) {
-//      personajes = personajes.stream()
-//              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(idMovies))
-//              .collect(Collectors.toList());
-//    }
+    if (idMovies != null) {
+      // TODO: buscar pelis del personaje
+      personajes = personajes.stream()
+              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(idMovies))
+              .collect(Collectors.toList());
+    }
 
     return ResponseEntity.ok(personajes);
   }

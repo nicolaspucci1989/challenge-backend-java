@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
 import static javax.persistence.GenerationType.AUTO;
@@ -46,6 +47,18 @@ public class Personaje {
 
   public void agregarPelicualaSerie(PeliculaSerie peliculaSerie) {
     peliculaSerieSet.add(peliculaSerie);
+  }
+
+  public boolean estuvoEnAlgunaPelicula(Set<Long> peliculas) {
+    return peliculas.stream().anyMatch(this::estuvoEnPelicula);
+  }
+
+  private boolean estuvoEnPelicula(Long idPelicula) {
+    return this.idPeliculas().contains(idPelicula);
+  }
+
+  private Set<Long> idPeliculas() {
+    return peliculaSerieSet.stream().map(PeliculaSerie::getId).collect(Collectors.toSet());
   }
 
   //  Set<PeliculaSerie> peliculasSeries = new HashSet<>();
