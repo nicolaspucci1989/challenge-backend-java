@@ -2,11 +2,10 @@ package com.example.challengebackendjava.controller;
 
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.serializer.View;
-import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +15,9 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class PersonajeController {
-  @Autowired
-  PersonajeService personajeService;
-  @Autowired
-  PeliculaSerieService peliculaSerieService;
+  private final PersonajeService personajeService;
 
   @GetMapping("/characters")
   @JsonView(View.Personaje.Lista.class)
