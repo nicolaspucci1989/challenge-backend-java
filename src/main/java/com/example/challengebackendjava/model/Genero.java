@@ -25,7 +25,7 @@ public class Genero {
   private String nombre;
   private String imagen;
   @ManyToMany(fetch = LAZY)
-  private Set<PeliculaSerie> peliculaSeries = new HashSet<>();
+  private Set<PeliculaSerie> peliculasSeries = new HashSet<>();
 
   public Genero(String nombre, String imagen) {
     this.nombre = nombre;
@@ -33,11 +33,11 @@ public class Genero {
   }
 
   public void agregarPelicula(PeliculaSerie peliculaSerie) {
-    peliculaSeries.add(peliculaSerie);
+    peliculasSeries.add(peliculaSerie);
   }
 
   public void eliminarPeliculaSerie(PeliculaSerie peliculaSerie) {
-    peliculaSeries.remove(peliculaSerie);
+    peliculasSeries.remove(peliculaSerie);
   }
 
   public boolean esValido() {
@@ -49,7 +49,7 @@ public class Genero {
   }
 
   public boolean tienePelicula(PeliculaSerie peliculaSerie) {
-    return this.peliculaSeries
+    return this.peliculasSeries
         .stream().anyMatch(peli -> Objects.equals(peli.getId(), peliculaSerie.getId()));
   }
 }

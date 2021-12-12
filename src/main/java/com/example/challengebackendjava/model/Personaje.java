@@ -20,17 +20,19 @@ import static javax.persistence.GenerationType.AUTO;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Personaje {
-  @Id @GeneratedValue(strategy = AUTO)
+  @Id
+  @GeneratedValue(strategy = AUTO)
   private Long id;
   private String imagen;
   private String nombre;
   private Integer edad;
   private String historia;
   private Float peso;
-  @ManyToMany
-  private Set<PeliculaSerie> peliculaSerieSet = new HashSet<>();
+  @ManyToMany(mappedBy = "personajes")
+  private Set<PeliculaSerie> peliculasSeries = new HashSet<>();
 
   public boolean nombreCoincide(String nombre) {
     return stringsCoinciden(getNombre(), nombre);
@@ -41,7 +43,7 @@ public class Personaje {
   }
 
   public void agregarPelicualaSerie(PeliculaSerie peliculaSerie) {
-    peliculaSerieSet.add(peliculaSerie);
+    peliculasSeries.add(peliculaSerie);
   }
 
   public boolean estuvoEnAlgunaPelicula(Set<Long> peliculas) {
@@ -53,7 +55,7 @@ public class Personaje {
   }
 
   private Set<Long> idPeliculas() {
-    return peliculaSerieSet.stream().map(PeliculaSerie::getId).collect(Collectors.toSet());
+    return peliculasSeries.stream().map(PeliculaSerie::getId).collect(Collectors.toSet());
   }
 
   //  Set<PeliculaSerie> peliculasSeries = new HashSet<>();
