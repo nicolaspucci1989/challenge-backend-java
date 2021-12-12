@@ -1,7 +1,5 @@
 package com.example.challengebackendjava.model;
 
-import com.example.challengebackendjava.serializer.View;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,17 +23,14 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor @AllArgsConstructor
 public class Personaje {
   @Id @GeneratedValue(strategy = AUTO)
-  @JsonView(View.Personaje.Lista.class)
   private Long id;
-  @JsonView(View.Personaje.Lista.class)
-  String imagen;
-  @JsonView(View.Personaje.Lista.class)
-  String nombre;
-  Integer edad;
-  String historia;
-  Float peso;
+  private String imagen;
+  private String nombre;
+  private Integer edad;
+  private String historia;
+  private Float peso;
   @ManyToMany
-  Set<PeliculaSerie> peliculaSerieSet = new HashSet<>();
+  private Set<PeliculaSerie> peliculaSerieSet = new HashSet<>();
 
   public boolean nombreCoincide(String nombre) {
     return stringsCoinciden(getNombre(), nombre);
