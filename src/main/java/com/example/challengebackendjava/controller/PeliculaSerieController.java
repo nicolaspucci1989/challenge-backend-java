@@ -66,7 +66,6 @@ public class PeliculaSerieController {
   }
 
   @GetMapping("/movies/{id}")
-  @JsonView(View.PeliculaSerie.Detalle.class)
   @ApiOperation("Permite buscar una pelicula-serie por id, con toda su informacion")
   public ResponseEntity<PeliculaSerie> getPeliculaSerie(@PathVariable Long id) {
     return ResponseEntity.ok(peliculaSerieService.findById(id));

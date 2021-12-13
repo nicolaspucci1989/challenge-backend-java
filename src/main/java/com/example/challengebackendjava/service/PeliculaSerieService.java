@@ -19,7 +19,9 @@ public class PeliculaSerieService {
   }
 
   public PeliculaSerie findById(Long id) {
-    return peliculaSerieRepository.findById(id).orElseThrow();
+    return peliculaSerieRepository
+        .findById(id)
+        .orElseThrow(() -> new NotFoundException("No se encontro la pelicua o serie"));
   }
 
   public void actualizar(PeliculaSerie peliculaSerieActualizada, Long id) {

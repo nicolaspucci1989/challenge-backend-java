@@ -1,6 +1,7 @@
 package com.example.challengebackendjava.model;
 
 import com.example.challengebackendjava.serializer.View;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,14 +26,12 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 public class PeliculaSerie implements Comparable<PeliculaSerie> {
   @Id @GeneratedValue(strategy = AUTO)
-  @JsonView(View.PeliculaSerie.Lista.class)
   private Long id;
-  @JsonView(View.PeliculaSerie.Lista.class)
   String imagen;
-  @JsonView(View.PeliculaSerie.Lista.class)
   String titulo;
   LocalDate fehcaDeCreacion;
   Integer calificacion;
+  @JsonIgnoreProperties("peliculasSeries")
   @ManyToMany
   Set<Personaje> personajes = new HashSet<>();
 
