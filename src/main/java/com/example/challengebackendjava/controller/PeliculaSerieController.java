@@ -10,6 +10,7 @@ import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class PeliculaSerieController {
-  @Autowired
-  PeliculaSerieService peliculaSerieService;
-  @Autowired
-  PersonajeService personajeService;
-  @Autowired
-  GeneroService generoService;
+  private final PeliculaSerieService peliculaSerieService;
+  private final PersonajeService personajeService;
+  private final GeneroService generoService;
 
   @GetMapping("/movies")
   @JsonView(View.PeliculaSerie.Lista.class)
