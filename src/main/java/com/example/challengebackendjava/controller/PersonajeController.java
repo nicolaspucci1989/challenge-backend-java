@@ -2,9 +2,7 @@ package com.example.challengebackendjava.controller;
 
 import com.example.challengebackendjava.dto.PersonajeDto;
 import com.example.challengebackendjava.model.Personaje;
-import com.example.challengebackendjava.serializer.View;
 import com.example.challengebackendjava.service.PersonajeService;
-import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

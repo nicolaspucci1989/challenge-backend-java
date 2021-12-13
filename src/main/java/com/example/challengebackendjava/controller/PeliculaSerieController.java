@@ -1,7 +1,7 @@
 package com.example.challengebackendjava.controller;
 
 
-import com.example.challengebackendjava.model.Genero;
+import com.example.challengebackendjava.dto.PeliculaSerieDto;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.serializer.View;
@@ -11,12 +11,9 @@ import com.example.challengebackendjava.service.PersonajeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,36 +27,37 @@ public class PeliculaSerieController {
   private final GeneroService generoService;
 
   @GetMapping("/movies")
-  @JsonView(View.PeliculaSerie.Lista.class)
   @ApiOperation("Devuelve un listado de todas las peliculas-series con su id, nombre e imagen")
-  public ResponseEntity<List<PeliculaSerie>> getPeliculaSeries(
+  public ResponseEntity<List<PeliculaSerieDto>> getPeliculaSeries(
       @RequestParam(required = false) String nombre,
       @RequestParam(required = false) Long genre,
       @RequestParam(required = false) OrderEnum order
   ) {
-    List<PeliculaSerie> peliculasSeries = new ArrayList<>(peliculaSerieService.all());
-
-    if (nombre != null) {
-      peliculasSeries = peliculasSeries.stream()
-          .filter(peliculaSerie -> peliculaSerie.nombreCoincide(nombre))
-          .collect(Collectors.toList());
-    }
-
-    if (genre != null) {
-      Genero genero = generoService.findById(genre);
-
-      peliculasSeries = peliculasSeries.stream()
-          .filter(genero::tienePelicula)
-          .collect(Collectors.toList());
-    }
-
-    if (order != null) {
-      Collections.sort(peliculasSeries);
-
-      if (order.equals(OrderEnum.DESC)) {
-        Collections.reverse(peliculasSeries);
-      }
-    }
+    List<PeliculaSerieDto> peliculasSeries = peliculaSerieService.all()
+        .stream().map(PeliculaSerieDto::fromPeliculaSerie)
+        .collect(Collectors.toList());
+//
+//    if (nombre != null) {
+//      peliculasSeries = peliculasSeries.stream()
+//          .filter(peliculaSerie -> peliculaSerie.nombreCoincide(nombre))
+//          .collect(Collectors.toList());
+//    }
+//
+//    if (genre != null) {
+//      Genero genero = generoService.findById(genre);
+//
+//      peliculasSeries = peliculasSeries.stream()
+//          .filter(genero::tienePelicula)
+//          .collect(Collectors.toList());
+//    }
+//
+//    if (order != null) {
+//      Collections.sort(peliculasSeries);
+//
+//      if (order.equals(OrderEnum.DESC)) {
+//        Collections.reverse(peliculasSeries);
+//      }
+//    }
 
     return ResponseEntity.ok(peliculasSeries);
   }
