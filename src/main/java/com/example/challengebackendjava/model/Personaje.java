@@ -1,5 +1,6 @@
 package com.example.challengebackendjava.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class Personaje {
   private String historia;
   private Float peso;
   @ManyToMany(mappedBy = "personajes")
+  @JsonIgnoreProperties("personajes")
   private Set<PeliculaSerie> peliculasSeries = new HashSet<>();
 
   public boolean nombreCoincide(String nombre) {

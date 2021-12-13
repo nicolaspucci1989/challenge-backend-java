@@ -11,7 +11,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
-@Service @RequiredArgsConstructor @Transactional @Slf4j
+@Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class PersonajeService {
   private final PersonajeRepository personajeRepository;
 
@@ -26,7 +29,7 @@ public class PersonajeService {
   public Personaje findById(Long id) {
     return personajeRepository
         .findById(id)
-        .orElseThrow();
+        .orElseThrow(() -> new NotFoundException("No se encontro el personaje"));
   }
 
   public void actualizar(Personaje personajeActualizado, Long id) {
@@ -38,7 +41,7 @@ public class PersonajeService {
   }
 
   public void eliminar(Long id) {
-    var personaje = personajeRepository.findById(id).orElseThrow();
+    var personaje = findById(id);
 
     personajeRepository.delete(personaje);
 //    eliminarPersonajeDePeliculas(personaje);
