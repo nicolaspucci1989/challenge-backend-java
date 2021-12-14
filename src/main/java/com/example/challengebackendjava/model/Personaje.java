@@ -13,8 +13,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -31,8 +29,11 @@ public class Personaje {
   private Integer edad;
   private String historia;
   private Float peso;
-  @ManyToMany(mappedBy = "personajes")
+  @ManyToMany
   @JsonIgnoreProperties("personajes")
+  @JoinTable(name = "personaje_pelicula_serie",
+      joinColumns = @JoinColumn(name = "personaje_id"),
+      inverseJoinColumns = @JoinColumn(name = "pelicula_serie_id"))
   private Set<PeliculaSerie> peliculasSeries = new HashSet<>();
 
   public boolean nombreCoincide(String nombre) {

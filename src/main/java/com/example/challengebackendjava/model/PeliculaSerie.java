@@ -31,7 +31,10 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
   LocalDate fehcaDeCreacion;
   Integer calificacion;
   @JsonIgnoreProperties("peliculasSeries")
-  @ManyToMany(cascade = {PERSIST, MERGE})
+  @ManyToMany
+  @JoinTable(name = "personaje_pelicula_serie",
+  joinColumns = @JoinColumn(name = "pelicula_serie_id"),
+  inverseJoinColumns = @JoinColumn(name = "personaje_id"))
   Set<Personaje> personajes = new HashSet<>();
 
   public PeliculaSerie(String imagen,

@@ -194,46 +194,32 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
     steamboatWillie.agregarPersonaje(mickeyMouse);
     steamboatWillie.agregarPersonaje(minnieMouse);
-    mickeyMouse.agregarPelicualaSerie(steamboatWillie);
-    minnieMouse.agregarPelicualaSerie(steamboatWillie);
     infantil.agregarPelicula(steamboatWillie);
 
     enredados.agregarPersonaje(rapunzel);
     enredados.agregarPersonaje(pascal);
-    rapunzel.agregarPelicualaSerie(enredados);
-    pascal.agregarPelicualaSerie(enredados);
     infantil.agregarPelicula(enredados);
     fantasia.agregarPelicula(enredados);
 
     bigHeroSix.agregarPersonaje(tiaCass);
     bigHeroSix.agregarPersonaje(fred);
-    tiaCass.agregarPelicualaSerie(bigHeroSix);
-    fred.agregarPelicualaSerie(bigHeroSix);
     infantil.agregarPelicula(bigHeroSix);
     cinenciaFiccion.agregarPelicula(bigHeroSix);
 
     monstersInc.agregarPersonaje(boo);
     monstersInc.agregarPersonaje(jamesSullivan);
     monstersInc.agregarPersonaje(mikeWazowski);
-    boo.agregarPelicualaSerie(monstersInc);
-    jamesSullivan.agregarPelicualaSerie(monstersInc);
-    mikeWazowski.agregarPelicualaSerie(monstersInc);
     infantil.agregarPelicula(monstersInc);
     terror.agregarPelicula(monstersInc);
 
     monstersUniversity.agregarPersonaje(mikeWazowski);
     monstersUniversity.agregarPersonaje(jamesSullivan);
     monstersUniversity.agregarPersonaje(boo);
-    mikeWazowski.agregarPelicualaSerie(monstersUniversity);
-    jamesSullivan.agregarPelicualaSerie(monstersUniversity);
-    boo.agregarPelicualaSerie(monstersUniversity);
     infantil.agregarPelicula(monstersUniversity);
     terror.agregarPelicula(monstersUniversity);
 
     cars.agregarPersonaje(rayoMcQueen);
     cars.agregarPersonaje(chickHicks);
-    rayoMcQueen.agregarPelicualaSerie(cars);
-    chickHicks.agregarPelicualaSerie(cars);
     infantil.agregarPelicula(cars);
     carreras.agregarPelicula(cars);
 
