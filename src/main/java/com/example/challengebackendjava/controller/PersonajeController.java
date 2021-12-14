@@ -1,7 +1,9 @@
 package com.example.challengebackendjava.controller;
 
 import com.example.challengebackendjava.dto.PersonajeDto;
+import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
+import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PersonajeController {
   private final PersonajeService personajeService;
+  private final PeliculaSerieService peliculaSerieService;
 
   @GetMapping("/characters")
   @ApiOperation("Devuelve una lista de todos los personajes, con su id, nombre e imagen")
@@ -24,7 +27,7 @@ public class PersonajeController {
       @RequestParam(required = false) String name,
       @RequestParam(required = false) Integer age,
       @RequestParam(required = false) Set<Long> idMovies
-      ) {
+  ) {
 
     List<PersonajeDto> personajes = personajeService.all()
         .stream().map(PersonajeDto::fromPersonaje)
@@ -80,11 +83,11 @@ public class PersonajeController {
     return ResponseEntity.ok(personajeService.save(personaje));
   }
 
-//  private Set<PeliculaSerie> getPeliculasDelRepositorio(Personaje personaje) {
-//    return personaje
-//        .getPeliculasSeries()
-//        .stream()
-//        .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
-//        .collect(Collectors.toSet());
-//  }
+  private Set<PeliculaSerie> getPeliculasDelRepositorio(Personaje personaje) {
+    return personaje
+        .getPeliculasSeries()
+        .stream()
+        .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
+        .collect(Collectors.toSet());
+  }
 }

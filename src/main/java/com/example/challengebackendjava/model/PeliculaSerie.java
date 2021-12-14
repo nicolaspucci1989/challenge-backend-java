@@ -8,15 +8,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -32,7 +31,7 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
   LocalDate fehcaDeCreacion;
   Integer calificacion;
   @JsonIgnoreProperties("peliculasSeries")
-  @ManyToMany
+  @ManyToMany(cascade = {PERSIST, MERGE})
   Set<Personaje> personajes = new HashSet<>();
 
   public PeliculaSerie(String imagen,
@@ -67,5 +66,13 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
 
   public int compareTo(PeliculaSerie otraPeliculaSerie) {
     return getFehcaDeCreacion().compareTo(otraPeliculaSerie.getFehcaDeCreacion());
+  }
+
+  public void merge(PeliculaSerie peliculaSerieActualizada) {
+    imagen = peliculaSerieActualizada.getImagen();
+    titulo = peliculaSerieActualizada.getTitulo();
+    fehcaDeCreacion = peliculaSerieActualizada.getFehcaDeCreacion();
+    calificacion = peliculaSerieActualizada.getCalificacion();
+    personajes = peliculaSerieActualizada.getPersonajes();
   }
 }

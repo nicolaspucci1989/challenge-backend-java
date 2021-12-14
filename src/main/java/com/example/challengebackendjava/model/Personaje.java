@@ -6,16 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -58,6 +57,15 @@ public class Personaje {
 
   private Set<Long> idPeliculas() {
     return peliculasSeries.stream().map(PeliculaSerie::getId).collect(Collectors.toSet());
+  }
+
+  public void merge(Personaje personajeActualizado) {
+    nombre = personajeActualizado.getNombre();
+    peso = personajeActualizado.getPeso();
+    imagen = personajeActualizado.getImagen();
+    edad = personajeActualizado.getEdad();
+    historia = personajeActualizado.getHistoria();
+    setPeliculasSeries(personajeActualizado.getPeliculasSeries()  );
   }
 
   //  Set<PeliculaSerie> peliculasSeries = new HashSet<>();

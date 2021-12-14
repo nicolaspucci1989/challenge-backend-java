@@ -3,16 +3,16 @@ package com.example.challengebackendjava.service;
 import com.example.challengebackendjava.dao.PeliculaSerieRepository;
 import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.PeliculaSerie;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class PeliculaSerieService {
-  @Autowired
-  PeliculaSerieRepository peliculaSerieRepository;
+  private final PeliculaSerieRepository peliculaSerieRepository;
 
   public List<PeliculaSerie> all() {
     return peliculaSerieRepository.findAll();
@@ -29,7 +29,9 @@ public class PeliculaSerieService {
       throw new NotFoundException("El id de la pelicula o serie no es correcto");
     }
 
-    peliculaSerieRepository.save(peliculaSerieActualizada);
+    PeliculaSerie peliculaSerie = findById(id);
+    peliculaSerie.merge(peliculaSerieActualizada);
+    peliculaSerieRepository.save(peliculaSerie);
   }
 
   public void eliminar(Long id) {

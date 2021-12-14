@@ -37,7 +37,9 @@ public class PersonajeService {
       throw new NotFoundException("El id del personaje no es correcto");
     }
 
-    personajeRepository.save(personajeActualizado);
+    Personaje personajeEncontrado = findById(id);
+    personajeEncontrado.merge(personajeActualizado);
+    personajeRepository.save(personajeEncontrado);
   }
 
   public void eliminar(Long id) {
