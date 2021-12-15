@@ -19,6 +19,7 @@ public class PersonajeService {
   private final PersonajeRepository personajeRepository;
 
   public Personaje save(Personaje personaje) {
+//    personaje.validar();
     return personajeRepository.save(personaje);
   }
 
