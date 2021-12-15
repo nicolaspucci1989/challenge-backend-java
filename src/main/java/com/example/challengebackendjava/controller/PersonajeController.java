@@ -1,6 +1,7 @@
 package com.example.challengebackendjava.controller;
 
-import com.example.challengebackendjava.dto.PersonajeDto;
+import com.example.challengebackendjava.dto.PersonajeDetalleDto;
+import com.example.challengebackendjava.dto.PersonajeListaDto;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.service.PeliculaSerieService;
@@ -23,14 +24,14 @@ public class PersonajeController {
 
   @GetMapping("/characters")
   @ApiOperation("Devuelve una lista de todos los personajes, con su id, nombre e imagen")
-  public ResponseEntity<List<PersonajeDto>> getPersonajes(
+  public ResponseEntity<List<PersonajeListaDto>> getPersonajes(
       @RequestParam(required = false) String name,
       @RequestParam(required = false) Integer age,
       @RequestParam(required = false) Set<Long> idMovies
   ) {
 
-    List<PersonajeDto> personajes = personajeService.all()
-        .stream().map(PersonajeDto::fromPersonaje)
+    List<PersonajeListaDto> personajes = personajeService.all()
+        .stream().map(PersonajeListaDto::fromPersonaje)
         .collect(Collectors.toList());
 
 //    if (name != null) {
@@ -57,8 +58,9 @@ public class PersonajeController {
 
   @GetMapping("/characters/{id}")
   @ApiOperation("Permite buscar un personaje por su id, con toda su informacion")
-  public ResponseEntity<Personaje> getPersonaje(@PathVariable Long id) {
-    return ResponseEntity.ok(personajeService.findById(id));
+  public ResponseEntity<PersonajeDetalleDto> getPersonaje(@PathVariable Long id) {
+    Personaje personaje = personajeService.findById(id);
+    return ResponseEntity.ok(PersonajeDetalleDto.fromPersonaje(personaje));
   }
 
   @PutMapping("/characters/{id}")

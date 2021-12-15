@@ -1,6 +1,7 @@
 package com.example.challengebackendjava.model;
 
 import com.example.challengebackendjava.serializer.View;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +30,7 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
   private Long id;
   String imagen;
   String titulo;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
   LocalDate fehcaDeCreacion;
   Integer calificacion;
   @JsonIgnoreProperties("peliculasSeries")
@@ -78,4 +81,5 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
     calificacion = peliculaSerieActualizada.getCalificacion();
     personajes = peliculaSerieActualizada.getPersonajes();
   }
+
 }
