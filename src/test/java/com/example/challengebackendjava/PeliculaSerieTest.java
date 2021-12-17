@@ -59,7 +59,7 @@ public class PeliculaSerieTest {
 
   @Transactional
   @Test
-  @DisplayName("podemos obtener la informacion de un personaje")
+  @DisplayName("podemos obtener la informacion de una pelicula-serie")
   public void infoDePersonaje() throws Exception {
     Long id = peliculaSerieService.all().get(0).getId();
 
