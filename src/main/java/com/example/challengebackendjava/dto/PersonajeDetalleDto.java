@@ -15,6 +15,7 @@ public class PersonajeDetalleDto {
   private String imagen;
   private Float peso;
   private Integer edad;
+  private String historia;
   private Set<PeliculaSerieListDto> peliculasSeries;
 
   public static PersonajeDetalleDto fromPersonaje(Personaje personaje) {
@@ -23,9 +24,14 @@ public class PersonajeDetalleDto {
         personaje.getImagen(),
         personaje.getPeso(),
         personaje.getEdad(),
-        personaje.getPeliculasSeries()
-            .stream().map(PeliculaSerieListDto::fromPeliculaSerie)
-            .collect(Collectors.toSet())
+        personaje.getHistoria(),
+        getPeliculasSeriesDto(personaje)
         );
+  }
+
+  private static Set<PeliculaSerieListDto> getPeliculasSeriesDto(Personaje personaje) {
+    return personaje.getPeliculasSeries()
+        .stream().map(PeliculaSerieListDto::fromPeliculaSerie)
+        .collect(Collectors.toSet());
   }
 }

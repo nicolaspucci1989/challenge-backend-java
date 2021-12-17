@@ -16,15 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -36,6 +36,39 @@ public class PersonajeControllerTest {
   MockMvc mockMvc;
   @Autowired
   PersonajeService personajeService;
+
+  @Transactional
+  @Test
+  @DisplayName("podemos crear un personaje con un payload valido")
+  public void crearPersonaje() throws Exception {
+    String nombre = "Nuevo Personaje";
+    String imagen = "/img/personaje.jpg";
+    int edad = 40;
+    String historia = "Historia del personaje";
+    float peso = 90F;
+
+    Personaje personaje = new Personaje(null,
+        imagen,
+        nombre,
+        edad,
+        historia,
+        peso,
+        new HashSet<>()
+    );
+
+    mockMvc.perform(
+            post("/characters")
+                .contentType(APPLICATION_JSON)
+                .content(getMapper().writeValueAsString(PersonajeDetalleDto.fromPersonaje(personaje)))
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(APPLICATION_JSON))
+        .andExpect(jsonPath("$.nombre").value(nombre))
+        .andExpect(jsonPath("$.imagen").value(imagen))
+        .andExpect(jsonPath("$.edad").value(edad))
+        .andExpect(jsonPath("$.historia").value(historia))
+        .andExpect(jsonPath("$.peso").value(peso));
+  }
 
   @Transactional
   @Test
@@ -56,7 +89,7 @@ public class PersonajeControllerTest {
 
 
     MockHttpServletResponse response = mockMvc.perform(
-            MockMvcRequestBuilders.put("/characters/" + personaje.getId())
+            put("/characters/" + personaje.getId())
                 .contentType(APPLICATION_JSON)
                 .content(getMapper().writeValueAsString(PersonajeDetalleDto.fromPersonaje(personaje)))
         )
@@ -78,7 +111,7 @@ public class PersonajeControllerTest {
   public void crearPersonajeNoValido() throws Exception {
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/characters")
+            post("/characters")
                 .contentType(APPLICATION_JSON)
                 .content("{\"nombre\": \"Nuevo personaje\"}")
         )
