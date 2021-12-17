@@ -47,12 +47,14 @@ public class PeliculaSerieTest {
 
     Assertions.assertEquals(200, response.getStatus());
 
-    Set<PeliculaSerieListDto> peliculaSerieListDtos = getMapper().readValue(response.getContentAsString(), new TypeReference<Set<PeliculaSerieListDto>>(){});
-    PeliculaSerieListDto peliculaSerieListDto = peliculaSerieListDtos.stream().findFirst().get();
-    assertNotNull(peliculaSerieListDto.getId());
-    assertNotNull(peliculaSerieListDto.getImagen());
-    assertNotNull(peliculaSerieListDto.getTitulo());
-    assertNotNull(peliculaSerieListDto.getFechaDeCreacion());
+    Set<PeliculaSerieListDto> peliculaSerieListDtos = getMapper().readValue(response.getContentAsString(), new TypeReference<>() {
+    });
+    peliculaSerieListDtos.forEach(peliculaSerieListDto -> {
+      assertNotNull(peliculaSerieListDto.getId());
+      assertNotNull(peliculaSerieListDto.getImagen());
+      assertNotNull(peliculaSerieListDto.getTitulo());
+      assertNotNull(peliculaSerieListDto.getFechaDeCreacion());
+    });
   }
 
   @Transactional
