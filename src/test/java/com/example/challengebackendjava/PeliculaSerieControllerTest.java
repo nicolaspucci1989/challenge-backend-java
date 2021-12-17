@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DisplayName("Dado un controller de peliculas-series")
-public class PeliculaSerieTest {
+public class PeliculaSerieControllerTest {
   @Autowired
   MockMvc mockMvc;
   @Autowired
