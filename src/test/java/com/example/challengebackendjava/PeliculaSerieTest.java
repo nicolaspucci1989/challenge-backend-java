@@ -5,18 +5,14 @@ import com.example.challengebackendjava.dto.PeliculaSerieDetalleDto;
 import com.example.challengebackendjava.dto.PeliculaSerieListDto;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +22,9 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.example.challengebackendjava.TestHelper.getMapper;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mapstruct.factory.Mappers.getMapper;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -94,19 +92,11 @@ public class PeliculaSerieTest {
         new HashSet<>());
 
     mockMvc.perform(
-        post("/movies")
-            .contentType(APPLICATION_JSON)
-            .content(getMapper().writeValueAsString(peliculaSerieDetalleDto ))
-    )
+            post("/movies")
+                .contentType(APPLICATION_JSON)
+                .content(getMapper().writeValueAsString(peliculaSerieDetalleDto))
+        )
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.titulo", Is.is("El titulo es obligatorio")));
-  }
-
-  private ObjectMapper getMapper() {
-    var mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-    mapper.registerModule(new JavaTimeModule());
-    return mapper;
   }
 }

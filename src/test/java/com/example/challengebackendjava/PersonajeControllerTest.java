@@ -3,10 +3,6 @@ package com.example.challengebackendjava;
 import com.example.challengebackendjava.dto.PersonajeDetalleDto;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.service.PersonajeService;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 
+import static com.example.challengebackendjava.TestHelper.getMapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -121,14 +118,6 @@ public class PersonajeControllerTest {
         .andExpect(jsonPath("$.peso", Is.is("El peso es obligatorio")))
         .andExpect(jsonPath("$.historia", Is.is("La historia es obligatoria")))
         .andExpect(jsonPath("$.imagen", Is.is("La imagen es obligatoria")));
-  }
-
-  private ObjectMapper getMapper() {
-    var mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-    mapper.registerModule(new JavaTimeModule());
-    return mapper;
   }
 
 }
