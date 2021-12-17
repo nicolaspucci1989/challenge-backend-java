@@ -9,23 +9,18 @@ import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-public class PeliculaSerieController {
+public class PeliculaSerieController extends BaseController {
   private final PeliculaSerieService peliculaSerieService;
   private final PersonajeService personajeService;
   private final GeneroService generoService;
@@ -90,7 +85,7 @@ public class PeliculaSerieController {
 
   @PostMapping("/movies")
   @ApiOperation("Permite crear una nueva pelicula-serie")
-  public ResponseEntity<String> crearPeliculaSerie(@Valid @RequestBody PeliculaSerie peliculaSerie){
+  public ResponseEntity<String> crearPeliculaSerie(@Valid @RequestBody PeliculaSerie peliculaSerie) {
     peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.save(peliculaSerie);
     return ResponseEntity.ok().body("La pelicula o serie fue creada correctamente");
@@ -102,18 +97,6 @@ public class PeliculaSerieController {
         .stream()
         .map(personaje -> personajeService.findById(personaje.getId()))
         .collect(Collectors.toSet());
-  }
-
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-    Map<String, String> errors = new HashMap<>();
-    ex.getBindingResult().getAllErrors().forEach((error) -> {
-      String fieldName = ((FieldError) error).getField();
-      String errorMessage = error.getDefaultMessage();
-      errors.put(fieldName, errorMessage);
-    });
-    return errors;
   }
 
 }
