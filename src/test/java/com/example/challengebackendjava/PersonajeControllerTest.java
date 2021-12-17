@@ -67,7 +67,8 @@ public class PersonajeControllerTest {
         .andExpect(jsonPath("$.imagen").value(imagen))
         .andExpect(jsonPath("$.edad").value(edad))
         .andExpect(jsonPath("$.historia").value(historia))
-        .andExpect(jsonPath("$.peso").value(peso));
+        .andExpect(jsonPath("$.peso").value(peso))
+        .andExpect(jsonPath("$.peliculasSeries").isEmpty());
   }
 
   @Transactional

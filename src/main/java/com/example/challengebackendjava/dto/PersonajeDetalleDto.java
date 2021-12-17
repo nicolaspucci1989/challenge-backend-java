@@ -4,6 +4,7 @@ import com.example.challengebackendjava.model.Personaje;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,12 +27,13 @@ public class PersonajeDetalleDto {
         personaje.getEdad(),
         personaje.getHistoria(),
         getPeliculasSeriesDto(personaje)
-        );
+    );
   }
 
   private static Set<PeliculaSerieListDto> getPeliculasSeriesDto(Personaje personaje) {
-    return personaje.getPeliculasSeries()
+    Set<PeliculaSerieListDto> peliculasSeries = personaje.getPeliculasSeries()
         .stream().map(PeliculaSerieListDto::fromPeliculaSerie)
         .collect(Collectors.toSet());
+    return peliculasSeries.size() > 0 ? peliculasSeries : new HashSet<>();
   }
 }
