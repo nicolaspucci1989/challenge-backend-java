@@ -85,11 +85,11 @@ public class PeliculaSerieControllerTest {
   @DisplayName("al intentar crear una pelicula-serie no valida devuelve 400")
   public void crearPeliculaSerieNoValida() throws Exception {
     PeliculaSerieDetalleDto peliculaSerieDetalleDto = new PeliculaSerieDetalleDto(null,
-        "/img/imagen.jpg",
+        null,
         "",
-        LocalDate.now(),
-        5,
-        new HashSet<>());
+        null,
+        null,
+        null);
 
     mockMvc.perform(
             post("/movies")
@@ -97,6 +97,9 @@ public class PeliculaSerieControllerTest {
                 .content(getMapper().writeValueAsString(peliculaSerieDetalleDto))
         )
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.titulo", Is.is("El titulo es obligatorio")));
+        .andExpect(jsonPath("$.titulo", Is.is("El titulo es obligatorio")))
+        .andExpect(jsonPath("$.imagen", Is.is("La imagen es obligatoria")))
+        .andExpect(jsonPath("$.calificacion", Is.is("La calificacion es obligatoria")))
+        .andExpect(jsonPath("$.fechaDeCreacion", Is.is("La fecha es obligatoria")));
   }
 }

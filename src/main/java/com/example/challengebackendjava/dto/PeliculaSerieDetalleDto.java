@@ -23,7 +23,7 @@ public class PeliculaSerieDetalleDto {
         peliculaSerie.getId(),
         peliculaSerie.getImagen(),
         peliculaSerie.getTitulo(),
-        peliculaSerie.getFehcaDeCreacion(),
+        peliculaSerie.getFechaDeCreacion(),
         peliculaSerie.getCalificacion(),
         getPersonajesDto(peliculaSerie)
     );

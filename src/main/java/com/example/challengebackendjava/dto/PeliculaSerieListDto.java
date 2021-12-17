@@ -21,7 +21,7 @@ public class PeliculaSerieListDto {
         peliculaSerie.getId(),
         peliculaSerie.getTitulo(),
         peliculaSerie.getImagen(),
-        peliculaSerie.getFehcaDeCreacion()
+        peliculaSerie.getFechaDeCreacion()
     );
   }
 }

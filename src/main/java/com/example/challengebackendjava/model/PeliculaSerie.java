@@ -11,14 +11,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
 import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -36,9 +34,11 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
   @NotBlank(message = "El titulo es obligatorio")
   private String titulo;
 
+  @NotNull(message = "La fecha es obligatoria")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-  private LocalDate fehcaDeCreacion;
+  private LocalDate fechaDeCreacion;
 
+  @NotNull(message = "La calificacion es obligatoria")
   private Integer calificacion;
 
   @JsonIgnoreProperties("peliculasSeries")
@@ -50,11 +50,11 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
 
   public PeliculaSerie(String imagen,
                        String titulo,
-                       LocalDate fehcaDeCreacion,
+                       LocalDate fechaDeCreacion,
                        Integer calificacion) {
     this.imagen = imagen;
     this.titulo = titulo;
-    this.fehcaDeCreacion = fehcaDeCreacion;
+    this.fechaDeCreacion = fechaDeCreacion;
     this.calificacion = calificacion;
   }
 
@@ -79,13 +79,13 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
   }
 
   public int compareTo(PeliculaSerie otraPeliculaSerie) {
-    return getFehcaDeCreacion().compareTo(otraPeliculaSerie.getFehcaDeCreacion());
+    return getFechaDeCreacion().compareTo(otraPeliculaSerie.getFechaDeCreacion());
   }
 
   public void merge(PeliculaSerie peliculaSerieActualizada) {
     imagen = peliculaSerieActualizada.getImagen();
     titulo = peliculaSerieActualizada.getTitulo();
-    fehcaDeCreacion = peliculaSerieActualizada.getFehcaDeCreacion();
+    fechaDeCreacion = peliculaSerieActualizada.getFechaDeCreacion();
     calificacion = peliculaSerieActualizada.getCalificacion();
     personajes = peliculaSerieActualizada.getPersonajes();
   }
