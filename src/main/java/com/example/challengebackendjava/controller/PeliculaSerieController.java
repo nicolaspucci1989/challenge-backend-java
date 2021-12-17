@@ -1,7 +1,7 @@
 package com.example.challengebackendjava.controller;
 
 
-import com.example.challengebackendjava.dto.PeliculaSerieDto;
+import com.example.challengebackendjava.dto.PeliculaSerieDetalleDto;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.service.GeneroService;
@@ -26,13 +26,13 @@ public class PeliculaSerieController {
 
   @GetMapping("/movies")
   @ApiOperation("Devuelve un listado de todas las peliculas-series con su id, nombre e imagen")
-  public ResponseEntity<List<PeliculaSerieDto>> getPeliculaSeries(
+  public ResponseEntity<List<PeliculaSerieDetalleDto>> getPeliculaSeries(
       @RequestParam(required = false) String nombre,
       @RequestParam(required = false) Long genre,
       @RequestParam(required = false) OrderEnum order
   ) {
-    List<PeliculaSerieDto> peliculasSeries = peliculaSerieService.all()
-        .stream().map(PeliculaSerieDto::fromPeliculaSerie)
+    List<PeliculaSerieDetalleDto> peliculasSeries = peliculaSerieService.all()
+        .stream().map(PeliculaSerieDetalleDto::fromPeliculaSerie)
         .collect(Collectors.toList());
 //
 //    if (nombre != null) {
@@ -62,8 +62,9 @@ public class PeliculaSerieController {
 
   @GetMapping("/movies/{id}")
   @ApiOperation("Permite buscar una pelicula-serie por id, con toda su informacion")
-  public ResponseEntity<PeliculaSerie> getPeliculaSerie(@PathVariable Long id) {
-    return ResponseEntity.ok(peliculaSerieService.findById(id));
+  public ResponseEntity<PeliculaSerieDetalleDto> getPeliculaSerie(@PathVariable Long id) {
+    PeliculaSerie peliculaSerie = peliculaSerieService.findById(id);
+    return ResponseEntity.ok(PeliculaSerieDetalleDto.fromPeliculaSerie(peliculaSerie));
   }
 
   @PutMapping("/movies/{id}")

@@ -3,11 +3,14 @@ package com.example.challengebackendjava.dto;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PeliculaSerieListDto {
   private Long id;
   private String titulo;
