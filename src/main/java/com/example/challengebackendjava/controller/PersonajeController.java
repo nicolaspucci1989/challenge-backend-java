@@ -67,7 +67,6 @@ public class PersonajeController extends BaseController {
   @PutMapping("/characters/{id}")
   @ApiOperation("Permite actualizar un personaje por su id")
   public ResponseEntity<String> actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Long id) {
-//    personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
     personajeService.actualizar(personaje, id);
     return ResponseEntity.ok().body("El personaje fue actualizado correctamente");
   }
@@ -82,15 +81,6 @@ public class PersonajeController extends BaseController {
   @PostMapping("/characters")
   @ApiOperation("Permite crear un nuevo personaje")
   public ResponseEntity<Personaje> crearPersonaje(@Valid @RequestBody Personaje personaje) {
-//    personaje.setPeliculasSeries(getPeliculasDelRepositorio(personaje));
     return ResponseEntity.ok(personajeService.save(personaje));
-  }
-
-  private Set<PeliculaSerie> getPeliculasDelRepositorio(Personaje personaje) {
-    return personaje
-        .getPeliculasSeries()
-        .stream()
-        .map(peliculaSerie -> peliculaSerieService.findById(peliculaSerie.getId()))
-        .collect(Collectors.toSet());
   }
 }

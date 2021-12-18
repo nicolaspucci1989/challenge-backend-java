@@ -3,7 +3,6 @@ package com.example.challengebackendjava.controller;
 
 import com.example.challengebackendjava.dto.PeliculaSerieDetalleDto;
 import com.example.challengebackendjava.model.PeliculaSerie;
-import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.service.GeneroService;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -71,7 +69,6 @@ public class PeliculaSerieController extends BaseController {
   @PutMapping("/movies/{id}")
   @ApiOperation("Permite actualizar una pelicula-serie")
   public ResponseEntity<PeliculaSerieDetalleDto> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Long id) {
-    peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     PeliculaSerie peliculaSerieActualizada = peliculaSerieService.actualizar(peliculaSerie, id);
     return ResponseEntity.ok().body(PeliculaSerieDetalleDto.fromPeliculaSerie(peliculaSerieActualizada));
   }
@@ -86,17 +83,7 @@ public class PeliculaSerieController extends BaseController {
   @PostMapping("/movies")
   @ApiOperation("Permite crear una nueva pelicula-serie")
   public ResponseEntity<String> crearPeliculaSerie(@Valid @RequestBody PeliculaSerie peliculaSerie) {
-    peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
     peliculaSerieService.save(peliculaSerie);
     return ResponseEntity.ok().body("La pelicula o serie fue creada correctamente");
   }
-
-  private Set<Personaje> getPersonajesDelRepositorio(PeliculaSerie peliculaSerie) {
-    return peliculaSerie
-        .getPersonajes()
-        .stream()
-        .map(personaje -> personajeService.findById(personaje.getId()))
-        .collect(Collectors.toSet());
-  }
-
 }
