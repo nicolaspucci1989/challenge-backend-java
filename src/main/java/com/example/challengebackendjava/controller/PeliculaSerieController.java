@@ -2,10 +2,9 @@ package com.example.challengebackendjava.controller;
 
 
 import com.example.challengebackendjava.dto.PeliculaSerieDetalleDto;
+import com.example.challengebackendjava.dto.PeliculaSerieListDto;
 import com.example.challengebackendjava.model.PeliculaSerie;
-import com.example.challengebackendjava.service.GeneroService;
 import com.example.challengebackendjava.service.PeliculaSerieService;
-import com.example.challengebackendjava.service.PersonajeService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +19,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PeliculaSerieController extends BaseController {
   private final PeliculaSerieService peliculaSerieService;
-  private final PersonajeService personajeService;
-  private final GeneroService generoService;
 
   @GetMapping("/movies")
   @ApiOperation("Devuelve un listado de todas las peliculas-series con su id, nombre e imagen")
-  public ResponseEntity<List<PeliculaSerieDetalleDto>> getPeliculaSeries(
+  public ResponseEntity<List<PeliculaSerieListDto>> getPeliculaSeries(
       @RequestParam(required = false) String nombre,
       @RequestParam(required = false) Long genre,
       @RequestParam(required = false) OrderEnum order
   ) {
-    List<PeliculaSerieDetalleDto> peliculasSeries = peliculaSerieService.all()
-        .stream().map(PeliculaSerieDetalleDto::fromPeliculaSerie)
+    List<PeliculaSerieListDto> peliculasSeries = peliculaSerieService.all()
+        .stream().map(PeliculaSerieListDto::fromPeliculaSerie)
         .collect(Collectors.toList());
 //
 //    if (nombre != null) {
