@@ -2,9 +2,7 @@ package com.example.challengebackendjava.controller;
 
 import com.example.challengebackendjava.dto.PersonajeDetalleDto;
 import com.example.challengebackendjava.dto.PersonajeListaDto;
-import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
-import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PersonajeController extends BaseController {
   private final PersonajeService personajeService;
-  private final PeliculaSerieService peliculaSerieService;
 
   @GetMapping("/characters")
   @ApiOperation("Devuelve una lista de todos los personajes, con su id, nombre e imagen")
