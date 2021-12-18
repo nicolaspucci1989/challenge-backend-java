@@ -22,8 +22,11 @@ public class Genero {
   @Id
   @GeneratedValue(strategy = AUTO)
   private Long id;
+
   private String nombre;
+
   private String imagen;
+
   @ManyToMany(fetch = LAZY)
   private Set<PeliculaSerie> peliculasSeries = new HashSet<>();
 
