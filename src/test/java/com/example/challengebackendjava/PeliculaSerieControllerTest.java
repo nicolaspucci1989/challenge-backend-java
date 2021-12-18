@@ -5,7 +5,6 @@ import com.example.challengebackendjava.dto.PeliculaSerieDetalleDto;
 import com.example.challengebackendjava.dto.PeliculaSerieListDto;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.service.PeliculaSerieService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Assertions;
@@ -119,10 +118,10 @@ public class PeliculaSerieControllerTest {
     peliculaSerie.setFechaDeCreacion(fechaDeCreacion);
 
     mockMvc.perform(
-        put("/movies/" + id)
-            .contentType(APPLICATION_JSON)
-            .content(getMapper().writeValueAsString(PeliculaSerieDetalleDto.fromPeliculaSerie(peliculaSerie)))
-    )
+            put("/movies/" + id)
+                .contentType(APPLICATION_JSON)
+                .content(getMapper().writeValueAsString(PeliculaSerieDetalleDto.fromPeliculaSerie(peliculaSerie)))
+        )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.calificacion", Is.is(calificacion)))
         .andExpect(jsonPath("$.imagen", Is.is(imagen)))
