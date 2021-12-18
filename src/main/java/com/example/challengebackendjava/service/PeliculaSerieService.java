@@ -24,14 +24,14 @@ public class PeliculaSerieService {
         .orElseThrow(() -> new NotFoundException("No se encontro la pelicua o serie"));
   }
 
-  public void actualizar(PeliculaSerie peliculaSerieActualizada, Long id) {
+  public PeliculaSerie actualizar(PeliculaSerie peliculaSerieActualizada, Long id) {
     if (!Objects.equals(peliculaSerieActualizada.getId(), id)) {
       throw new NotFoundException("El id de la pelicula o serie no es correcto");
     }
 
     PeliculaSerie peliculaSerie = findById(id);
     peliculaSerie.merge(peliculaSerieActualizada);
-    peliculaSerieRepository.save(peliculaSerie);
+    return peliculaSerieRepository.save(peliculaSerie);
   }
 
   public void eliminar(Long id) {

@@ -70,10 +70,10 @@ public class PeliculaSerieController extends BaseController {
 
   @PutMapping("/movies/{id}")
   @ApiOperation("Permite actualizar una pelicula-serie")
-  public ResponseEntity<String> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Long id) {
+  public ResponseEntity<PeliculaSerieDetalleDto> actualizarPeliculaSeire(@RequestBody PeliculaSerie peliculaSerie, @PathVariable Long id) {
     peliculaSerie.setPersonajes(getPersonajesDelRepositorio(peliculaSerie));
-    peliculaSerieService.actualizar(peliculaSerie, id);
-    return ResponseEntity.ok().body("Se actualizo la pelicula correctamente");
+    PeliculaSerie peliculaSerieActualizada = peliculaSerieService.actualizar(peliculaSerie, id);
+    return ResponseEntity.ok().body(PeliculaSerieDetalleDto.fromPeliculaSerie(peliculaSerieActualizada));
   }
 
   @DeleteMapping("/movies/{id}")
