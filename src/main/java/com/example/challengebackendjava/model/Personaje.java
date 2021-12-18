@@ -1,6 +1,5 @@
 package com.example.challengebackendjava.model;
 
-import com.example.challengebackendjava.error.UserException;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +10,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -50,48 +46,12 @@ public class Personaje {
       inverseJoinColumns = @JoinColumn(name = "pelicula_serie_id"))
   private Set<PeliculaSerie> peliculasSeries = new HashSet<>();
 
-  public boolean nombreCoincide(String nombre) {
-    return stringsCoinciden(getNombre(), nombre);
-  }
-
-  public boolean edadCoincide(Integer edad) {
-    return Objects.equals(getEdad(), edad);
-  }
-
-  public void agregarPelicualaSerie(PeliculaSerie peliculaSerie) {
-    peliculasSeries.add(peliculaSerie);
-  }
-
-  public boolean estuvoEnAlgunaPelicula(Set<Long> peliculas) {
-    return peliculas.stream().anyMatch(this::estuvoEnPelicula);
-  }
-
-  private boolean estuvoEnPelicula(Long idPelicula) {
-    return this.idPeliculas().contains(idPelicula);
-  }
-
-  private Set<Long> idPeliculas() {
-    return peliculasSeries.stream().map(PeliculaSerie::getId).collect(Collectors.toSet());
-  }
-
   public void merge(Personaje personajeActualizado) {
     nombre = personajeActualizado.getNombre();
     peso = personajeActualizado.getPeso();
     imagen = personajeActualizado.getImagen();
     edad = personajeActualizado.getEdad();
     historia = personajeActualizado.getHistoria();
-    setPeliculasSeries(personajeActualizado.getPeliculasSeries()  );
+    setPeliculasSeries(personajeActualizado.getPeliculasSeries());
   }
-
-  public void validar() {
-    if (nombre == null || nombre.trim().isEmpty()) {
-      throw new UserException("El nombre no puede ser vacio");
-    }
-
-    if (imagen == null || imagen.trim().isEmpty()) {
-      throw new UserException("La imagen no puede ser vacia");
-    }
-  }
-
-  //  Set<PeliculaSerie> peliculasSeries = new HashSet<>();
 }

@@ -1,9 +1,7 @@
 package com.example.challengebackendjava.model;
 
-import com.example.challengebackendjava.serializer.View;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +14,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -25,7 +22,8 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PeliculaSerie implements Comparable<PeliculaSerie> {
-  @Id @GeneratedValue(strategy = AUTO)
+  @Id
+  @GeneratedValue(strategy = AUTO)
   private Long id;
 
   @NotBlank(message = "La imagen es obligatoria")
@@ -44,8 +42,8 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
   @JsonIgnoreProperties("peliculasSeries")
   @ManyToMany
   @JoinTable(name = "personaje_pelicula_serie",
-  joinColumns = @JoinColumn(name = "pelicula_serie_id"),
-  inverseJoinColumns = @JoinColumn(name = "personaje_id"))
+      joinColumns = @JoinColumn(name = "pelicula_serie_id"),
+      inverseJoinColumns = @JoinColumn(name = "personaje_id"))
   private Set<Personaje> personajes = new HashSet<>();
 
   public PeliculaSerie(String imagen,
@@ -60,22 +58,6 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
 
   public void agregarPersonaje(Personaje personaje) {
     this.personajes.add(personaje);
-  }
-
-  @JsonView({
-          View.PeliculaSerie.Lista.class,
-          View.PeliculaSerie.Detalle.class,
-  })
-  public String getImagen() {
-    return imagen;
-  }
-
-  public void setImagen(String imagen) {
-    this.imagen = imagen;
-  }
-
-  public boolean nombreCoincide(String nombre) {
-    return stringsCoinciden(titulo, nombre);
   }
 
   public int compareTo(PeliculaSerie otraPeliculaSerie) {
