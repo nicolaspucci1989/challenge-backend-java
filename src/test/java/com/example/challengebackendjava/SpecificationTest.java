@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.util.Assert;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +26,7 @@ public class SpecificationTest {
   private PersonajeRepository personajeRepository;
 
   private Personaje donald;
+  private Personaje donald2;
   private Personaje lohan;
 
   @Test
@@ -48,6 +48,7 @@ public class SpecificationTest {
     List<Personaje> resultado = personajeRepository.findAll(Specification.where(spec1).and(spec2));
 
     Assertions.assertTrue(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre())));
+    Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getEdad(), donald2.getEdad())));
     Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre())));
   }
 
@@ -57,6 +58,14 @@ public class SpecificationTest {
         "/img/donald.jpg",
         "Donald",
         33,
+        "historia",
+        90f,
+        new HashSet<>());
+
+    donald2 = new Personaje(null,
+        "/img/donald.jpg",
+        "Donald",
+        34,
         "historia",
         90f,
         new HashSet<>());
