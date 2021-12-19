@@ -32,25 +32,6 @@ public class PersonajeController extends BaseController {
         .stream().map(PersonajeListaDto::fromPersonaje)
         .collect(Collectors.toList());
 
-//    if (name != null) {
-//      personajes = personajes.stream()
-//              .filter(personaje -> personaje.nombreCoincide(name))
-//              .collect(Collectors.toList());
-//    }
-
-//    if (age != null) {
-//      personajes = personajes.stream()
-//              .filter(personaje -> personaje.edadCoincide(age))
-//              .collect(Collectors.toList());
-//    }
-
-//    if (idMovies != null) {
-//      // TODO: buscar pelis del personaje
-//      personajes = personajes.stream()
-//              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(idMovies))
-//              .collect(Collectors.toList());
-//    }
-
     return ResponseEntity.ok(personajes);
   }
 
