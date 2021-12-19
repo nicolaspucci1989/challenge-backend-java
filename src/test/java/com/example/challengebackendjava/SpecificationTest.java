@@ -10,7 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.util.Assert;
 
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +37,18 @@ public class SpecificationTest {
 
     Assertions.assertTrue(resultados.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre())));
     Assertions.assertFalse(resultados.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre())));
+  }
+
+  @Test
+  @DisplayName("podemos combinar specs")
+  public void combinarSpecs() {
+    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("nombre", "=", "Donald"));
+    PersonajeSpecification spec2 = new PersonajeSpecification(new CriterioDeBusqueda("edad", "=", "33"));
+
+    List<Personaje> resultado = personajeRepository.findAll(Specification.where(spec1).and(spec2));
+
+    Assertions.assertTrue(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre())));
+    Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre())));
   }
 
   @BeforeEach
