@@ -6,6 +6,7 @@ import com.example.challengebackendjava.dao.PersonajeSpecification;
 import com.example.challengebackendjava.model.Personaje;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import java.util.Objects;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@DisplayName("Dada una especificacion de usuario")
 public class SpecificationTest {
 
   @Autowired
@@ -26,6 +28,7 @@ public class SpecificationTest {
   private Personaje lohan;
 
   @Test
+  @DisplayName("podemos encontrar el usuario segun su nombre")
   public void specTest() {
     PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("nombre", "=", "Donald"));
     List<Personaje> resultados = personajeRepository.findAll(spec1);
