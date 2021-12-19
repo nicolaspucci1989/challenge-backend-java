@@ -1,28 +1,58 @@
 package com.example.challengebackendjava.model;
 
-import com.example.challengebackendjava.serializer.View;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.example.challengebackendjava.model.Helper.stringsCoinciden;
+import static javax.persistence.GenerationType.AUTO;
 
-public class PeliculaSerie extends Entidad implements Comparable<PeliculaSerie> {
-  String imagen;
-  String titulo;
-  LocalDate fehcaDeCreacion;
-  Integer calificacion;
-  Set<Personaje> personajes = new HashSet<>();
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PeliculaSerie implements Comparable<PeliculaSerie> {
+  @Id
+  @GeneratedValue(strategy = AUTO)
+  private Long id;
+
+  @NotBlank(message = "La imagen es obligatoria")
+  private String imagen;
+
+  @NotBlank(message = "El titulo es obligatorio")
+  private String titulo;
+
+  @NotNull(message = "La fecha es obligatoria")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+  private LocalDate fechaDeCreacion;
+
+  @NotNull(message = "La calificacion es obligatoria")
+  private Integer calificacion;
+
+  @JsonIgnoreProperties("peliculasSeries")
+  @ManyToMany
+  @JoinTable(name = "personaje_pelicula_serie",
+      joinColumns = @JoinColumn(name = "pelicula_serie_id"),
+      inverseJoinColumns = @JoinColumn(name = "personaje_id"))
+  private Set<Personaje> personajes = new HashSet<>();
 
   public PeliculaSerie(String imagen,
                        String titulo,
-                       LocalDate fehcaDeCreacion,
+                       LocalDate fechaDeCreacion,
                        Integer calificacion) {
     this.imagen = imagen;
     this.titulo = titulo;
-    this.fehcaDeCreacion = fehcaDeCreacion;
+    this.fechaDeCreacion = fechaDeCreacion;
     this.calificacion = calificacion;
   }
 
@@ -30,99 +60,16 @@ public class PeliculaSerie extends Entidad implements Comparable<PeliculaSerie> 
     this.personajes.add(personaje);
   }
 
-  @JsonView({
-          View.PeliculaSerie.Lista.class,
-          View.PeliculaSerie.Detalle.class,
-  })
-  public String getImagen() {
-    return imagen;
-  }
-
-  public void setImagen(String imagen) {
-    this.imagen = imagen;
-  }
-
-  @JsonView({
-          View.PeliculaSerie.Lista.class,
-          View.PeliculaSerie.Detalle.class,
-          View.Personaje.Detalle.class})
-  public String getTitulo() {
-    return titulo;
-  }
-
-  public void setTitulo(String titulo) {
-    this.titulo = titulo;
-  }
-
-  @JsonView({View.PeliculaSerie.Lista.class, View.PeliculaSerie.Detalle.class})
-  public LocalDate getFehcaDeCreacion() {
-    return fehcaDeCreacion;
-  }
-
-  public void setFehcaDeCreacion(LocalDate fehcaDeCreacion) {
-    this.fehcaDeCreacion = fehcaDeCreacion;
-  }
-
-  @JsonView(View.PeliculaSerie.Detalle.class)
-  public Integer getCalificacion() {
-    return calificacion;
-  }
-
-  public void setCalificacion(Integer calificacion) {
-    this.calificacion = calificacion;
-  }
-
-  @JsonView(View.PeliculaSerie.Detalle.class)
-  public Set<Personaje> getPersonajes() {
-    return personajes;
-  }
-
-  public void setPersonajes(Set<Personaje> personajes) {
-    this.personajes = personajes;
-  }
-
-  @Override
-  public void update(Entidad entidad) {
-    var peliculaSerie = (PeliculaSerie) entidad;
-
-    this.setTitulo(peliculaSerie.getTitulo());
-    this.setCalificacion(peliculaSerie.getCalificacion());
-    this.setImagen(peliculaSerie.getImagen());
-    this.setFehcaDeCreacion(peliculaSerie.getFehcaDeCreacion());
-    this.setPersonajes(peliculaSerie.getPersonajes());
-  }
-
-  @Override
-  public boolean esValido() {
-    return tieneCalificacionValida() && tieneTituloValido() && tieneImagenValida() && tieneFechaValida();
-  }
-
-  private boolean tieneFechaValida() {
-    return getFehcaDeCreacion() != null;
-  }
-
-  private boolean tieneImagenValida() {
-    return getImagen() != null;
-  }
-
-  private boolean tieneTituloValido() {
-    return getTitulo().length() > 1;
-  }
-
-  private boolean tieneCalificacionValida() {
-    return getCalificacion() >= 1 && getCalificacion() <= 5;
-  }
-
-  public void eliminarPeronaje(Personaje personaje) {
-    personajes.remove(personaje);
-  }
-
-  public boolean nombreCoincide(String nombre) {
-    return stringsCoinciden(getTitulo(), nombre);
-  }
-
-  @Override
   public int compareTo(PeliculaSerie otraPeliculaSerie) {
-    return getFehcaDeCreacion().compareTo(otraPeliculaSerie.getFehcaDeCreacion());
+    return getFechaDeCreacion().compareTo(otraPeliculaSerie.getFechaDeCreacion());
   }
+
+  public void merge(PeliculaSerie peliculaSerieActualizada) {
+    imagen = peliculaSerieActualizada.getImagen();
+    titulo = peliculaSerieActualizada.getTitulo();
+    fechaDeCreacion = peliculaSerieActualizada.getFechaDeCreacion();
+    calificacion = peliculaSerieActualizada.getCalificacion();
+    personajes = peliculaSerieActualizada.getPersonajes();
+  }
+
 }

@@ -1,9 +1,15 @@
 package com.example.challengebackendjava.dao;
 
 import com.example.challengebackendjava.model.Personaje;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class PersonajeRepository extends Repositorio<Personaje>{
+import java.util.Optional;
 
+public interface PersonajeRepository extends JpaRepository<Personaje, Long> {
+  Personaje findByNombre(String nombre);
+
+  @EntityGraph(attributePaths = "peliculasSeries")
+  @Override
+  Optional<Personaje> findById(Long aLong);
 }

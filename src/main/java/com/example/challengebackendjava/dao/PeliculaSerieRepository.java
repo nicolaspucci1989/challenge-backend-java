@@ -1,9 +1,14 @@
 package com.example.challengebackendjava.dao;
 
 import com.example.challengebackendjava.model.PeliculaSerie;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class PeliculaSerieRepository extends Repositorio<PeliculaSerie> {
+import java.util.Optional;
 
+public interface PeliculaSerieRepository extends JpaRepository<PeliculaSerie, Long> {
+
+  @EntityGraph(attributePaths = "personajes")
+  @Override
+  Optional<PeliculaSerie> findById(Long aLong);
 }

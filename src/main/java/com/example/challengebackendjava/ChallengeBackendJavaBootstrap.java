@@ -1,28 +1,24 @@
 package com.example.challengebackendjava;
 
-import com.example.challengebackendjava.dao.GeneroRepository;
-import com.example.challengebackendjava.dao.PeliculaSerieRepository;
-import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
+import com.example.challengebackendjava.service.GeneroService;
+import com.example.challengebackendjava.service.PeliculaSerieService;
+import com.example.challengebackendjava.service.PersonajeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 
 @Service
+@RequiredArgsConstructor
 public class ChallengeBackendJavaBootstrap implements InitializingBean {
-
-  @Autowired
-  PersonajeRepository personajeRepo;
-
-  @Autowired
-  PeliculaSerieRepository peliculaSerieRepository;
-
-  @Autowired
-  GeneroRepository generoRepository;
+  final private PersonajeService personajeService;
+  final private PeliculaSerieService peliculaSerieService;
+  final private GeneroService generoService;
 
   Personaje mickeyMouse;
   Personaje minnieMouse;
@@ -50,123 +46,130 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   Genero cinenciaFiccion;
 
   public void initPersonajes() {
-    mickeyMouse = new Personaje("/img/mickey-mouse.jpg",
-            "Mickey Mouse",
-            40,
-            "El raton de Disney...",
-            90f);
+    mickeyMouse = new Personaje(null,
+        "/img/mickey-mouse.jpg",
+        "Mickey Mouse",
+        40,
+        "El raton de Disney...",
+        90f,
+        new HashSet<>());
 
-    minnieMouse = new Personaje("/img/minnie-mouse.jpg",
-            "Minnie Mouse",
-            43,
-            "La ratona de Disney...",
-            83f);
+    minnieMouse = new Personaje(null,
+        "/img/minnie-mouse.jpg",
+        "Minnie Mouse",
+        43,
+        "La ratona de Disney...",
+        83f,
+        new HashSet<>());
 
-    rapunzel = new Personaje("/img/rapunzel.jpg",
-            "Rapunzel",
-            30,
-            "La princesa de pelo largo...",
-            100f);
+    rapunzel = new Personaje(null,
+        "/img/rapunzel.jpg",
+        "Rapunzel",
+        30,
+        "La princesa de pelo largo...",
+        100f,
+        new HashSet<>());
 
-    pascal = new Personaje("/img/pascal.jpg",
-            "Pascal",
-            30,
-            "un Camaleón, es el mejor amigo de Rapunzel pues ha sido su compañía desde que Rapunzel era una niña. Tiene la habilidad de cambiar de colores y con estampados camuflándose con el entorno. También cambia de color con sus diferentes estados de ánimo. Al principio no congenia muy bien con Flynn.",
-            100f);
+    pascal = new Personaje(null,
+        "/img/pascal.jpg",
+        "Pascal",
+        30,
+        "un Camaleón, es el mejor amigo de Rapunzel.",
+        100f,
+        new HashSet<>());
 
-    boo = new Personaje("/img/boo.jpg",
-            "Boo",
-            50,
-            "Boo...",
-            120f);
+    boo = new Personaje(null,
+        "/img/boo.jpg",
+        "Boo",
+        50,
+        "Boo...",
+        120f,
+        new HashSet<>());
 
-    jamesSullivan = new Personaje("/img/jamessullivan.jpg",
-            "James Sullivan",
-            30,
-            "James Sullivan...",
-            85f);
+    jamesSullivan = new Personaje(null,
+        "/img/jamessullivan.jpg",
+        "James Sullivan",
+        30,
+        "James Sullivan...",
+        85f,
+        new HashSet<>());
 
-    mikeWazowski = new Personaje("/img/mikewazowski.jpg",
-            "Mike Wazowski",
-            30,
-            "Mike Wazowski...",
-            85f);
+    mikeWazowski = new Personaje(null,
+        "/img/mikewazowski.jpg",
+        "Mike Wazowski",
+        30,
+        "Mike Wazowski...",
+        85f,
+        new HashSet<>());
 
-    tiaCass = new Personaje("/img/tiacass.jpg",
-            "Tia Cass",
-            50,
-            "Tia Cass...",
-            120f);
+    tiaCass = new Personaje(null,
+        "/img/tiacass.jpg",
+        "Tia Cass",
+        50,
+        "Tia Cass...",
+        120f,
+        new HashSet<>());
 
-    rayoMcQueen = new Personaje("/img/rayomcqueen.jpg",
-            "Rayo McQueen",
-            50,
-            "Rayo McQueen...",
-            120f);
+    rayoMcQueen = new Personaje(null,
+        "/img/rayomcqueen.jpg",
+        "Rayo McQueen",
+        50,
+        "Rayo McQueen...",
+        120f,
+        new HashSet<>());
 
-    chickHicks = new Personaje("/img/chick-hicks.jpg",
-            "Chick Hicks",
-            50,
-            "Chick Hicks...",
-            120f);
+    chickHicks = new Personaje(null,
+        "/img/chick-hicks.jpg",
+        "Chick Hicks",
+        50,
+        "Chick Hicks...",
+        120f,
+        new HashSet<>());
 
-    fred = new Personaje("/img/fred.jpg",
-            "Fred",
-            14,
-            "Fred ...",
-            80f);
+    fred = new Personaje(null,
+        "/img/fred.jpg",
+        "Fred",
+        14,
+        "Fred ...",
+        80f,
+        new HashSet<>());
 
-    personajeRepo.crear(rapunzel);
-    personajeRepo.crear(pascal);
-    personajeRepo.crear(mickeyMouse);
-    personajeRepo.crear(minnieMouse);
-    personajeRepo.crear(boo);
-    personajeRepo.crear(jamesSullivan);
-    personajeRepo.crear(mikeWazowski);
-    personajeRepo.crear(tiaCass);
-    personajeRepo.crear(rayoMcQueen);
-    personajeRepo.crear(chickHicks);
-    personajeRepo.crear(fred);
+    savePersonajes();
   }
 
   public void initPeliculasSeries() {
     steamboatWillie = new PeliculaSerie("/img/steamboat-willie.jpg",
-            "Steamboat Willie",
-            LocalDate.parse("1928-11-01"),
-            3);
+        "Steamboat Willie",
+        LocalDate.parse("1928-11-01"),
+        3);
 
     enredados = new PeliculaSerie("/img/enredados.jpg",
-            "Enredados",
-            LocalDate.parse("2010-11-24"),
-            2);
+        "Enredados",
+        LocalDate.parse("2010-11-24"),
+        2);
 
     bigHeroSix = new PeliculaSerie("/img/big-hero-six.jpg",
-            "Big Hero Six",
-            LocalDate.parse("2014-11-07"),
-            5);
+        "Big Hero Six",
+        LocalDate.parse("2014-11-07"),
+        5);
 
     monstersInc = new PeliculaSerie("/img/monsters-inc.jpg",
-            "Monsters Inc",
-            LocalDate.parse("2001-11-02"),
-            1);
+        "Monsters Inc",
+        LocalDate.parse("2001-11-02"),
+        1);
 
     monstersUniversity = new PeliculaSerie("/img/monsters-university.jpg",
-            "Monsters University",
-            LocalDate.parse("2013-06-21"),
-            2);
+        "Monsters University",
+        LocalDate.parse("2013-06-21"),
+        2);
 
 
     cars = new PeliculaSerie("/img/cars.jpg",
-            "Cars",
-            LocalDate.parse("2001-11-02"),
-            4);
+        "Cars",
+        LocalDate.parse("2001-11-02"),
+        4);
 
-    peliculaSerieRepository.crear(steamboatWillie);
-    peliculaSerieRepository.crear(enredados);
-    peliculaSerieRepository.crear(bigHeroSix);
-    peliculaSerieRepository.crear(monstersInc);
-    peliculaSerieRepository.crear(monstersUniversity);
-    peliculaSerieRepository.crear(cars);
+    savePelicuasSeries();
   }
 
   public void initGeneros() {
@@ -176,11 +179,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     terror = new Genero("Terror", "/img/terror.jpg");
     cinenciaFiccion = new Genero("Ciencia Ficcion", "/img/cinenciaFiccion.jpg");
 
-    generoRepository.crear(carreras);
-    generoRepository.crear(infantil);
-    generoRepository.crear(fantasia);
-    generoRepository.crear(terror);
-    generoRepository.crear(cinenciaFiccion);
+    saveGeneros();
   }
 
   @Override
@@ -195,48 +194,69 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
     steamboatWillie.agregarPersonaje(mickeyMouse);
     steamboatWillie.agregarPersonaje(minnieMouse);
-    mickeyMouse.agregarPelicualaSerie(steamboatWillie);
-    minnieMouse.agregarPelicualaSerie(steamboatWillie);
     infantil.agregarPelicula(steamboatWillie);
 
     enredados.agregarPersonaje(rapunzel);
     enredados.agregarPersonaje(pascal);
-    rapunzel.agregarPelicualaSerie(enredados);
-    pascal.agregarPelicualaSerie(enredados);
     infantil.agregarPelicula(enredados);
     fantasia.agregarPelicula(enredados);
 
     bigHeroSix.agregarPersonaje(tiaCass);
     bigHeroSix.agregarPersonaje(fred);
-    tiaCass.agregarPelicualaSerie(bigHeroSix);
-    fred.agregarPelicualaSerie(bigHeroSix);
     infantil.agregarPelicula(bigHeroSix);
     cinenciaFiccion.agregarPelicula(bigHeroSix);
 
     monstersInc.agregarPersonaje(boo);
     monstersInc.agregarPersonaje(jamesSullivan);
     monstersInc.agregarPersonaje(mikeWazowski);
-    boo.agregarPelicualaSerie(monstersInc);
-    jamesSullivan.agregarPelicualaSerie(monstersInc);
-    mikeWazowski.agregarPelicualaSerie(monstersInc);
     infantil.agregarPelicula(monstersInc);
     terror.agregarPelicula(monstersInc);
 
     monstersUniversity.agregarPersonaje(mikeWazowski);
     monstersUniversity.agregarPersonaje(jamesSullivan);
     monstersUniversity.agregarPersonaje(boo);
-    mikeWazowski.agregarPelicualaSerie(monstersUniversity);
-    jamesSullivan.agregarPelicualaSerie(monstersUniversity);
-    boo.agregarPelicualaSerie(monstersUniversity);
     infantil.agregarPelicula(monstersUniversity);
     terror.agregarPelicula(monstersUniversity);
 
     cars.agregarPersonaje(rayoMcQueen);
     cars.agregarPersonaje(chickHicks);
-    rayoMcQueen.agregarPelicualaSerie(cars);
-    chickHicks.agregarPelicualaSerie(cars);
     infantil.agregarPelicula(cars);
     carreras.agregarPelicula(cars);
+
+    savePersonajes();
+    savePelicuasSeries();
+    saveGeneros();
+  }
+
+  private void savePersonajes() {
+    personajeService.save(rapunzel);
+    personajeService.save(pascal);
+    personajeService.save(mickeyMouse);
+    personajeService.save(minnieMouse);
+    personajeService.save(boo);
+    personajeService.save(jamesSullivan);
+    personajeService.save(mikeWazowski);
+    personajeService.save(tiaCass);
+    personajeService.save(rayoMcQueen);
+    personajeService.save(chickHicks);
+    personajeService.save(fred);
+  }
+
+  private void savePelicuasSeries() {
+    peliculaSerieService.save(steamboatWillie);
+    peliculaSerieService.save(enredados);
+    peliculaSerieService.save(bigHeroSix);
+    peliculaSerieService.save(monstersInc);
+    peliculaSerieService.save(monstersUniversity);
+    peliculaSerieService.save(cars);
+  }
+
+  private void saveGeneros() {
+    generoService.save(carreras);
+    generoService.save(infantil);
+    generoService.save(fantasia);
+    generoService.save(terror);
+    generoService.save(cinenciaFiccion);
   }
 
 }
