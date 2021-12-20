@@ -1,8 +1,10 @@
 package com.example.challengebackendjava;
 
 import com.example.challengebackendjava.dao.CriterioDeBusqueda;
+import com.example.challengebackendjava.dao.PeliculaSerieRepository;
 import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.dao.PersonajeSpecification;
+import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -25,9 +28,14 @@ public class SpecificationTest {
   @Autowired
   private PersonajeRepository personajeRepository;
 
+  @Autowired
+  private PeliculaSerieRepository peliculaSerieRepository;
+
   private Personaje donald;
   private Personaje donald2;
   private Personaje lohan;
+
+  private PeliculaSerie peliDonald;
 
   @Test
   @DisplayName("podemos encontrar el usuario segun su nombre")
@@ -52,8 +60,28 @@ public class SpecificationTest {
     Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre())));
   }
 
+  @Test
+  @DisplayName("esta en peli")
+  public void estaEnPeli() {
+    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", peliDonald.getId().toString()));
+
+    List<Personaje> resultado = personajeRepository.findAll(spec1);
+
+    Assertions.assertTrue(
+        resultado
+            .stream()
+            .anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre()))
+    );
+  }
+
   @BeforeEach
   public void init() {
+    peliDonald = new PeliculaSerie(
+        "/img/peli.donald.jpg",
+        "Peli donald",
+        LocalDate.now(),
+        3
+    );
     donald = new Personaje(null,
         "/img/donald.jpg",
         "Donald",
@@ -78,7 +106,12 @@ public class SpecificationTest {
         90f,
         new HashSet<>());
 
+
     personajeRepository.save(donald);
+    peliculaSerieRepository.save(peliDonald);
     personajeRepository.save(lohan);
+
+    peliDonald.agregarPersonaje(donald);
+    peliDonald = peliculaSerieRepository.save(peliDonald);
   }
 }

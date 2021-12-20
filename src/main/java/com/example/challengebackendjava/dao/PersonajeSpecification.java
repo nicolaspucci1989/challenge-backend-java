@@ -1,6 +1,8 @@
 package com.example.challengebackendjava.dao;
 
+import com.example.challengebackendjava.model.PeliculaSerie_;
 import com.example.challengebackendjava.model.Personaje;
+import com.example.challengebackendjava.model.Personaje_;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -17,6 +19,13 @@ public class PersonajeSpecification implements Specification<Personaje> {
   public Predicate toPredicate(Root<Personaje> root,
                                CriteriaQuery<?> query,
                                CriteriaBuilder builder) {
+
+    if (criterio.getClave().equalsIgnoreCase("movies")) {
+      return root
+          .join(Personaje_.PELICULAS_SERIES)
+          .get(PeliculaSerie_.ID)
+          .in(criterio.getValor());
+    }
 
     if (criterio.getOperacion().equalsIgnoreCase("=")) {
       if (root.get(criterio.getClave()).getJavaType() == String.class) {
