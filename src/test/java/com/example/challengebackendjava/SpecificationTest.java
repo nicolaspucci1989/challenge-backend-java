@@ -38,7 +38,7 @@ public class SpecificationTest {
   private PeliculaSerie peliDonald;
 
   @Test
-  @DisplayName("podemos encontrar el usuario segun su nombre")
+  @DisplayName("podemos encontrar el usuario personaje por su nombre")
   public void specTest() {
     PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("nombre", "=", "Donald"));
     List<Personaje> resultados = personajeRepository.findAll(spec1);
@@ -61,7 +61,7 @@ public class SpecificationTest {
   }
 
   @Test
-  @DisplayName("esta en peli")
+  @DisplayName("podemos encontrar un personaje que participo en una pelicula")
   public void estaEnPeli() {
     PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", peliDonald.getId().toString()));
 
