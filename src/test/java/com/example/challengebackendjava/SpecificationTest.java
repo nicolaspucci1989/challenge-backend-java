@@ -52,8 +52,15 @@ public class SpecificationTest {
   public void combinarSpecs() {
     PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("nombre", "=", "Donald"));
     PersonajeSpecification spec2 = new PersonajeSpecification(new CriterioDeBusqueda("edad", "=", "33"));
+    PersonajeSpecification spec3 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", peliDonald.getId().toString()));
+    PersonajeSpecification spec4 = new PersonajeSpecification(new CriterioDeBusqueda("age", "=", donald.getEdad().toString()));
 
-    List<Personaje> resultado = personajeRepository.findAll(Specification.where(spec1).and(spec2));
+    List<Personaje> resultado = personajeRepository.findAll(Specification
+        .where(spec1)
+        .and(spec2)
+        .and(spec3)
+        .and(spec4)
+    );
 
     Assertions.assertTrue(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre())));
     Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getEdad(), donald2.getEdad())));

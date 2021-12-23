@@ -21,19 +21,25 @@ public class PersonajeSpecification implements Specification<Personaje> {
                                CriteriaBuilder builder) {
 
     if (criterio.getClave().equalsIgnoreCase("movies")) {
-      return root
-          .join(Personaje_.PELICULAS_SERIES)
-          .get(PeliculaSerie_.ID)
-          .in(criterio.getValor());
+      // TODO: usar builder?
+      builder.in(
+          root
+              .join(Personaje_.PELICULAS_SERIES)
+              .get(PeliculaSerie_.ID)
+              .in(criterio.getValor())
+      );
     }
 
-    if (criterio.getOperacion().equalsIgnoreCase("=")) {
-      if (root.get(criterio.getClave()).getJavaType() == String.class) {
-        return builder.like(
-            root.get(criterio.getClave()), "%" + criterio.getValor() + "%");
-      } else {
-        return builder.equal(root.get(criterio.getClave()), criterio.getValor());
-      }
+    if (criterio.getClave().equalsIgnoreCase("nombre")) {
+      return builder.like(
+          root.get(Personaje_.NOMBRE), criterio.getValor()
+      );
+    }
+
+    if (criterio.getClave().equalsIgnoreCase("age")) {
+      return builder.equal(
+          root.get(Personaje_.EDAD), criterio.getValor()
+      );
     }
 
     return null;

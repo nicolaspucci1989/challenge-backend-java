@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -40,7 +41,7 @@ public class PeliculaSerie implements Comparable<PeliculaSerie> {
   private Integer calificacion;
 
   @JsonIgnoreProperties("peliculasSeries")
-  @ManyToMany
+  @ManyToMany(fetch = LAZY)
   @JoinTable(name = "personaje_pelicula_serie",
       joinColumns = @JoinColumn(name = "pelicula_serie_id"),
       inverseJoinColumns = @JoinColumn(name = "personaje_id"))
