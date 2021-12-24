@@ -1,8 +1,6 @@
 package com.example.challengebackendjava.controller;
 
-import com.example.challengebackendjava.dao.CriterioDeBusqueda;
 import com.example.challengebackendjava.dao.CriterioDeBusquedaPersonaje;
-import com.example.challengebackendjava.dao.PersonajeSpecification;
 import com.example.challengebackendjava.dto.PersonajeDetalleDto;
 import com.example.challengebackendjava.dto.PersonajeListaDto;
 import com.example.challengebackendjava.model.Personaje;
@@ -10,19 +8,18 @@ import com.example.challengebackendjava.service.PersonajeService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequiredArgsConstructor @Slf4j
+@RequiredArgsConstructor
+@Slf4j
 public class PersonajeController extends BaseController {
   private final PersonajeService personajeService;
 
