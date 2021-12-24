@@ -5,6 +5,7 @@ import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.Personaje;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -48,6 +49,10 @@ public class PersonajeService {
 
     personajeRepository.delete(personaje);
 //    eliminarPersonajeDePeliculas(personaje);
+  }
+
+  public List<Personaje> all(Specification<Personaje> spec) {
+    return personajeRepository.findAll(spec);
   }
 
 //  private void eliminarPersonajeDePeliculas(Personaje personaje) {

@@ -23,15 +23,13 @@ public class PersonajeSpecification implements Specification<Personaje> {
 
     if (criterio.getClave().equalsIgnoreCase("movies")) {
       // TODO: usar builder?
-      builder.in(
-          root
-              .join(Personaje_.PELICULAS_SERIES)
-              .get(PeliculaSerie_.ID)
-              .in((List<Long>) criterio.getValor())
-      );
+      return root
+          .join(Personaje_.PELICULAS_SERIES)
+          .get(PeliculaSerie_.ID)
+          .in((List<Long>) criterio.getValor());
     }
 
-    if (criterio.getClave().equalsIgnoreCase("nombre")) {
+    if (criterio.getClave().equalsIgnoreCase("name")) {
       return builder.like(
           root.get(Personaje_.NOMBRE), criterio.getValor().toString()
       );

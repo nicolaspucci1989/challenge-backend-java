@@ -35,11 +35,12 @@ public class SpecificationTest {
 
   private PeliculaSerie peliDonald;
   private PeliculaSerie peliDonald1;
+  private PeliculaSerie peliLohan;
 
   @Test
   @DisplayName("podemos encontrar el usuario personaje por su nombre")
   public void specTest() {
-    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("nombre", "=", "Donald"));
+    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("name", "=", "Donald"));
     List<Personaje> resultados = personajeRepository.findAll(spec1);
 
     Assertions.assertTrue(resultados.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre())));
@@ -49,8 +50,8 @@ public class SpecificationTest {
   @Test
   @DisplayName("podemos combinar specs")
   public void combinarSpecs() {
-    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("nombre", "=", "Donald"));
-    PersonajeSpecification spec2 = new PersonajeSpecification(new CriterioDeBusqueda("edad", "=", 33));
+    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("name", "=", "Donald"));
+    PersonajeSpecification spec2 = new PersonajeSpecification(new CriterioDeBusqueda("age", "=", 33));
     PersonajeSpecification spec3 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", List.of(peliDonald.getId())));
     PersonajeSpecification spec4 = new PersonajeSpecification(new CriterioDeBusqueda("age", "=", donald.getEdad().toString()));
 
@@ -72,12 +73,17 @@ public class SpecificationTest {
     List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
     PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", idPelis));
 
-    List<Personaje> resultado = personajeRepository.findAll(spec1);
+    List<Personaje> resultado = personajeRepository.findAll(Specification.where(spec1));
 
     Assertions.assertTrue(
         resultado
             .stream()
             .anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre()))
+    );
+    Assertions.assertFalse(
+        resultado
+            .stream()
+            .anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre()))
     );
   }
 
@@ -86,6 +92,13 @@ public class SpecificationTest {
     peliDonald = new PeliculaSerie(
         "/img/peli.donald.jpg",
         "Peli donald",
+        LocalDate.now(),
+        3
+    );
+
+    peliLohan = new PeliculaSerie(
+        "/img/peli.donald.jpg",
+        "Peli lohan",
         LocalDate.now(),
         3
     );
@@ -123,10 +136,13 @@ public class SpecificationTest {
     personajeRepository.save(donald);
     peliculaSerieRepository.save(peliDonald);
     peliculaSerieRepository.save(peliDonald1);
+    peliculaSerieRepository.save(peliLohan);
     personajeRepository.save(lohan);
 
+    peliLohan.agregarPersonaje(lohan);
     peliDonald.agregarPersonaje(donald);
     peliDonald1.agregarPersonaje(donald);
+    peliLohan = peliculaSerieRepository.save(peliLohan);
     peliDonald = peliculaSerieRepository.save(peliDonald);
     peliDonald1 = peliculaSerieRepository.save(peliDonald1);
   }
