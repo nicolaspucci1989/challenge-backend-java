@@ -8,5 +8,5 @@ import lombok.Data;
 public class CriterioDeBusqueda {
   private String clave;
   private String operacion;
-  private String valor;
+  private Object valor;
 }

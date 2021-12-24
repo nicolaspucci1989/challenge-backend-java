@@ -16,9 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -36,6 +34,7 @@ public class SpecificationTest {
   private Personaje lohan;
 
   private PeliculaSerie peliDonald;
+  private PeliculaSerie peliDonald1;
 
   @Test
   @DisplayName("podemos encontrar el usuario personaje por su nombre")
@@ -51,8 +50,8 @@ public class SpecificationTest {
   @DisplayName("podemos combinar specs")
   public void combinarSpecs() {
     PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("nombre", "=", "Donald"));
-    PersonajeSpecification spec2 = new PersonajeSpecification(new CriterioDeBusqueda("edad", "=", "33"));
-    PersonajeSpecification spec3 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", peliDonald.getId().toString()));
+    PersonajeSpecification spec2 = new PersonajeSpecification(new CriterioDeBusqueda("edad", "=", 33));
+    PersonajeSpecification spec3 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", List.of(peliDonald.getId())));
     PersonajeSpecification spec4 = new PersonajeSpecification(new CriterioDeBusqueda("age", "=", donald.getEdad().toString()));
 
     List<Personaje> resultado = personajeRepository.findAll(Specification
@@ -70,7 +69,8 @@ public class SpecificationTest {
   @Test
   @DisplayName("podemos encontrar un personaje que participo en una pelicula")
   public void estaEnPeli() {
-    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", peliDonald.getId().toString()));
+    List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
+    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", idPelis));
 
     List<Personaje> resultado = personajeRepository.findAll(spec1);
 
@@ -88,6 +88,12 @@ public class SpecificationTest {
         "Peli donald",
         LocalDate.now(),
         3
+    );
+    peliDonald1 = new PeliculaSerie(
+        "/img/peli.donald1.jpg",
+        "Peli donald 1",
+        LocalDate.now(),
+        4
     );
     donald = new Personaje(null,
         "/img/donald.jpg",
@@ -116,9 +122,12 @@ public class SpecificationTest {
 
     personajeRepository.save(donald);
     peliculaSerieRepository.save(peliDonald);
+    peliculaSerieRepository.save(peliDonald1);
     personajeRepository.save(lohan);
 
     peliDonald.agregarPersonaje(donald);
+    peliDonald1.agregarPersonaje(donald);
     peliDonald = peliculaSerieRepository.save(peliDonald);
+    peliDonald1 = peliculaSerieRepository.save(peliDonald1);
   }
 }

@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 @AllArgsConstructor
 public class PersonajeSpecification implements Specification<Personaje> {
@@ -26,13 +27,13 @@ public class PersonajeSpecification implements Specification<Personaje> {
           root
               .join(Personaje_.PELICULAS_SERIES)
               .get(PeliculaSerie_.ID)
-              .in(criterio.getValor())
+              .in((List<Long>) criterio.getValor())
       );
     }
 
     if (criterio.getClave().equalsIgnoreCase("nombre")) {
       return builder.like(
-          root.get(Personaje_.NOMBRE), criterio.getValor()
+          root.get(Personaje_.NOMBRE), criterio.getValor().toString()
       );
     }
 

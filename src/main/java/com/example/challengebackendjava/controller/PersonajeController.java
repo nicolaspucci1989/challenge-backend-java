@@ -25,7 +25,7 @@ public class PersonajeController extends BaseController {
   public ResponseEntity<List<PersonajeListaDto>> getPersonajes(
       @RequestParam(required = false) String name,
       @RequestParam(required = false) Integer age,
-      @RequestParam(required = false) Set<Long> idMovies
+      @RequestParam(required = false) List<Long> idMovies
   ) {
 
     List<PersonajeListaDto> personajes = personajeService.all()
