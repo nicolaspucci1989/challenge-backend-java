@@ -38,7 +38,7 @@ public class SpecificationTest {
   @DisplayName("podemos filtrar por nombre de personaje")
   public void test() {
     Optional<String> nombre = Optional.of("Donald");
-    Specification<Personaje> spec = PersonajeSpecification2.nombreIgualA(nombre);
+    Specification<Personaje> spec = PersonajeSpecification.nombreIgualA(nombre);
 
     List<Personaje> resultado = personajeRepository.findAll(spec);
 
@@ -53,7 +53,7 @@ public class SpecificationTest {
   @DisplayName("podemos filtrar por edad")
   public void filtrarPorEdad() {
     Optional<Integer> edad = Optional.of(33);
-    Specification<Personaje> spec = PersonajeSpecification2.edadIguala(edad);
+    Specification<Personaje> spec = PersonajeSpecification.edadIguala(edad);
     List<Personaje> resultado = personajeRepository.findAll(spec);
 
     Assertions.assertTrue(
@@ -67,7 +67,7 @@ public class SpecificationTest {
   @DisplayName("podemos filtrar por las pelis en las que participaron")
   public void filtrarPorPelis() {
     List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
-    Specification<Personaje> spec = PersonajeSpecification2.participoEnPelicula(idPelis);
+    Specification<Personaje> spec = PersonajeSpecification.participoEnPelicula(idPelis);
     List<Personaje> resultado = personajeRepository.findAll(spec);
 
     Assertions.assertTrue(
@@ -97,7 +97,7 @@ public class SpecificationTest {
         .idPelis(idPelis)
         .build();
 
-    Specification<Personaje> spec = PersonajeSpecification2.createPersonajeSpecification(criterio);
+    Specification<Personaje> spec = PersonajeSpecification.createPersonajeSpecification(criterio);
 
     List<Personaje> resultado = personajeRepository.findAll(spec);
 

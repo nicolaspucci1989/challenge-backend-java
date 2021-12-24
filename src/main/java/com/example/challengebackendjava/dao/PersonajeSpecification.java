@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PersonajeSpecification2 {
+public class PersonajeSpecification {
   public static Specification<Personaje> createPersonajeSpecification(CriterioDeBusquedaPersonaje criterio) {
     return nombreIgualA(criterio.getName())
         .and(edadIguala(criterio.getEdad()))
