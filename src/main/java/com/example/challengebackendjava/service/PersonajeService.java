@@ -1,6 +1,8 @@
 package com.example.challengebackendjava.service;
 
+import com.example.challengebackendjava.dao.CriterioDeBusquedaPersonaje;
 import com.example.challengebackendjava.dao.PersonajeRepository;
+import com.example.challengebackendjava.dao.PersonajeSpecification2;
 import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.Personaje;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +55,11 @@ public class PersonajeService {
   }
 
   public List<Personaje> all(Specification<Personaje> spec) {
+    return personajeRepository.findAll(spec);
+  }
+
+  public List<Personaje> all(CriterioDeBusquedaPersonaje criterio) {
+    Specification<Personaje> spec = PersonajeSpecification2.createPersonajeSpecification(criterio);
     return personajeRepository.findAll(spec);
   }
 

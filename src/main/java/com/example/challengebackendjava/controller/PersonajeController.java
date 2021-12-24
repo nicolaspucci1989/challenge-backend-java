@@ -1,6 +1,7 @@
 package com.example.challengebackendjava.controller;
 
 import com.example.challengebackendjava.dao.CriterioDeBusqueda;
+import com.example.challengebackendjava.dao.CriterioDeBusquedaPersonaje;
 import com.example.challengebackendjava.dao.PersonajeSpecification;
 import com.example.challengebackendjava.dto.PersonajeDetalleDto;
 import com.example.challengebackendjava.dto.PersonajeListaDto;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,34 +29,17 @@ public class PersonajeController extends BaseController {
   @GetMapping("/characters")
   @ApiOperation("Devuelve una lista de todos los personajes, con su id, nombre e imagen")
   public ResponseEntity<List<PersonajeListaDto>> getPersonajes(
-      @RequestParam(required = false) String name,
-      @RequestParam(required = false) Integer age,
+      @RequestParam(required = false) Optional<String> name,
+      @RequestParam(required = false) Optional<Integer> age,
       @RequestParam(required = false) List<Long> movies
   ) {
-    List<CriterioDeBusqueda> params = new ArrayList<>();
+    CriterioDeBusquedaPersonaje criterio = CriterioDeBusquedaPersonaje.builder()
+        .name(name)
+        .edad(age)
+        .idPelis(movies)
+        .build();
 
-    if (name != null) {
-      log.info("Name: {}", name);
-      params.add(new CriterioDeBusqueda("name", "=", name));
-    }
-    if (age != null) {
-      log.info("Age: {}", age);
-      params.add(new CriterioDeBusqueda("age", "=", age));
-    }
-    if (movies != null) {
-      log.info("Movies: {}", movies);
-      params.add(new CriterioDeBusqueda("movies", "=", movies));
-    }
-    Specification<Personaje> result = null;
-
-    if (params.size() > 0) {
-      result = new PersonajeSpecification(params.get(0));
-      for (int i = 1; i < params.size(); i++) {
-        result = Specification.where(result).and(new PersonajeSpecification(params.get(i)));
-      }
-    }
-
-    List<PersonajeListaDto> personajes = personajeService.all(result)
+    List<PersonajeListaDto> personajes = personajeService.all(criterio)
         .stream().map(PersonajeListaDto::fromPersonaje)
         .collect(Collectors.toList());
 

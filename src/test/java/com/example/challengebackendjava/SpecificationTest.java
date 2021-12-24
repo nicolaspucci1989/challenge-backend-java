@@ -1,9 +1,6 @@
 package com.example.challengebackendjava;
 
-import com.example.challengebackendjava.dao.CriterioDeBusqueda;
-import com.example.challengebackendjava.dao.PeliculaSerieRepository;
-import com.example.challengebackendjava.dao.PersonajeRepository;
-import com.example.challengebackendjava.dao.PersonajeSpecification;
+import com.example.challengebackendjava.dao.*;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import org.junit.jupiter.api.Assertions;
@@ -38,53 +35,75 @@ public class SpecificationTest {
   private PeliculaSerie peliLohan;
 
   @Test
-  @DisplayName("podemos encontrar el usuario personaje por su nombre")
-  public void specTest() {
-    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("name", "=", "Donald"));
-    List<Personaje> resultados = personajeRepository.findAll(spec1);
+  @DisplayName("podemos filtrar por nombre de personaje")
+  public void test() {
+    Optional<String> nombre = Optional.of("Donald");
+    Specification<Personaje> spec = PersonajeSpecification2.nombreIgualA(nombre);
 
-    Assertions.assertTrue(resultados.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre())));
-    Assertions.assertFalse(resultados.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre())));
-  }
-
-  @Test
-  @DisplayName("podemos combinar specs")
-  public void combinarSpecs() {
-    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("name", "=", "Donald"));
-    PersonajeSpecification spec2 = new PersonajeSpecification(new CriterioDeBusqueda("age", "=", 33));
-    PersonajeSpecification spec3 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", List.of(peliDonald.getId())));
-    PersonajeSpecification spec4 = new PersonajeSpecification(new CriterioDeBusqueda("age", "=", donald.getEdad().toString()));
-
-    List<Personaje> resultado = personajeRepository.findAll(Specification
-        .where(spec1)
-        .and(spec2)
-        .and(spec3)
-        .and(spec4)
-    );
-
-    Assertions.assertTrue(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre())));
-    Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getEdad(), donald2.getEdad())));
-    Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre())));
-  }
-
-  @Test
-  @DisplayName("podemos encontrar un personaje que participo en una pelicula")
-  public void estaEnPeli() {
-    List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
-    PersonajeSpecification spec1 = new PersonajeSpecification(new CriterioDeBusqueda("movies", "=", idPelis));
-
-    List<Personaje> resultado = personajeRepository.findAll(Specification.where(spec1));
+    List<Personaje> resultado = personajeRepository.findAll(spec);
 
     Assertions.assertTrue(
         resultado
             .stream()
             .anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre()))
     );
+  }
+
+  @Test
+  @DisplayName("podemos filtrar por edad")
+  public void filtrarPorEdad() {
+    Optional<Integer> edad = Optional.of(33);
+    Specification<Personaje> spec = PersonajeSpecification2.edadIguala(edad);
+    List<Personaje> resultado = personajeRepository.findAll(spec);
+
+    Assertions.assertTrue(
+        resultado
+            .stream()
+            .anyMatch(personaje -> Objects.equals(personaje.getId(), donald.getId()))
+    );
+  }
+
+  @Test
+  @DisplayName("podemos filtrar por las pelis en las que participaron")
+  public void filtrarPorPelis() {
+    List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
+    Specification<Personaje> spec = PersonajeSpecification2.participoEnPelicula(idPelis);
+    List<Personaje> resultado = personajeRepository.findAll(spec);
+
+    Assertions.assertTrue(
+        resultado
+            .stream()
+            .anyMatch(personaje -> Objects.equals(personaje.getNombre(), donald.getNombre()))
+    );
+
     Assertions.assertFalse(
         resultado
             .stream()
             .anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre()))
     );
+  }
+
+  @Test
+  @DisplayName("podemos combinar especificaciones")
+  public void combinarEspecificaciones() {
+    Optional<Integer> edad = Optional.of(donald.getEdad());
+    Optional<String> nombre = Optional.of(donald.getNombre());
+    List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
+
+    CriterioDeBusquedaPersonaje criterio = CriterioDeBusquedaPersonaje
+        .builder()
+        .edad(edad)
+        .name(nombre)
+        .idPelis(idPelis)
+        .build();
+
+    Specification<Personaje> spec = PersonajeSpecification2.createPersonajeSpecification(criterio);
+
+    List<Personaje> resultado = personajeRepository.findAll(spec);
+
+    Assertions.assertTrue(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), this.donald.getNombre())));
+    Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getEdad(), donald2.getEdad())));
+    Assertions.assertFalse(resultado.stream().anyMatch(personaje -> Objects.equals(personaje.getNombre(), lohan.getNombre())));
   }
 
   @BeforeEach
