@@ -17,10 +17,9 @@ import javax.transaction.Transactional;
 import java.util.HashSet;
 
 import static com.example.challengebackendjava.TestHelper.getMapper;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -120,4 +119,16 @@ public class PersonajeControllerTest {
         .andExpect(jsonPath("$.imagen", Is.is("La imagen es obligatoria")));
   }
 
+  @Test
+  @DisplayName("podemos filtrar con una query")
+  public void filtrarConParametros() throws Exception {
+    mockMvc
+        .perform(
+            get("/characters?name=Mickey Mouse&age=40")
+                .contentType(APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(result -> assertTrue(result.getResponse().getContentAsString().contains("Mickey Mouse")))
+        .andExpect(result -> assertFalse(result.getResponse().getContentAsString().contains("Minnie Mouse")));
+  }
 }
