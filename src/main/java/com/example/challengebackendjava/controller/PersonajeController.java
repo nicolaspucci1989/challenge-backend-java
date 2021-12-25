@@ -1,6 +1,6 @@
 package com.example.challengebackendjava.controller;
 
-import com.example.challengebackendjava.dao.CriterioDeBusquedaPersonaje;
+import com.example.challengebackendjava.service.CriterioDeBusquedaPersonaje;
 import com.example.challengebackendjava.dto.PersonajeDetalleDto;
 import com.example.challengebackendjava.dto.PersonajeListaDto;
 import com.example.challengebackendjava.model.Personaje;

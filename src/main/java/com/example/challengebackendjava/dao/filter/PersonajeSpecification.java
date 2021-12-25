@@ -1,5 +1,6 @@
-package com.example.challengebackendjava.dao;
+package com.example.challengebackendjava.dao.filter;
 
+import com.example.challengebackendjava.service.CriterioDeBusquedaPersonaje;
 import com.example.challengebackendjava.model.PeliculaSerie_;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.model.Personaje_;

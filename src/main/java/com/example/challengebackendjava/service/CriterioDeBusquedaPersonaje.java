@@ -1,4 +1,4 @@
-package com.example.challengebackendjava.dao;
+package com.example.challengebackendjava.service;
 
 import lombok.Builder;
 import lombok.Data;
