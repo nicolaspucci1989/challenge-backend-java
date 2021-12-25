@@ -1,8 +1,10 @@
 package com.example.challengebackendjava;
 
 import com.example.challengebackendjava.dao.*;
+import com.example.challengebackendjava.dao.filter.PersonajeSpecification;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
+import com.example.challengebackendjava.service.CriterioDeBusquedaPersonaje;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

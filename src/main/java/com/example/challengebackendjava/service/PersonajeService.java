@@ -1,8 +1,7 @@
 package com.example.challengebackendjava.service;
 
-import com.example.challengebackendjava.dao.CriterioDeBusquedaPersonaje;
 import com.example.challengebackendjava.dao.PersonajeRepository;
-import com.example.challengebackendjava.dao.PersonajeSpecification;
+import com.example.challengebackendjava.dao.filter.PersonajeSpecification;
 import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.Personaje;
 import lombok.RequiredArgsConstructor;
