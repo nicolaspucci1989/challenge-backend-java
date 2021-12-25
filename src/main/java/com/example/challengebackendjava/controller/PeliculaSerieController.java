@@ -30,29 +30,6 @@ public class PeliculaSerieController extends BaseController {
     List<PeliculaSerieListDto> peliculasSeries = peliculaSerieService.all()
         .stream().map(PeliculaSerieListDto::fromPeliculaSerie)
         .collect(Collectors.toList());
-//
-//    if (nombre != null) {
-//      peliculasSeries = peliculasSeries.stream()
-//          .filter(peliculaSerie -> peliculaSerie.nombreCoincide(nombre))
-//          .collect(Collectors.toList());
-//    }
-//
-//    if (genre != null) {
-//      Genero genero = generoService.findById(genre);
-//
-//      peliculasSeries = peliculasSeries.stream()
-//          .filter(genero::tienePelicula)
-//          .collect(Collectors.toList());
-//    }
-//
-//    if (order != null) {
-//      Collections.sort(peliculasSeries);
-//
-//      if (order.equals(OrderEnum.DESC)) {
-//        Collections.reverse(peliculasSeries);
-//      }
-//    }
-
     return ResponseEntity.ok(peliculasSeries);
   }
 

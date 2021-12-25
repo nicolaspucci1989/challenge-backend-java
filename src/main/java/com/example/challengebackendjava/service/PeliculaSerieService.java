@@ -36,16 +36,10 @@ public class PeliculaSerieService {
 
   public void eliminar(Long id) {
     peliculaSerieRepository.deleteById(id);
-//    eliminarPeliculaDePersonajes(peliculaSerie);
   }
 
   public void save(PeliculaSerie peliculaSerie) {
     peliculaSerieRepository.save(peliculaSerie);
   }
 
-//  private void eliminarPeliculaDePersonajes(PeliculaSerie peliculaSerie) {
-//    peliculaSerie
-//            .getPersonajes()
-//            .forEach(personaje -> personaje.eliminarPeliculaSerie(peliculaSerie));
-//  }
 }

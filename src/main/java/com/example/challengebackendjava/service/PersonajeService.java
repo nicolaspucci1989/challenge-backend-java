@@ -1,10 +1,13 @@
 package com.example.challengebackendjava.service;
 
+import com.example.challengebackendjava.dao.CriterioDeBusquedaPersonaje;
 import com.example.challengebackendjava.dao.PersonajeRepository;
+import com.example.challengebackendjava.dao.PersonajeSpecification;
 import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.Personaje;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -48,6 +51,15 @@ public class PersonajeService {
 
     personajeRepository.delete(personaje);
 //    eliminarPersonajeDePeliculas(personaje);
+  }
+
+  public List<Personaje> all(Specification<Personaje> spec) {
+    return personajeRepository.findAll(spec);
+  }
+
+  public List<Personaje> all(CriterioDeBusquedaPersonaje criterio) {
+    Specification<Personaje> spec = PersonajeSpecification.createPersonajeSpecification(criterio);
+    return personajeRepository.findAll(spec);
   }
 
 //  private void eliminarPersonajeDePeliculas(Personaje personaje) {

@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
@@ -39,7 +40,7 @@ public class Personaje {
   @NotNull(message = "El peso es obligatorio")
   private Float peso;
 
-  @ManyToMany
+  @ManyToMany(fetch = LAZY)
   @JsonIgnoreProperties("personajes")
   @JoinTable(name = "personaje_pelicula_serie",
       joinColumns = @JoinColumn(name = "personaje_id"),

@@ -1,55 +1,44 @@
 package com.example.challengebackendjava.controller;
 
+import com.example.challengebackendjava.dao.CriterioDeBusquedaPersonaje;
 import com.example.challengebackendjava.dto.PersonajeDetalleDto;
 import com.example.challengebackendjava.dto.PersonajeListaDto;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.service.PersonajeService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
+@Slf4j
 public class PersonajeController extends BaseController {
   private final PersonajeService personajeService;
 
   @GetMapping("/characters")
   @ApiOperation("Devuelve una lista de todos los personajes, con su id, nombre e imagen")
   public ResponseEntity<List<PersonajeListaDto>> getPersonajes(
-      @RequestParam(required = false) String name,
-      @RequestParam(required = false) Integer age,
-      @RequestParam(required = false) Set<Long> idMovies
+      @RequestParam(required = false) Optional<String> name,
+      @RequestParam(required = false) Optional<Integer> age,
+      @RequestParam(required = false) List<Long> movies
   ) {
+    CriterioDeBusquedaPersonaje criterio = CriterioDeBusquedaPersonaje.builder()
+        .name(name)
+        .edad(age)
+        .idPelis(movies)
+        .build();
 
-    List<PersonajeListaDto> personajes = personajeService.all()
+    List<PersonajeListaDto> personajes = personajeService.all(criterio)
         .stream().map(PersonajeListaDto::fromPersonaje)
         .collect(Collectors.toList());
-
-//    if (name != null) {
-//      personajes = personajes.stream()
-//              .filter(personaje -> personaje.nombreCoincide(name))
-//              .collect(Collectors.toList());
-//    }
-
-//    if (age != null) {
-//      personajes = personajes.stream()
-//              .filter(personaje -> personaje.edadCoincide(age))
-//              .collect(Collectors.toList());
-//    }
-
-//    if (idMovies != null) {
-//      // TODO: buscar pelis del personaje
-//      personajes = personajes.stream()
-//              .filter(personaje -> personaje.estuvoEnAlgunaPelicula(idMovies))
-//              .collect(Collectors.toList());
-//    }
 
     return ResponseEntity.ok(personajes);
   }
