@@ -20,7 +20,7 @@ import java.util.*;
 @SpringBootTest
 @ActiveProfiles("test")
 @DisplayName("Dada una especificacion de usuario")
-public class SpecificationTest {
+public class PersonajeSpecificationTest {
 
   @Autowired
   private PersonajeRepository personajeRepository;
