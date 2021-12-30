@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,8 +26,8 @@ public class Genero {
 
   private String imagen;
 
-  @ManyToMany(fetch = LAZY)
-  private Set<PeliculaSerie> peliculasSeries = new HashSet<>();
+  @OneToMany(fetch = LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "genero")
+  private Set<GeneroPeliculaSerie> peliculasSeries = new HashSet<>();
 
   public Genero(String nombre, String imagen) {
     this.nombre = nombre;
@@ -38,7 +35,8 @@ public class Genero {
   }
 
   public void agregarPelicula(PeliculaSerie peliculaSerie) {
-    peliculasSeries.add(peliculaSerie);
+    GeneroPeliculaSerie generoPeliculaSerie = new GeneroPeliculaSerie(this, peliculaSerie);
+    this.peliculasSeries.add(generoPeliculaSerie);
   }
 
 }
