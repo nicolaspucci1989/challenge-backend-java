@@ -33,13 +33,12 @@ public class UserService implements UserDetailsService {
       log.info("Se encontro el usuairo: {}", username);
     }
 
-    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
     return new org.springframework.security.core.userdetails.User(
         user.getUsername(),
         user.getPassword(),
-        authorities);
+        getSimpleGrantedAuthorities(user));
   }
+
 
   public void crear(User user) {
     log.info("Creando un nuevo usuario {}", user.getUsername());
@@ -52,10 +51,6 @@ public class UserService implements UserDetailsService {
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     userRepository.crear(user);
-  }
-
-  private boolean emailExiste(String email) {
-    return userRepository.findByEmail(email) != null;
   }
 
   public void actualizar(User user) {
@@ -84,5 +79,15 @@ public class UserService implements UserDetailsService {
     log.info("Buscando todos los usuarios");
     return userRepository.all();
   }
+  private boolean emailExiste(String email) {
+    return userRepository.findByEmail(email) != null;
+  }
 
+  private Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(User user) {
+    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    user.getRoles().forEach(
+        role -> authorities.add(new SimpleGrantedAuthority(role.getName()))
+    );
+    return authorities;
+  }
 }

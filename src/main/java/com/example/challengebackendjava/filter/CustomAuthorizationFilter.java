@@ -1,7 +1,6 @@
 package com.example.challengebackendjava.filter;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,24 +30,22 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request,
                                   HttpServletResponse response,
-                                  FilterChain filterChain) throws ServletException, IOException {
-    if(request.getServletPath().equals("/login") ||
-    request.getServletPath().equals("/auth/refreshtoken")) {
+                                  FilterChain filterChain)
+      throws ServletException, IOException {
+    if (isLoginOrRefresh(request)) {
       filterChain.doFilter(request, response);
     } else {
       String authorizationHeader = request.getHeader(AUTHORIZATION);
-      if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+      if (authorizationIsValid(authorizationHeader)) {
         try {
-          String token = authorizationHeader.substring("Bearer ".length());
-          Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-          JWTVerifier verifier = JWT.require(algorithm).build();
-          DecodedJWT decodedJWT = verifier.verify(token);
-          String username = decodedJWT.getSubject();
-          String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-          Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-          stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+          DecodedJWT decodedJWT = getDecodedJWT(authorizationHeader);
 
-          UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+          UsernamePasswordAuthenticationToken authenticationToken =
+              new UsernamePasswordAuthenticationToken(
+                  decodedJWT.getSubject(), //get username
+                  null,
+                  getSimpleGrantedAuthorities(decodedJWT)
+              );
           SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
           filterChain.doFilter(request, response);
@@ -66,5 +63,28 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
       }
     }
 
+  }
+
+  private boolean authorizationIsValid(String authorizationHeader) {
+    return authorizationHeader != null && authorizationHeader.startsWith("Bearer ");
+  }
+
+  private boolean isLoginOrRefresh(HttpServletRequest request) {
+    return request.getServletPath().equals("/login") ||
+        request.getServletPath().equals("/auth/refreshtoken");
+  }
+
+  private Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(DecodedJWT decodedJWT) {
+    final String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
+    return authorities;
+  }
+
+  private DecodedJWT getDecodedJWT(String authorizationHeader) {
+    return JWT
+        .require(Algorithm.HMAC256("secret".getBytes()))
+        .build()
+        .verify(authorizationHeader.substring("Bearer ".length()));
   }
 }
