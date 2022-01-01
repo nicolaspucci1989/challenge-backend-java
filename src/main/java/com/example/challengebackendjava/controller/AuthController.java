@@ -1,9 +1,6 @@
 package com.example.challengebackendjava.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.challengebackendjava.helper.SecurityHelper;
 import com.example.challengebackendjava.model.Role;
 import com.example.challengebackendjava.model.User;
@@ -23,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -45,28 +42,17 @@ public class AuthController {
 
     if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
       try {
-        String refresh_token = authorizationHeader.substring("Bearer ". length());
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-        String username = SecurityHelper.getDecodedJWT(authorizationHeader).getSubject();
-        User user = userService.findByUsername(username);
+        User user = userService.findByUsername(getUsername(authorizationHeader));
 
-        String access_token = JWT.create()
-            .withSubject(user.getUsername())
-            .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-            .withIssuer(request.getRequestURL().toString())
-            .withClaim("roles",
-                user
-                    .getRoles()
-                    .stream()
-                    .map(Role::getName)
-                    .collect(Collectors.toList()))
-            .sign(algorithm);
+        final String accessToken = createAccessToken(request, algorithm, user);
+        final String refreshToken = getTokenString(authorizationHeader);
 
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", access_token);
-        tokens.put("refresh_token", refresh_token);
         response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        new ObjectMapper().writeValue(
+            response.getOutputStream(),
+            getTokens(accessToken, refreshToken)
+        );
 
       } catch (Exception exception) {
         response.setHeader("error", exception.getMessage());
@@ -79,6 +65,36 @@ public class AuthController {
     } else {
       throw new RuntimeException("Refresh token is missing");
     }
+  }
+
+  private Map<String, String> getTokens(String accessToken, String refreshToken) {
+    Map<String, String> tokens = new HashMap<>();
+    tokens.put("access_token", accessToken);
+    tokens.put("refresh_token", refreshToken);
+    return tokens;
+  }
+
+  private String createAccessToken(HttpServletRequest request, Algorithm algorithm, User user) {
+    return SecurityHelper
+        .getJWT(request, user.getUsername(), 10 * 60 * 1000)
+        .withClaim("roles",getUserRoles(user))
+        .sign(algorithm);
+  }
+
+  private String getTokenString(String authorizationHeader) {
+    return authorizationHeader.substring("Bearer ".length());
+  }
+
+  private List<String> getUserRoles(User user) {
+    return user
+        .getRoles()
+        .stream()
+        .map(Role::getName)
+        .collect(Collectors.toList());
+  }
+
+  private String getUsername(String authorizationHeader) {
+    return SecurityHelper.getDecodedJWT(authorizationHeader).getSubject();
   }
 
   @PostMapping("/register")

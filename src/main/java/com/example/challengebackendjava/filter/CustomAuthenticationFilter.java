@@ -1,8 +1,7 @@
 package com.example.challengebackendjava.filter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.challengebackendjava.helper.SecurityHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +37,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     String username = request.getParameter("username");
     String password = request.getParameter("password");
     log.info("User: {}, Passwordk: {}", username, password);
-    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+    UsernamePasswordAuthenticationToken authenticationToken =
+        new UsernamePasswordAuthenticationToken(username, password);
     return authenticationManager.authenticate(authenticationToken);
   }
 
@@ -49,32 +48,28 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
     response.setContentType(APPLICATION_JSON_VALUE);
-    new ObjectMapper().writeValue(response.getOutputStream(), getTokens(user, request, algorithm));
+    new ObjectMapper().writeValue(
+        response.getOutputStream(),
+        getTokens(user, request, algorithm)
+    );
   }
 
   private Map<String, String> getTokens(User user, HttpServletRequest request, Algorithm algorithm) {
     Map<String, String> tokens = new HashMap<>();
     tokens.put(
         "access_token",
-        getJWT(request, user, 10 * 60 * 1000)
+        SecurityHelper.getJWT(request, user.getUsername(), 10 * 60 * 1000)
             .withClaim("roles", getCollect(user))
             .sign(algorithm)
     );
 
     tokens.put(
         "refresh_token",
-        getJWT(request, user, 30 * 60 * 1000)
+        SecurityHelper.getJWT(request, user.getUsername(), 30 * 60 * 1000)
             .sign(algorithm)
     );
 
     return tokens;
-  }
-
-  private JWTCreator.Builder getJWT(HttpServletRequest request, User user, Integer expiration) {
-    return JWT.create()
-        .withSubject(user.getUsername())
-        .withExpiresAt(new Date(System.currentTimeMillis() + expiration))
-        .withIssuer(request.getRequestURL().toString());
   }
 
   private List<String> getCollect(User user) {
