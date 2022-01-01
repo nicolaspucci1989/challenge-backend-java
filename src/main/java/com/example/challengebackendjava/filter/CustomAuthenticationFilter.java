@@ -45,7 +45,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
     User user = (User) authentication.getPrincipal();
-    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+    Algorithm algorithm =SecurityHelper.getAlgorithm();
 
     response.setContentType(APPLICATION_JSON_VALUE);
     new ObjectMapper().writeValue(
@@ -59,7 +59,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     tokens.put(
         "access_token",
         SecurityHelper.getJWT(request, user.getUsername(), 10 * 60 * 1000)
-            .withClaim("roles", getCollect(user))
+            .withClaim("roles", getAuthorities(user))
             .sign(algorithm)
     );
 
@@ -72,7 +72,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     return tokens;
   }
 
-  private List<String> getCollect(User user) {
+  private List<String> getAuthorities(User user) {
     return user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
   }
 }

@@ -2,7 +2,6 @@ package com.example.challengebackendjava.controller;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.challengebackendjava.helper.SecurityHelper;
-import com.example.challengebackendjava.model.Role;
 import com.example.challengebackendjava.model.User;
 import com.example.challengebackendjava.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,9 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -40,13 +37,13 @@ public class AuthController {
   public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String authorizationHeader = request.getHeader(AUTHORIZATION);
 
-    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+    if (SecurityHelper.authorizationIsValid(authorizationHeader)) {
       try {
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        Algorithm algorithm = SecurityHelper.getAlgorithm();
         User user = userService.findByUsername(getUsername(authorizationHeader));
 
-        final String accessToken = createAccessToken(request, algorithm, user);
-        final String refreshToken = getTokenString(authorizationHeader);
+        final String accessToken = SecurityHelper.createAccessToken(request, algorithm, user);
+        final String refreshToken = SecurityHelper.getTokenString(authorizationHeader);
 
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(
@@ -67,30 +64,12 @@ public class AuthController {
     }
   }
 
+
   private Map<String, String> getTokens(String accessToken, String refreshToken) {
     Map<String, String> tokens = new HashMap<>();
     tokens.put("access_token", accessToken);
     tokens.put("refresh_token", refreshToken);
     return tokens;
-  }
-
-  private String createAccessToken(HttpServletRequest request, Algorithm algorithm, User user) {
-    return SecurityHelper
-        .getJWT(request, user.getUsername(), 10 * 60 * 1000)
-        .withClaim("roles",getUserRoles(user))
-        .sign(algorithm);
-  }
-
-  private String getTokenString(String authorizationHeader) {
-    return authorizationHeader.substring("Bearer ".length());
-  }
-
-  private List<String> getUserRoles(User user) {
-    return user
-        .getRoles()
-        .stream()
-        .map(Role::getName)
-        .collect(Collectors.toList());
   }
 
   private String getUsername(String authorizationHeader) {

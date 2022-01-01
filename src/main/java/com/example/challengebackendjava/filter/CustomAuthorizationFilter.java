@@ -35,7 +35,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
       filterChain.doFilter(request, response);
     } else {
       String authorizationHeader = request.getHeader(AUTHORIZATION);
-      if (authorizationIsValid(authorizationHeader)) {
+      if (SecurityHelper.authorizationIsValid(authorizationHeader)) {
         try {
           DecodedJWT decodedJWT = SecurityHelper.getDecodedJWT(authorizationHeader);
 
@@ -62,10 +62,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
       }
     }
 
-  }
-
-  private boolean authorizationIsValid(String authorizationHeader) {
-    return authorizationHeader != null && authorizationHeader.startsWith("Bearer ");
   }
 
   private boolean isLoginOrRefresh(HttpServletRequest request) {
