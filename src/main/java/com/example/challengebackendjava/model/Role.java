@@ -1,23 +1,23 @@
 package com.example.challengebackendjava.model;
 
-import com.example.challengebackendjava.error.BusinessException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = true)
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Role extends Entidad{
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import static javax.persistence.GenerationType.AUTO;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Role {
+  @Id
+  @GeneratedValue(strategy = AUTO)
+  private Long id;
+
   private String name;
-
-  @Override
-  public void update(Entidad entidad) {
-    throw new BusinessException("No se puede actualizar un rol");
-  }
-
-  @Override
-  public boolean esValido() {
-    return name.length() > 3;
-  }
 }

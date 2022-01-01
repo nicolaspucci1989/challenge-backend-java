@@ -2,6 +2,7 @@ package com.example.challengebackendjava.service;
 
 import com.example.challengebackendjava.dao.UserRepository;
 import com.example.challengebackendjava.error.BusinessException;
+import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class UserService implements UserDetailsService {
     }
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    userRepository.crear(user);
+    userRepository.save(user);
   }
 
   public void actualizar(User user) {
@@ -60,14 +61,15 @@ public class UserService implements UserDetailsService {
       throw new BusinessException("El usuario no es valido");
     }
 
-    User usuarioEnRepo = userRepository.findById(user.getId());
+    User usuarioEnRepo = userRepository.findById(user.getId())
+        .orElseThrow(() -> new NotFoundException("No se encontro el usuario"));
     usuarioEnRepo.setPassword(passwordEncoder.encode(user.getPassword()));
-    userRepository.update(usuarioEnRepo, user);
+    userRepository.save(user);
   }
 
-  public User findUserById(Long id) {
+  public User findById(Long id) {
     log.info("Buscando usuario {}", id);
-    return userRepository.findById(id);
+    return userRepository.findById(id).orElseThrow(() -> new NotFoundException("No se encontro el usuario"));
   }
 
   public User findByUsername(String username) {
@@ -77,8 +79,9 @@ public class UserService implements UserDetailsService {
 
   public List<User> all() {
     log.info("Buscando todos los usuarios");
-    return userRepository.all();
+    return userRepository.findAll();
   }
+
   private boolean emailExiste(String email) {
     return userRepository.findByEmail(email) != null;
   }

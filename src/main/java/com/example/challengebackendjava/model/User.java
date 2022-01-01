@@ -2,30 +2,37 @@ package com.example.challengebackendjava.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@EqualsAndHashCode(callSuper = true)
-@Data @NoArgsConstructor @AllArgsConstructor
-public class User extends Entidad{
+import static javax.persistence.GenerationType.AUTO;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class User {
+  @Id
+  @GeneratedValue(strategy = AUTO)
+  private Long id;
+
   private String name;
   private String username;
   private String password;
   private String email;
+
+  @ManyToMany(fetch = FetchType.EAGER)
   private Collection<Role> roles = new ArrayList<>();
 
-  @Override
-  public void update(Entidad entidad) {
-    User user = (User) entidad;
+  public void update(User user) {
     name = user.name;
     username = user.username;
     password = user.password;
   }
 
-  @Override
   public boolean esValido() {
     return true;
   }

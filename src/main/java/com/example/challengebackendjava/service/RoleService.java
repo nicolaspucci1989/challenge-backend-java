@@ -2,16 +2,16 @@ package com.example.challengebackendjava.service;
 
 import com.example.challengebackendjava.dao.RoleRepository;
 import com.example.challengebackendjava.model.Role;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RoleService {
-  @Autowired
-  RoleRepository roleRepository;
+  private final RoleRepository roleRepository;
 
   public void crear(Role role) {
-    roleRepository.crear(role);
+    roleRepository.save(role);
   }
 
   Role getByName(String roleName) {
