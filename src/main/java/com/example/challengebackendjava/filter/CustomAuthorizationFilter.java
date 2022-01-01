@@ -1,8 +1,7 @@
 package com.example.challengebackendjava.filter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.challengebackendjava.helper.SecurityHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,7 +37,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
       String authorizationHeader = request.getHeader(AUTHORIZATION);
       if (authorizationIsValid(authorizationHeader)) {
         try {
-          DecodedJWT decodedJWT = getDecodedJWT(authorizationHeader);
+          DecodedJWT decodedJWT = SecurityHelper.getDecodedJWT(authorizationHeader);
 
           UsernamePasswordAuthenticationToken authenticationToken =
               new UsernamePasswordAuthenticationToken(
@@ -81,10 +80,4 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     return authorities;
   }
 
-  private DecodedJWT getDecodedJWT(String authorizationHeader) {
-    return JWT
-        .require(Algorithm.HMAC256("secret".getBytes()))
-        .build()
-        .verify(authorizationHeader.substring("Bearer ".length()));
-  }
 }
