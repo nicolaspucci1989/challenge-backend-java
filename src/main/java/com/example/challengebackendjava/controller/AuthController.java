@@ -39,10 +39,9 @@ public class AuthController {
 
     if (SecurityHelper.authorizationIsValid(authorizationHeader)) {
       try {
-        Algorithm algorithm = SecurityHelper.getAlgorithm();
         User user = userService.findByUsername(getUsername(authorizationHeader));
 
-        final String accessToken = SecurityHelper.createAccessToken(request, algorithm, user);
+        final String accessToken = SecurityHelper.createAccessToken(request, user);
         final String refreshToken = SecurityHelper.getTokenString(authorizationHeader);
 
         response.setContentType(APPLICATION_JSON_VALUE);

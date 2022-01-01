@@ -27,10 +27,10 @@ public class SecurityHelper {
         .withIssuer(request.getRequestURL().toString());
   }
 
-  public static String createAccessToken(HttpServletRequest request, Algorithm algorithm, User user) {
+  public static String createAccessToken(HttpServletRequest request, User user) {
     return getJWT(request, user.getUsername(), 10 * 60 * 1000)
         .withClaim("roles", getUserRoles(user))
-        .sign(algorithm);
+        .sign(getAlgorithm());
   }
 
   private static List<String> getUserRoles(User user) {
