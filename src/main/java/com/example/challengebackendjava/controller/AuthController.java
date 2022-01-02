@@ -76,29 +76,7 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public void registerUser(@RequestBody User user) throws IOException {
+  public void registerUser(@RequestBody User user) {
     userService.crear(user);
-
-    Email from = new Email("nicolaspucci1989@gmail.com");
-    String subject = "Bienvendio";
-    Email to = new Email(user.getEmail());
-    Content content = new Content("text/plain", "La cuenta fue creada con exito");
-    Mail mail = new Mail(from, subject, to, content);
-    final String sendgrid_api_key = System.getenv("SENDGRID_API_KEY");
-    log.info("Sendgrid API Key: {}", sendgrid_api_key);
-    SendGrid sg = new SendGrid(sendgrid_api_key);
-    Request request = new Request();
-
-    try {
-      request.setMethod(Method.POST);
-      request.setEndpoint("mail/send");
-      request.setBody(mail.build());
-      Response response = sg.api(request);
-      log.info("Respuesta: {}", response.getStatusCode());
-      log.info("Body: {}", response.getBody());
-      log.info("Headers: {}", response.getHeaders());
-    } catch (IOException ex) { // TODO: fix
-      throw ex;
-    }
   }
 }

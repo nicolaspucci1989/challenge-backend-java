@@ -3,9 +3,12 @@ package com.example.challengebackendjava.service;
 import com.example.challengebackendjava.dao.UserRepository;
 import com.example.challengebackendjava.error.BusinessException;
 import com.example.challengebackendjava.error.NotFoundException;
+import com.example.challengebackendjava.event.UserCreatedEvent;
+import com.example.challengebackendjava.event.UserCreatedPublisher;
 import com.example.challengebackendjava.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +26,7 @@ import java.util.List;
 public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final UserCreatedPublisher userCreatedPublisher;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -52,6 +56,7 @@ public class UserService implements UserDetailsService {
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     userRepository.save(user);
+    userCreatedPublisher.publishUserCreatedEvent("usuario creado", user.getEmail());
   }
 
   public void actualizar(User user) {
