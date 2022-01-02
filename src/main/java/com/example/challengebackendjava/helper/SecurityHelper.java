@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.stream;
+
 public class SecurityHelper {
   public static DecodedJWT getDecodedJWT(String authorizationHeader) {
     return JWT
@@ -62,6 +64,16 @@ public class SecurityHelper {
             role -> new SimpleGrantedAuthority(role.getName())
         )
         .collect(Collectors.toList());
+  }
+
+  public static Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(DecodedJWT decodedJWT) {
+    return stream(getRoles(decodedJWT))
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toList());
+  }
+
+  private static String[] getRoles(DecodedJWT decodedJWT) {
+    return decodedJWT.getClaim("roles").asArray(String.class);
   }
 
 }

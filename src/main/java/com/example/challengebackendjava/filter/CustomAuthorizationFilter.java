@@ -43,7 +43,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
               new UsernamePasswordAuthenticationToken(
                   decodedJWT.getSubject(), //get username
                   null,
-                  getSimpleGrantedAuthorities(decodedJWT)
+                  SecurityHelper.getSimpleGrantedAuthorities(decodedJWT)
               );
           SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
@@ -67,16 +67,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
   private boolean isLoginOrRefresh(HttpServletRequest request) {
     return request.getServletPath().equals("/login") ||
         request.getServletPath().equals("/auth/refreshtoken");
-  }
-
-  private Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(DecodedJWT decodedJWT) {
-    return stream(getRoles(decodedJWT))
-        .map(SimpleGrantedAuthority::new)
-        .collect(Collectors.toList());
-  }
-
-  private String[] getRoles(DecodedJWT decodedJWT) {
-    return decodedJWT.getClaim("roles").asArray(String.class);
   }
 
 }
