@@ -1,17 +1,9 @@
 package com.example.challengebackendjava.controller;
 
-import com.auth0.jwt.algorithms.Algorithm;
 import com.example.challengebackendjava.helper.SecurityHelper;
 import com.example.challengebackendjava.model.User;
 import com.example.challengebackendjava.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.Response;
-import com.sendgrid.SendGrid;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

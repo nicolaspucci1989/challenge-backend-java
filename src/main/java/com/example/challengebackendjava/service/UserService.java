@@ -2,24 +2,16 @@ package com.example.challengebackendjava.service;
 
 import com.example.challengebackendjava.dao.UserRepository;
 import com.example.challengebackendjava.error.BusinessException;
-import com.example.challengebackendjava.error.NotFoundException;
-import com.example.challengebackendjava.event.UserCreatedEvent;
 import com.example.challengebackendjava.event.UserCreatedPublisher;
 import com.example.challengebackendjava.helper.SecurityHelper;
 import com.example.challengebackendjava.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

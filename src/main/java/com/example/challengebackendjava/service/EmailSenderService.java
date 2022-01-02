@@ -29,7 +29,7 @@ public class EmailSenderService {
     Mail mail = new Mail(from, subject, to, content);
 
     SendGrid sg = new SendGrid(sendgridApiKey);
-    
+
     Request request = new Request();
 
     try {

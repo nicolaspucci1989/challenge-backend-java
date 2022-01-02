@@ -4,7 +4,8 @@ import com.example.challengebackendjava.model.Personaje;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor @Data
+@AllArgsConstructor
+@Data
 public class PersonajeListaDto {
   private Long id;
   private String nombre;
