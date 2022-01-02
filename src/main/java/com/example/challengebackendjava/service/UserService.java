@@ -5,6 +5,7 @@ import com.example.challengebackendjava.error.BusinessException;
 import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.event.UserCreatedEvent;
 import com.example.challengebackendjava.event.UserCreatedPublisher;
+import com.example.challengebackendjava.helper.SecurityHelper;
 import com.example.challengebackendjava.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class UserService implements UserDetailsService {
     return new org.springframework.security.core.userdetails.User(
         user.getUsername(),
         user.getPassword(),
-        getSimpleGrantedAuthorities(user));
+        SecurityHelper.getSimpleGrantedAuthorities(user));
   }
 
   public void crear(User user) {
@@ -65,13 +66,5 @@ public class UserService implements UserDetailsService {
 
   private boolean emailExiste(String email) {
     return userRepository.findByEmail(email) != null;
-  }
-
-  private Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(User user) {
-    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    user.getRoles().forEach(
-        role -> authorities.add(new SimpleGrantedAuthority(role.getName()))
-    );
-    return authorities;
   }
 }

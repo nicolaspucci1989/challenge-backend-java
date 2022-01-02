@@ -6,8 +6,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.challengebackendjava.model.Role;
 import com.example.challengebackendjava.model.User;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,5 +55,13 @@ public class SecurityHelper {
 
   public static boolean authorizationIsValid(String authorizationHeader) {
     return authorizationHeader != null && authorizationHeader.startsWith("Bearer ");
+  }
+
+  public static Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(User user) {
+    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    user.getRoles().forEach(
+        role -> authorities.add(new SimpleGrantedAuthority(role.getName()))
+    );
+    return authorities;
   }
 }
