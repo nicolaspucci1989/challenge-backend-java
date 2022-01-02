@@ -5,8 +5,8 @@ import org.springframework.context.ApplicationEvent;
 
 @Getter
 public class UserCreatedEvent extends ApplicationEvent {
-  private String msg;
-  private String userEmail;
+  private final String msg;
+  private final String userEmail;
 
   public UserCreatedEvent(Object source, String msg, String userEmail) {
     super(source);

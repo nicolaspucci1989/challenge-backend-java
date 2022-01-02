@@ -1,5 +1,6 @@
-package com.example.challengebackendjava.event;
+package com.example.challengebackendjava.service;
 
+import com.example.challengebackendjava.event.UserCreatedEvent;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.SendGrid;
@@ -13,18 +14,22 @@ import java.io.IOException;
 
 @Slf4j
 @Service
-public class EmailSender {
+public class EmailSenderService {
+
   public void sendEmail(UserCreatedEvent event) throws IOException {
     log.info("Email Sender, sending email...");
 
-    Email from = new Email(System.getenv("SENDGRID_EMAIL"));
+    final String sendgridEmail = System.getenv("SENDGRID_EMAIL");
+    final String sendgridApiKey = System.getenv("SENDGRID_API_KEY");
+
+    Email from = new Email(sendgridEmail);
     String subject = "Bienvendio";
     Email to = new Email(event.getUserEmail());
     Content content = new Content("text/plain", "La cuenta fue creada con exito");
     Mail mail = new Mail(from, subject, to, content);
-    final String sendgrid_api_key = System.getenv("SENDGRID_API_KEY");
 
-    SendGrid sg = new SendGrid(sendgrid_api_key);
+    SendGrid sg = new SendGrid(sendgridApiKey);
+    
     Request request = new Request();
 
     try {
