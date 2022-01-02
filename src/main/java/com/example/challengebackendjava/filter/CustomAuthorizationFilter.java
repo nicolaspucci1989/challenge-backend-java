@@ -14,10 +14,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -71,9 +71,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
   private Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(DecodedJWT decodedJWT) {
     final String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
-    return authorities;
+    return stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
   }
 
 }
