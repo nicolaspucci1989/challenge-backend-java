@@ -3,14 +3,17 @@ package com.example.challengebackendjava;
 import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
+import com.example.challengebackendjava.model.User;
 import com.example.challengebackendjava.service.GeneroService;
 import com.example.challengebackendjava.service.PeliculaSerieService;
 import com.example.challengebackendjava.service.PersonajeService;
+import com.example.challengebackendjava.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 @Service
@@ -19,6 +22,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
   final private PersonajeService personajeService;
   final private PeliculaSerieService peliculaSerieService;
   final private GeneroService generoService;
+  final private UserService userService;
 
   Personaje mickeyMouse;
   Personaje minnieMouse;
@@ -188,6 +192,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     System.out.println("Inicializando...");
     System.out.println("************************************************************************");
 
+    initUsuarios();
     initPeliculasSeries();
     initPersonajes();
     initGeneros();
@@ -226,6 +231,16 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
     savePersonajes();
     savePelicuasSeries();
     saveGeneros();
+  }
+
+  private void initUsuarios() {
+    User user = new User(null,
+        "John",
+        "johndoe",
+        "123",
+        "johndoen@mail.com",
+        new ArrayList<>());
+    userService.crear(user);
   }
 
   private void savePersonajes() {
