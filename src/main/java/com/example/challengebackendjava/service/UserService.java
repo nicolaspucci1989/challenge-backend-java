@@ -44,7 +44,6 @@ public class UserService implements UserDetailsService {
         getSimpleGrantedAuthorities(user));
   }
 
-
   public void crear(User user) {
     log.info("Creando un nuevo usuario {}", user.getUsername());
 
@@ -59,32 +58,9 @@ public class UserService implements UserDetailsService {
     userCreatedPublisher.publishUserCreatedEvent("usuario creado", user.getEmail());
   }
 
-  public void actualizar(User user) {
-    log.info("Actualizando usuario {}", user.getName());
-    if (!user.esValido()) {
-      log.info("El usuario no es valido");
-      throw new BusinessException("El usuario no es valido");
-    }
-
-    User usuarioEnRepo = userRepository.findById(user.getId())
-        .orElseThrow(() -> new NotFoundException("No se encontro el usuario"));
-    usuarioEnRepo.setPassword(passwordEncoder.encode(user.getPassword()));
-    userRepository.save(user);
-  }
-
-  public User findById(Long id) {
-    log.info("Buscando usuario {}", id);
-    return userRepository.findById(id).orElseThrow(() -> new NotFoundException("No se encontro el usuario"));
-  }
-
   public User findByUsername(String username) {
     log.info("Buscado usuario {}", username);
     return userRepository.findByUsername(username);
-  }
-
-  public List<User> all() {
-    log.info("Buscando todos los usuarios");
-    return userRepository.findAll();
   }
 
   private boolean emailExiste(String email) {
