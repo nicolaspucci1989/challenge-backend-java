@@ -70,8 +70,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
   }
 
   private Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(DecodedJWT decodedJWT) {
-    final String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-    return stream(roles).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    return stream(getRoles(decodedJWT))
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toList());
+  }
+
+  private String[] getRoles(DecodedJWT decodedJWT) {
+    return decodedJWT.getClaim("roles").asArray(String.class);
   }
 
 }
