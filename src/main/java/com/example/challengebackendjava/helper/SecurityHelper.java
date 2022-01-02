@@ -9,7 +9,6 @@ import com.example.challengebackendjava.model.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -58,10 +57,10 @@ public class SecurityHelper {
   }
 
   public static Collection<SimpleGrantedAuthority> getSimpleGrantedAuthorities(User user) {
-    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    user.getRoles().forEach(
-        role -> authorities.add(new SimpleGrantedAuthority(role.getName()))
-    );
-    return authorities;
+    return user.getRoles()
+        .stream().map(
+            role -> new SimpleGrantedAuthority(role.getName())
+        )
+        .collect(Collectors.toList());
   }
 }
