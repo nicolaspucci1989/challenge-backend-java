@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -103,11 +104,13 @@ public class SpecificationTest {
     Optional<Integer> edad = Optional.of(donald.getEdad());
     Optional<String> nombre = Optional.of(donald.getNombre());
     List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
+    Optional<Float> peso = Optional.of(donald.getPeso());
 
     CriterioDeBusquedaPersonaje criterio = CriterioDeBusquedaPersonaje
         .builder()
         .edad(edad)
         .name(nombre)
+        .peso(peso)
         .idPelis(idPelis)
         .build();
 
