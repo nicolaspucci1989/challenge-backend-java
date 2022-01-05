@@ -18,8 +18,8 @@ import java.util.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@DisplayName("Dada una especificacion de usuario")
-public class SpecificationTest {
+@DisplayName("Dada la especificacion de un personaje")
+public class PersonajeSpecificationTest {
 
   @Autowired
   private PersonajeRepository personajeRepository;
@@ -36,7 +36,7 @@ public class SpecificationTest {
   private PeliculaSerie peliLohan;
 
   @Test
-  @DisplayName("podemos filtrar por nombre de personaje")
+  @DisplayName("podemos filtrar por su nombre")
   public void test() {
     Optional<String> nombre = Optional.of("Donald");
     Specification<Personaje> spec = PersonajeSpecification.nombreIgualA(nombre);
@@ -51,7 +51,7 @@ public class SpecificationTest {
   }
 
   @Test
-  @DisplayName("podemos filtrar por edad")
+  @DisplayName("podemos filtrar por su edad")
   public void filtrarPorEdad() {
     Optional<Integer> edad = Optional.of(33);
     Specification<Personaje> spec = PersonajeSpecification.edadIguala(edad);
@@ -65,7 +65,7 @@ public class SpecificationTest {
   }
 
   @Test
-  @DisplayName("podemos filtrar por peso")
+  @DisplayName("podemos filtrar por su peso")
   public void filtrarPorPeso() {
     Optional<Float> peso = Optional.of(90F);
     Specification<Personaje> spec = PersonajeSpecification.pesoIgualA(peso);
