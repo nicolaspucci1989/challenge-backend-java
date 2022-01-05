@@ -64,6 +64,20 @@ public class SpecificationTest {
   }
 
   @Test
+  @DisplayName("podemos filtrar por peso")
+  public void filtrarPorPeso() {
+    Optional<Float> peso = Optional.of(90F);
+    Specification<Personaje> spec = PersonajeSpecification.pesoIgualA(peso);
+    List<Personaje> resultado = personajeRepository.findAll(spec);
+
+    Assertions.assertTrue(
+        resultado
+            .stream()
+            .anyMatch(personaje -> Objects.equals(personaje.getId(), donald.getId()))
+    );
+  }
+
+  @Test
   @DisplayName("podemos filtrar por las pelis en las que participaron")
   public void filtrarPorPelis() {
     List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
