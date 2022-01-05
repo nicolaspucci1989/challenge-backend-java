@@ -26,14 +26,4 @@ public class User {
 
   @ManyToMany(fetch = FetchType.EAGER)
   private Collection<Role> roles = new ArrayList<>();
-
-  public void update(User user) {
-    name = user.name;
-    username = user.username;
-    password = user.password;
-  }
-
-  public boolean esValido() {
-    return true;
-  }
 }

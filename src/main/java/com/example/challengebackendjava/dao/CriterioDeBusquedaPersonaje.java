@@ -12,4 +12,5 @@ public class CriterioDeBusquedaPersonaje {
   private Optional<String> name;
   private Optional<Integer> edad;
   private List<Long> idPelis;
+  private Optional<Float> peso;
 }

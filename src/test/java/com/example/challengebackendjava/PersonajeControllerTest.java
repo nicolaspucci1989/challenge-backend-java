@@ -124,9 +124,12 @@ public class PersonajeControllerTest {
   @Test
   @DisplayName("podemos filtrar con una query")
   public void filtrarConParametros() throws Exception {
+    String nombre = "Mickey Mouse";
+    int edad = 40;
+
     mockMvc
         .perform(
-            get("/characters?name=Mickey Mouse&age=40")
+            get("/characters?name=" + nombre + "&age=" + edad)
                 .contentType(APPLICATION_JSON)
         )
         .andExpect(status().isOk())

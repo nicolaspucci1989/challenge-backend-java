@@ -12,13 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@DisplayName("Dada una especificacion de usuario")
-public class SpecificationTest {
+@DisplayName("Dada la especificacion de un personaje")
+public class PersonajeSpecificationTest {
 
   @Autowired
   private PersonajeRepository personajeRepository;
@@ -35,7 +36,7 @@ public class SpecificationTest {
   private PeliculaSerie peliLohan;
 
   @Test
-  @DisplayName("podemos filtrar por nombre de personaje")
+  @DisplayName("podemos filtrar por su nombre")
   public void test() {
     Optional<String> nombre = Optional.of("Donald");
     Specification<Personaje> spec = PersonajeSpecification.nombreIgualA(nombre);
@@ -50,10 +51,24 @@ public class SpecificationTest {
   }
 
   @Test
-  @DisplayName("podemos filtrar por edad")
+  @DisplayName("podemos filtrar por su edad")
   public void filtrarPorEdad() {
     Optional<Integer> edad = Optional.of(33);
     Specification<Personaje> spec = PersonajeSpecification.edadIguala(edad);
+    List<Personaje> resultado = personajeRepository.findAll(spec);
+
+    Assertions.assertTrue(
+        resultado
+            .stream()
+            .anyMatch(personaje -> Objects.equals(personaje.getId(), donald.getId()))
+    );
+  }
+
+  @Test
+  @DisplayName("podemos filtrar por su peso")
+  public void filtrarPorPeso() {
+    Optional<Float> peso = Optional.of(90F);
+    Specification<Personaje> spec = PersonajeSpecification.pesoIgualA(peso);
     List<Personaje> resultado = personajeRepository.findAll(spec);
 
     Assertions.assertTrue(
@@ -89,11 +104,13 @@ public class SpecificationTest {
     Optional<Integer> edad = Optional.of(donald.getEdad());
     Optional<String> nombre = Optional.of(donald.getNombre());
     List<Long> idPelis = Arrays.asList(peliDonald.getId(), peliDonald1.getId());
+    Optional<Float> peso = Optional.of(donald.getPeso());
 
     CriterioDeBusquedaPersonaje criterio = CriterioDeBusquedaPersonaje
         .builder()
         .edad(edad)
         .name(nombre)
+        .peso(peso)
         .idPelis(idPelis)
         .build();
 

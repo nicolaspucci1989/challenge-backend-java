@@ -16,7 +16,15 @@ public class PersonajeSpecification {
   public static Specification<Personaje> createPersonajeSpecification(CriterioDeBusquedaPersonaje criterio) {
     return nombreIgualA(criterio.getName())
         .and(edadIguala(criterio.getEdad()))
+        .and(pesoIgualA(criterio.getPeso()))
         .and(participoEnPelicula(criterio.getIdPelis()));
+  }
+
+  public static Specification<Personaje> pesoIgualA(Optional<Float> peso) {
+    return (root, query, builder) ->
+        peso
+            .map(aFloat -> builder.equal(root.get(Personaje_.PESO), aFloat))
+            .orElse(null);
   }
 
   public static Specification<Personaje> nombreIgualA(Optional<String> nombre) {

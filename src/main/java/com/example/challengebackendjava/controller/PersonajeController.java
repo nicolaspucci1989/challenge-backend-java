@@ -28,12 +28,14 @@ public class PersonajeController extends BaseController {
   public ResponseEntity<List<PersonajeListaDto>> getPersonajes(
       @RequestParam(required = false) Optional<String> name,
       @RequestParam(required = false) Optional<Integer> age,
-      @RequestParam(required = false) List<Long> movies
+      @RequestParam(required = false) List<Long> movies,
+      @RequestParam(required = false) Optional<Float> peso
   ) {
     CriterioDeBusquedaPersonaje criterio = CriterioDeBusquedaPersonaje.builder()
         .name(name)
         .edad(age)
         .idPelis(movies)
+        .peso(peso)
         .build();
 
     List<PersonajeListaDto> personajes = personajeService.all(criterio)
