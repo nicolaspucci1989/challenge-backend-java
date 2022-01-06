@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
-public class AuthController {
+public class AuthController extends BaseController{
   private final UserService userService;
 
   @GetMapping("/refreshtoken")
@@ -68,7 +69,7 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public void registerUser(@RequestBody User user) {
+  public void registerUser(@RequestBody @Valid User user) {
     userService.crear(user);
   }
 }
