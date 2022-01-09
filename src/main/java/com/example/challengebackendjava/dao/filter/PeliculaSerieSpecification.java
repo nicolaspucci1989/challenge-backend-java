@@ -1,9 +1,11 @@
 package com.example.challengebackendjava.dao.filter;
 
+import com.example.challengebackendjava.controller.OrderEnum;
 import com.example.challengebackendjava.model.Genero;
 import com.example.challengebackendjava.model.Genero_;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.PeliculaSerie_;
+import com.example.challengebackendjava.service.CriterioDeBusquedaPelicula;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,6 +15,10 @@ import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PeliculaSerieSpecification {
+  public static Specification<PeliculaSerie> createPeliculaSerieSpecification(CriterioDeBusquedaPelicula criterio) {
+    return nombreIgualA(criterio.getName());
+  }
+
   public static Specification<PeliculaSerie> nombreIgualA(Optional<String> nombre) {
     return (root, query, builder) ->
         nombre

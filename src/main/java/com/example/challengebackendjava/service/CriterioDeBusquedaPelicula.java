@@ -10,7 +10,7 @@ import java.util.Optional;
 @Data
 @Builder
 public class CriterioDeBusquedaPelicula {
-  Optional<String> name;
-  List<Long> idGenre;
-  Optional<OrderEnum> order;
+  private Optional<String> name;
+  private List<Long> idGenre;
+  private Optional<OrderEnum> order;
 }

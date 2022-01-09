@@ -170,7 +170,7 @@ public class ChallengeBackendJavaBootstrap implements InitializingBean {
 
     cars = new PeliculaSerie("/img/cars.jpg",
         "Cars",
-        LocalDate.parse("2001-11-02"),
+        LocalDate.parse("2002-11-02"),
         4);
 
     savePelicuasSeries();

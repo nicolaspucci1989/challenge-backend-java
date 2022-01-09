@@ -1,6 +1,7 @@
 package com.example.challengebackendjava;
 
 
+import com.example.challengebackendjava.controller.OrderEnum;
 import com.example.challengebackendjava.dto.PeliculaSerieDetalleDto;
 import com.example.challengebackendjava.dto.PeliculaSerieListDto;
 import com.example.challengebackendjava.model.PeliculaSerie;
@@ -19,7 +20,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.AssertTrue;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import static com.example.challengebackendjava.TestHelper.getMapper;
@@ -129,5 +132,22 @@ public class PeliculaSerieControllerTest {
         .andExpect(jsonPath("$.imagen", Is.is(imagen)))
         .andExpect(jsonPath("$.fechaDeCreacion", Is.is(fechaDeCreacion.toString())))
         .andExpect(jsonPath("$.titulo", Is.is(titulo)));
+  }
+
+  @Test
+  @DisplayName("podemos ordenar los resultados por su fecha de creacion")
+  public void ordenarPorFechaDeCreacion() throws Exception {
+    mockMvc.perform(
+            get("/movies/?order=" + OrderEnum.DESC)
+                .contentType(APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(response -> {
+          final List<PeliculaSerieListDto> peliculas = getMapper().readValue(response.getResponse().getContentAsString(), new TypeReference<>() {
+          });
+          for (int i = 0; i < (peliculas.size() - 1); i++) {
+            Assertions.assertTrue(peliculas.get(i).getFechaDeCreacion().isAfter(peliculas.get(i + 1).getFechaDeCreacion()));
+          }
+        });
   }
 }

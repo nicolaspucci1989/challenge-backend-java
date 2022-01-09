@@ -1,9 +1,15 @@
 package com.example.challengebackendjava.service;
 
+import com.example.challengebackendjava.controller.OrderEnum;
 import com.example.challengebackendjava.dao.PeliculaSerieRepository;
+import com.example.challengebackendjava.dao.filter.PeliculaSerieSpecification;
 import com.example.challengebackendjava.error.NotFoundException;
 import com.example.challengebackendjava.model.PeliculaSerie;
+import com.example.challengebackendjava.model.PeliculaSerie_;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.TypeCache;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,4 +48,15 @@ public class PeliculaSerieService {
     peliculaSerieRepository.save(peliculaSerie);
   }
 
+  public List<PeliculaSerie> all(CriterioDeBusquedaPelicula criterio) {
+    final Specification<PeliculaSerie> spec = PeliculaSerieSpecification.createPeliculaSerieSpecification(criterio);
+    return criterio.getOrder()
+        .map(orderEnum -> {
+          if(orderEnum == OrderEnum.ASC) {
+            return peliculaSerieRepository.findAll(spec, Sort.by(PeliculaSerie_.FECHA_DE_CREACION).ascending());
+          }
+          return peliculaSerieRepository.findAll(spec, Sort.by(PeliculaSerie_.FECHA_DE_CREACION).descending());
+        })
+        .orElseGet(() -> peliculaSerieRepository.findAll(spec));
+  }
 }

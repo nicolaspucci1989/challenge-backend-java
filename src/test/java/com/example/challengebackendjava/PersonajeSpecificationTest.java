@@ -1,20 +1,19 @@
 package com.example.challengebackendjava;
 
-import com.example.challengebackendjava.dao.*;
+import com.example.challengebackendjava.dao.PeliculaSerieRepository;
+import com.example.challengebackendjava.dao.PersonajeRepository;
 import com.example.challengebackendjava.dao.filter.PersonajeSpecification;
 import com.example.challengebackendjava.model.PeliculaSerie;
 import com.example.challengebackendjava.model.Personaje;
 import com.example.challengebackendjava.service.CriterioDeBusquedaPersonaje;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -130,20 +129,20 @@ public class PersonajeSpecificationTest {
     peliDonald = new PeliculaSerie(
         "/img/peli.donald.jpg",
         "Peli donald",
-        LocalDate.now(),
+        LocalDate.of(1997, 10, 2),
         3
     );
 
     peliLohan = new PeliculaSerie(
         "/img/peli.donald.jpg",
         "Peli lohan",
-        LocalDate.now(),
+        LocalDate.of(1991, 10, 2),
         3
     );
     peliDonald1 = new PeliculaSerie(
         "/img/peli.donald1.jpg",
         "Peli donald 1",
-        LocalDate.now(),
+        LocalDate.of(1992, 10, 2),
         4
     );
     donald = new Personaje(null,
@@ -180,8 +179,17 @@ public class PersonajeSpecificationTest {
     peliLohan.agregarPersonaje(lohan);
     peliDonald.agregarPersonaje(donald);
     peliDonald1.agregarPersonaje(donald);
-    peliLohan = peliculaSerieRepository.save(peliLohan);
-    peliDonald = peliculaSerieRepository.save(peliDonald);
-    peliDonald1 = peliculaSerieRepository.save(peliDonald1);
+    peliculaSerieRepository.save(peliLohan);
+    peliculaSerieRepository.save(peliDonald);
+    peliculaSerieRepository.save(peliDonald1);
+  }
+
+  @AfterEach
+  public void clear() {
+    peliculaSerieRepository.deleteById(peliLohan.getId());
+    peliculaSerieRepository.deleteById(peliDonald.getId());
+    peliculaSerieRepository.deleteById(peliDonald1.getId());
+
+
   }
 }
